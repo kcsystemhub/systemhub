@@ -130,6 +130,119 @@ svg {
   border: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+.auth-shell {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: min(100%, 460px);
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(18, 39, 77, 0.9), rgba(5, 13, 30, 0.94)),
+    var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.auth-brand {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.auth-brand strong {
+  color: #ffffff;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.auth-brand span {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.auth-form {
+  display: grid;
+  gap: 14px;
+}
+
+.auth-form .primary-button {
+  margin-top: 2px;
+}
+
+.auth-status {
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.auth-status.is-success {
+  border-color: rgba(94, 225, 164, 0.35);
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.auth-status.is-warning {
+  border-color: rgba(255, 200, 90, 0.42);
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.auth-status.is-error {
+  border-color: rgba(255, 116, 106, 0.4);
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.auth-meta {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.auth-setup {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.auth-setup summary {
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.auth-setup pre {
+  overflow-x: auto;
+  max-height: 220px;
+  margin: 12px 0 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(5, 13, 30, 0.72);
+  color: var(--ink);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
 .app-shell {
   position: relative;
   z-index: 1;
@@ -241,6 +354,39 @@ svg {
   margin-top: 4px;
   color: var(--gold);
   font-size: 1rem;
+}
+
+.sidebar-user {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-user span,
+.sidebar-user strong {
+  display: block;
+}
+
+.sidebar-user span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sidebar-user strong {
+  overflow: hidden;
+  color: #ffffff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-actions {
+  display: grid;
+  gap: 8px;
 }
 
 .theme-toggle {
@@ -1898,6 +2044,73 @@ html[data-theme="light"] .notification-card {
   transform: none;
 }
 
+.admin-users-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-users-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr)) minmax(150px, 0.6fr);
+  gap: 14px;
+  align-items: end;
+}
+
+.admin-users-form .field-wide,
+.admin-users-form .sync-status {
+  grid-column: 1 / -1;
+}
+
+.admin-user-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--field);
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.admin-user-active input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--air-gold);
+}
+
+.admin-users-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-users-actions .primary-button,
+.admin-users-actions .ghost-button {
+  width: auto;
+}
+
+.admin-users-table-wrap {
+  overflow-x: auto;
+}
+
+.admin-users-table-wrap table {
+  min-width: 720px;
+}
+
+.admin-user-role {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--air-sky);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
 .sync-status {
   margin-top: 16px;
   padding: 12px 14px;
@@ -1912,6 +2125,12 @@ html[data-theme="light"] .notification-card {
   border-color: rgba(94, 225, 164, 0.35);
   background: var(--green-soft);
   color: var(--green);
+}
+
+.sync-status.is-warning {
+  border-color: rgba(255, 200, 90, 0.42);
+  background: var(--amber-soft);
+  color: var(--amber);
 }
 
 .sync-status.is-error {
@@ -1938,6 +2157,18 @@ html[data-theme="light"] .notification-card {
   margin: 18px 0 0;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.settings-code {
+  overflow-x: auto;
+  margin: 18px 0 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(5, 13, 30, 0.72);
+  color: var(--ink);
+  font-size: 0.82rem;
+  line-height: 1.55;
 }
 
 .team-task-panel {
@@ -2661,6 +2892,59 @@ select:focus {
   transform: translateY(-50%);
 }
 
+.password-vault-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.password-vault-controls {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto auto;
+  gap: 12px;
+  align-items: end;
+  margin-top: 18px;
+}
+
+.password-vault-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.password-vault-actions .ghost-button,
+.password-vault-actions .primary-button {
+  width: auto;
+  min-height: 42px;
+}
+
+.password-vault-status {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.password-vault-status.is-success {
+  border-color: rgba(94, 225, 164, 0.32);
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.password-vault-status.is-warning {
+  border-color: rgba(255, 200, 90, 0.42);
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.password-vault-status.is-error {
+  border-color: rgba(255, 116, 106, 0.38);
+  background: var(--red-soft);
+  color: var(--red);
+}
+
 .form-actions {
   display: flex;
   align-items: end;
@@ -2711,6 +2995,15 @@ select:focus {
 .ghost-button:hover {
   border-color: var(--line-strong);
   background: rgba(255, 255, 255, 0.1);
+}
+
+.primary-button:disabled,
+.ghost-button:disabled,
+.icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+  box-shadow: none;
 }
 
 .icon-button {
@@ -2834,7 +3127,7 @@ tbody tr:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  max-width: 220px;
+  max-width: 260px;
 }
 
 .password-value {
@@ -2842,6 +3135,10 @@ tbody tr:hover {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.password-cell .icon-button {
+  flex: 0 0 auto;
 }
 
 .status-pill {
@@ -3000,6 +3297,8 @@ html[data-theme="light"] .brand-logo {
 }
 
 html[data-theme="light"] .brand strong,
+html[data-theme="light"] .auth-brand strong,
+html[data-theme="light"] .sidebar-user strong,
 html[data-theme="light"] .mobile-shellbar-brand strong,
 html[data-theme="light"] .topbar h1,
 html[data-theme="light"] .panel-heading h2,
@@ -3042,6 +3341,7 @@ html[data-theme="light"] .nav-link.is-active {
 }
 
 html[data-theme="light"] .sidebar-note,
+html[data-theme="light"] .sidebar-user,
 html[data-theme="light"] .theme-toggle,
 html[data-theme="light"] .mobile-menu-toggle,
 html[data-theme="light"] .mobile-menu-close,
@@ -3070,6 +3370,7 @@ html[data-theme="light"] .position-chip {
 }
 
 html[data-theme="light"] .stat-card,
+html[data-theme="light"] .auth-card,
 html[data-theme="light"] .links-panel,
 html[data-theme="light"] .entry-panel,
 html[data-theme="light"] .table-panel,
@@ -3238,11 +3539,23 @@ html[data-theme="light"] .report-pie {
     display: none;
   }
 
+  .sidebar-user {
+    display: none;
+  }
+
+  .sidebar-actions {
+    grid-column: 1 / -1;
+    justify-self: end;
+    display: flex;
+    gap: 8px;
+  }
+
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .links-form,
+  .admin-users-form,
   .position-form,
   .promo-purchase-form,
   .promo-form,
@@ -3299,6 +3612,10 @@ html[data-theme="light"] .report-pie {
 
   .calendar-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .password-vault-controls {
+    grid-template-columns: 1fr;
   }
 
   .notification-controls {
@@ -3381,6 +3698,15 @@ html[data-theme="light"] .report-pie {
     width: 100%;
   }
 
+  .sidebar-user {
+    display: grid;
+  }
+
+  .sidebar-actions {
+    display: grid;
+    justify-self: stretch;
+  }
+
   .topbar,
   .panel-heading,
   .table-toolbar,
@@ -3430,6 +3756,7 @@ html[data-theme="light"] .report-pie {
   .calendar-controls,
   .calendar-layout,
   .notification-controls,
+  .password-vault-controls,
   .dashboard-grid,
   .dashboard-filters,
   .dashboard-upload,
@@ -3443,6 +3770,7 @@ html[data-theme="light"] .report-pie {
   .report-pie-wrap,
   .participant-total-stack,
   .links-form,
+  .admin-users-form,
   .links-list,
   .position-form,
   .promo-purchase-form,
@@ -3464,6 +3792,16 @@ html[data-theme="light"] .report-pie {
 
   .calendar-period-label {
     min-width: 0;
+  }
+
+  .admin-users-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-users-actions .primary-button,
+  .admin-users-actions .ghost-button {
+    width: 100%;
   }
 
   .calendar-grid {
@@ -3517,6 +3855,16 @@ html[data-theme="light"] .report-pie {
   }
 
   .notification-open-link {
+    width: 100%;
+  }
+
+  .password-vault-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .password-vault-actions .ghost-button,
+  .password-vault-actions .primary-button {
     width: 100%;
   }
 
@@ -3585,7 +3933,69 @@ html[data-theme="light"] .report-pie {
       <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
-    <div class="app-shell">
+    <section class="auth-shell" id="authShell" aria-labelledby="authTitle">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <span class="eyebrow">SystemHub</span>
+          <strong id="authTitle">Вход в систему</strong>
+          <span>Введите логин и пароль, выданные администратором.</span>
+        </div>
+
+        <form class="auth-form" id="loginForm" autocomplete="off">
+          <label class="field">
+            <span>Логин</span>
+            <input id="loginUserInput" type="text" inputmode="numeric" autocomplete="username" required />
+          </label>
+
+          <label class="field">
+            <span>Пароль</span>
+            <input id="loginPasswordInput" type="password" autocomplete="current-password" required />
+          </label>
+
+          <button class="primary-button" id="loginSubmitButton" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+              <path d="m10 17 5-5-5-5" />
+              <path d="M15 12H3" />
+            </svg>
+            Войти
+          </button>
+
+          <div class="auth-status" id="loginStatus" role="status">
+            Подключаюсь к базе пользователей...
+          </div>
+        </form>
+
+        <p class="auth-meta">Стартовые администраторы: 16643 и 14524.</p>
+        <details class="auth-setup">
+          <summary>SQL для первого запуска</summary>
+          <pre><code>create table if not exists public.app_users (
+  id text primary key,
+  login text not null unique,
+  "displayName" text,
+  role text not null default 'user',
+  "passwordHash" text not null,
+  "passwordSalt" text not null,
+  "isActive" boolean not null default true,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+
+alter table public.app_users enable row level security;
+
+create policy "systemhub app users read"
+on public.app_users for select
+using (true);
+
+create policy "systemhub app users write"
+on public.app_users for all
+using (true)
+with check (true);</code></pre>
+        </details>
+      </div>
+    </section>
+
+    <div class="app-shell" hidden>
       <header class="mobile-shellbar" aria-label="Мобильная навигация">
         <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-controls="sidebarNav" aria-expanded="false" aria-label="Открыть меню">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -3743,6 +4153,12 @@ html[data-theme="light"] .report-pie {
           <strong>Браузер</strong>
         </div>
 
+        <div class="sidebar-user" id="sidebarUser" title="Текущий пользователь">
+          <span>Пользователь</span>
+          <strong id="sidebarUserName">-</strong>
+        </div>
+
+        <div class="sidebar-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 3v2" />
@@ -3757,6 +4173,15 @@ html[data-theme="light"] .report-pie {
           </svg>
           <span id="themeToggleText">Светлая тема</span>
         </button>
+          <button class="theme-toggle" id="logoutButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <path d="m16 17 5-5-5-5" />
+              <path d="M21 12H9" />
+            </svg>
+            <span>Выйти</span>
+          </button>
+        </div>
       </aside>
 
       <main class="workspace">
@@ -3789,6 +4214,47 @@ html[data-theme="light"] .report-pie {
             <span>Истекшие</span>
             <strong id="expiredCount">0</strong>
           </article>
+        </section>
+
+        <section class="entry-panel password-vault-panel" aria-labelledby="passwordVaultTitle">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Защита паролей</p>
+              <h2 id="passwordVaultTitle">Мастер-пароль и локальное шифрование</h2>
+            </div>
+            <div class="sheet-badge" id="passwordVaultBadge" title="Пароли шифруются в браузере перед сохранением">
+              <span class="status-dot"></span>
+              Заблокировано
+            </div>
+          </div>
+
+          <div class="password-vault-controls">
+            <label class="field">
+              <span>Мастер-пароль</span>
+              <input id="masterPasswordInput" type="password" autocomplete="current-password" placeholder="Введите мастер-пароль" />
+            </label>
+
+            <div class="password-vault-actions">
+              <button class="primary-button" id="unlockPasswordVault" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 11V7a5 5 0 0 1 9.8-1.4" />
+                  <path d="M5 11h14v10H5V11Z" />
+                </svg>
+                Разблокировать
+              </button>
+              <button class="ghost-button" id="lockPasswordVault" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  <path d="M5 11h14v10H5V11Z" />
+                </svg>
+                Заблокировать
+              </button>
+            </div>
+          </div>
+
+          <div class="password-vault-status" id="passwordVaultStatus" role="status">
+            Укажите мастер-пароль, чтобы зашифровать сохраненные пароли и разрешить просмотр, копирование и редактирование.
+          </div>
         </section>
 
         <section class="entry-panel" aria-labelledby="formTitle">
@@ -5706,6 +6172,84 @@ html[data-theme="light"] .report-pie {
             </div>
           </section>
 
+          <section class="entry-panel admin-users-panel" id="adminUsersPanel" aria-labelledby="adminUsersTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Доступ</p>
+                <h2 id="adminUsersTitle">Пользователи и роли</h2>
+              </div>
+            </div>
+
+            <form id="adminUserForm" class="admin-users-form" autocomplete="off">
+              <label class="field">
+                <span>Логин</span>
+                <input id="adminUserLoginInput" type="text" inputmode="numeric" autocomplete="off" required />
+              </label>
+
+              <label class="field">
+                <span>Имя</span>
+                <input id="adminUserNameInput" type="text" autocomplete="off" placeholder="Например, администратор" />
+              </label>
+
+              <label class="field">
+                <span>Роль</span>
+                <select id="adminUserRoleInput">
+                  <option value="user">Пользователь</option>
+                  <option value="admin">Администратор</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Пароль</span>
+                <input id="adminUserPasswordInput" type="password" autocomplete="new-password" placeholder="Оставьте пустым, чтобы не менять" />
+              </label>
+
+              <label class="admin-user-active">
+                <input id="adminUserActiveInput" type="checkbox" checked />
+                Активен
+              </label>
+
+              <div class="admin-users-actions">
+                <button class="primary-button" id="adminUserSubmitButton" type="submit">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
+                    <path d="M17 21v-8H7v8M7 3v5h8" />
+                  </svg>
+                  Сохранить
+                </button>
+                <button class="ghost-button" id="adminUserResetButton" type="button">Сброс</button>
+              </div>
+
+              <div class="sync-status" id="adminUsersStatus" role="status">
+                Только администраторы могут добавлять и менять учетные записи.
+              </div>
+            </form>
+
+            <div class="admin-users-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Логин</th>
+                    <th>Имя</th>
+                    <th>Роль</th>
+                    <th>Статус</th>
+                    <th class="actions-col">Действия</th>
+                  </tr>
+                </thead>
+                <tbody id="adminUsersTable"></tbody>
+              </table>
+              <div class="empty-state" id="adminUsersEmptyState" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.9" />
+                  <path d="M16 3.1a4 4 0 0 1 0 7.8" />
+                </svg>
+                <span>Пользователи пока не загружены.</span>
+              </div>
+            </div>
+          </section>
+
           <section class="table-panel" aria-labelledby="supabaseStepsTitle">
             <div class="table-toolbar">
               <div>
@@ -5723,6 +6267,29 @@ html[data-theme="light"] .report-pie {
               <li>Откройте этот HTML-файл или разверните его на статическом хостинге.</li>
             </ol>
 
+            <pre class="settings-code"><code>create table if not exists public.app_users (
+  id text primary key,
+  login text not null unique,
+  "displayName" text,
+  role text not null default 'user',
+  "passwordHash" text not null,
+  "passwordSalt" text not null,
+  "isActive" boolean not null default true,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+
+alter table public.app_users enable row level security;
+
+create policy "systemhub app users read"
+on public.app_users for select
+using (true);
+
+create policy "systemhub app users write"
+on public.app_users for all
+using (true)
+with check (true);</code></pre>
+
             <p class="settings-note">
               Supabase теперь используется как основной источник данных. Изменения сохраняются по разделам и
               автоматически подтягиваются на других устройствах. Большие загруженные отчеты остаются файловыми, чтобы
@@ -5737,7 +6304,7 @@ html[data-theme="light"] .report-pie {
     <script>
 window.SYSTEMHUB_SUPABASE_URL = "https://galxkuzqgdnwpxscrbje.supabase.co";
 window.SYSTEMHUB_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhbHhrdXpxZ2Rud3B4c2NyYmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3OTUzOTIsImV4cCI6MjA5NDM3MTM5Mn0.gqL5eppxOjvZLH4i24rAJKk9pjOTXmfqp8BeHL2L4TA";
-window.SYSTEMHUB_BUILD = "supabase-migration-2026-05-15";
+window.SYSTEMHUB_BUILD = "auth-users-2026-05-18";
 </script>
 <script>
 const STORAGE_KEY = "systemhub.records";
@@ -5754,16 +6321,40 @@ const REPORT_STORAGE_KEY = "systemhub.reportCsv";
 const GOOGLE_SCRIPT_URL_STORAGE_KEY = "systemhub.supabaseUrl";
 const GOOGLE_SYNC_TOKEN_STORAGE_KEY = "systemhub.supabaseAnonKey";
 const THEME_STORAGE_KEY = "systemhub.theme";
+const MASTER_PASSWORD_VERIFIER_KEY = "systemhub.masterPasswordVerifier";
 const DEFAULT_TEAM_TASK_MEMBERS = ["Фатима", "Темирлан", "Аружан", "Шерхан", "Алина"];
 const EXPIRING_SOON_DAYS = 30;
 const GOOGLE_AUTO_SYNC_DEBOUNCE_MS = 900;
 const GOOGLE_REMOTE_REFRESH_MS = 3000;
+const PASSWORD_ENCRYPTION_PREFIX = "enc:v1:";
+const PASSWORD_VERIFIER_TEXT = "systemhub-password-vault-v1";
+const PASSWORD_REVEAL_MS = 8000;
+const PASSWORD_DERIVE_ITERATIONS = 150000;
+const AUTH_SESSION_STORAGE_KEY = "systemhub.authSession";
+const AUTH_USERS_TABLE = "app_users";
+const AUTH_PASSWORD_DERIVE_ITERATIONS = 150000;
+const DEFAULT_ADMIN_USERS = [
+  { login: "16643", password: "AirAstana2026!", role: "admin", displayName: "Admin 16643" },
+  { login: "14524", password: "AirAstana2026!", role: "admin", displayName: "Admin 14524" },
+];
 
+const authShell = document.querySelector("#authShell");
+const appShell = document.querySelector(".app-shell");
+const loginForm = document.querySelector("#loginForm");
+const loginUserInput = document.querySelector("#loginUserInput");
+const loginPasswordInput = document.querySelector("#loginPasswordInput");
+const loginSubmitButton = document.querySelector("#loginSubmitButton");
+const loginStatus = document.querySelector("#loginStatus");
 const form = document.querySelector("#systemForm");
 const recordIdInput = document.querySelector("#recordId");
 const systemNameInput = document.querySelector("#systemName");
 const loginInput = document.querySelector("#login");
 const passwordInput = document.querySelector("#password");
+const masterPasswordInput = document.querySelector("#masterPasswordInput");
+const unlockPasswordVaultButton = document.querySelector("#unlockPasswordVault");
+const lockPasswordVaultButton = document.querySelector("#lockPasswordVault");
+const passwordVaultStatus = document.querySelector("#passwordVaultStatus");
+const passwordVaultBadge = document.querySelector("#passwordVaultBadge");
 const purchaseDateInput = document.querySelector("#purchaseDate");
 const licenseEndDateInput = document.querySelector("#licenseEndDate");
 const submitText = document.querySelector("#submitText");
@@ -5960,6 +6551,20 @@ const navLinks = document.querySelectorAll("[data-nav-link]");
 const pagePanels = document.querySelectorAll("[data-page-panel]");
 const themeToggleButton = document.querySelector("#themeToggle");
 const themeToggleText = document.querySelector("#themeToggleText");
+const logoutButton = document.querySelector("#logoutButton");
+const sidebarUserName = document.querySelector("#sidebarUserName");
+const adminUsersPanel = document.querySelector("#adminUsersPanel");
+const adminUserForm = document.querySelector("#adminUserForm");
+const adminUserLoginInput = document.querySelector("#adminUserLoginInput");
+const adminUserNameInput = document.querySelector("#adminUserNameInput");
+const adminUserRoleInput = document.querySelector("#adminUserRoleInput");
+const adminUserPasswordInput = document.querySelector("#adminUserPasswordInput");
+const adminUserActiveInput = document.querySelector("#adminUserActiveInput");
+const adminUserSubmitButton = document.querySelector("#adminUserSubmitButton");
+const adminUserResetButton = document.querySelector("#adminUserResetButton");
+const adminUsersStatus = document.querySelector("#adminUsersStatus");
+const adminUsersTable = document.querySelector("#adminUsersTable");
+const adminUsersEmptyState = document.querySelector("#adminUsersEmptyState");
 
 document.addEventListener("click", (event) => {
   const link = event.target.closest("[data-nav-link]");
@@ -6011,6 +6616,12 @@ let googleSheetsRefreshTimer = null;
 let googleSheetsLoadInFlight = false;
 let isApplyingGoogleSyncPayload = false;
 let visiblePasswords = new Set();
+let passwordVaultMaster = "";
+let decryptedPasswordCache = new Map();
+let passwordRevealTimers = new Map();
+let currentUser = null;
+let authUsers = [];
+let appBootstrapped = false;
 const GOOGLE_SYNC_DATASET_KEYS = [
   "records",
   "links",
@@ -6121,6 +6732,324 @@ function removeStorageValue(key) {
     console.warn(`Storage remove failed for ${key}`, error);
     return false;
   }
+}
+
+function isWebCryptoAvailable() {
+  return Boolean(window.crypto?.subtle && window.crypto.getRandomValues && window.TextEncoder && window.TextDecoder);
+}
+
+function isEncryptedPassword(value) {
+  return String(value || "").startsWith(PASSWORD_ENCRYPTION_PREFIX);
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  const chunkSize = 0x8000;
+
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
+  }
+
+  return window.btoa(binary);
+}
+
+function base64ToBytes(value) {
+  const binary = window.atob(value);
+  const bytes = new Uint8Array(binary.length);
+
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+
+  return bytes;
+}
+
+async function derivePasswordVaultKey(masterPassword, salt) {
+  const keyMaterial = await window.crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(masterPassword),
+    "PBKDF2",
+    false,
+    ["deriveKey"],
+  );
+
+  return window.crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: PASSWORD_DERIVE_ITERATIONS,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"],
+  );
+}
+
+async function encryptPasswordText(text, masterPassword) {
+  if (!isWebCryptoAvailable()) {
+    throw new Error("Шифрование недоступно в этом браузере.");
+  }
+
+  const salt = window.crypto.getRandomValues(new Uint8Array(16));
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
+  const key = await derivePasswordVaultKey(masterPassword, salt);
+  const encrypted = await window.crypto.subtle.encrypt(
+    { name: "AES-GCM", iv },
+    key,
+    new TextEncoder().encode(text),
+  );
+
+  return [
+    PASSWORD_ENCRYPTION_PREFIX.slice(0, -1),
+    bytesToBase64(salt),
+    bytesToBase64(iv),
+    bytesToBase64(new Uint8Array(encrypted)),
+  ].join(":");
+}
+
+async function decryptPasswordText(value, masterPassword) {
+  if (!isEncryptedPassword(value)) return String(value || "");
+
+  const parts = String(value).split(":");
+  if (parts.length !== 5) {
+    throw new Error("Неверный формат зашифрованного пароля.");
+  }
+
+  const salt = base64ToBytes(parts[2]);
+  const iv = base64ToBytes(parts[3]);
+  const encrypted = base64ToBytes(parts[4]);
+  const key = await derivePasswordVaultKey(masterPassword, salt);
+  const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encrypted);
+
+  return new TextDecoder().decode(decrypted);
+}
+
+function hasEncryptedRecordPasswords() {
+  return records.some((record) => isEncryptedPassword(record.password));
+}
+
+function hasPlainRecordPasswords() {
+  return records.some((record) => record.password && !isEncryptedPassword(record.password));
+}
+
+function getPasswordVerifier() {
+  try {
+    return localStorage.getItem(MASTER_PASSWORD_VERIFIER_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+function setPasswordVaultStatus(message, type = "") {
+  if (!passwordVaultStatus) return;
+  passwordVaultStatus.textContent = message;
+  passwordVaultStatus.className = `password-vault-status${type ? ` is-${type}` : ""}`;
+}
+
+function updatePasswordVaultUi() {
+  const isUnlocked = Boolean(passwordVaultMaster);
+  const hasVerifier = Boolean(getPasswordVerifier());
+  const hasEncrypted = hasEncryptedRecordPasswords();
+  const hasPlain = hasPlainRecordPasswords();
+
+  if (passwordVaultBadge) {
+    passwordVaultBadge.lastChild.textContent = isUnlocked ? " Разблокировано" : " Заблокировано";
+    passwordVaultBadge.title = isUnlocked
+      ? "Пароли доступны в текущей сессии"
+      : "Введите мастер-пароль для просмотра, копирования и редактирования";
+  }
+
+  if (lockPasswordVaultButton) {
+    lockPasswordVaultButton.disabled = !isUnlocked;
+  }
+
+  if (!isUnlocked && hasPlain && !hasVerifier && !hasEncrypted) {
+    setPasswordVaultStatus(
+      "Установите мастер-пароль. После разблокировки существующие пароли будут зашифрованы локально и синхронизированы уже в зашифрованном виде.",
+      "warning",
+    );
+  } else if (!isUnlocked && (hasVerifier || hasEncrypted)) {
+    setPasswordVaultStatus("Хранилище заблокировано. Введите мастер-пароль для просмотра, копирования и редактирования паролей.", "warning");
+  } else if (isUnlocked) {
+    setPasswordVaultStatus("Хранилище разблокировано. Показанные пароли автоматически скрываются через несколько секунд.", "success");
+  } else {
+    setPasswordVaultStatus("Укажите мастер-пароль перед сохранением первой системы.", "warning");
+  }
+}
+
+function clearPasswordRevealTimer(id) {
+  if (!passwordRevealTimers.has(id)) return;
+  window.clearTimeout(passwordRevealTimers.get(id));
+  passwordRevealTimers.delete(id);
+}
+
+function hideRecordPassword(id) {
+  clearPasswordRevealTimer(id);
+  visiblePasswords.delete(id);
+  decryptedPasswordCache.delete(id);
+  renderTable();
+}
+
+function schedulePasswordAutoHide(id) {
+  clearPasswordRevealTimer(id);
+  passwordRevealTimers.set(
+    id,
+    window.setTimeout(() => {
+      hideRecordPassword(id);
+    }, PASSWORD_REVEAL_MS),
+  );
+}
+
+function lockPasswordVault() {
+  passwordVaultMaster = "";
+  masterPasswordInput.value = "";
+  passwordInput.value = "";
+  decryptedPasswordCache.clear();
+  visiblePasswords.clear();
+  passwordRevealTimers.forEach((timer) => window.clearTimeout(timer));
+  passwordRevealTimers.clear();
+  passwordInput.type = "password";
+  updatePasswordVaultUi();
+  renderTable();
+}
+
+async function ensurePasswordVerifier(masterPassword) {
+  const verifier = getPasswordVerifier();
+  const encryptedRecord = records.find((record) => isEncryptedPassword(record.password));
+
+  try {
+    if (verifier) {
+      const decrypted = await decryptPasswordText(verifier, masterPassword);
+      if (decrypted !== PASSWORD_VERIFIER_TEXT) {
+        throw new Error("Неверный мастер-пароль.");
+      }
+      return;
+    }
+
+    if (encryptedRecord) {
+      await decryptPasswordText(encryptedRecord.password, masterPassword);
+    }
+  } catch (error) {
+    if (verifier || encryptedRecord) {
+      throw new Error("Неверный мастер-пароль.");
+    }
+  }
+
+  setStorageValue(MASTER_PASSWORD_VERIFIER_KEY, await encryptPasswordText(PASSWORD_VERIFIER_TEXT, masterPassword));
+}
+
+async function migratePlainPasswordsToEncryption() {
+  if (!passwordVaultMaster) return false;
+
+  let changed = false;
+  const encryptedRecords = [];
+
+  for (const record of records) {
+    if (record.password && !isEncryptedPassword(record.password)) {
+      encryptedRecords.push({
+        ...record,
+        password: await encryptPasswordText(record.password, passwordVaultMaster),
+        updatedAt: new Date().toISOString(),
+      });
+      changed = true;
+    } else {
+      encryptedRecords.push(record);
+    }
+  }
+
+  if (changed) {
+    records = encryptedRecords;
+    saveRecords();
+  }
+
+  return changed;
+}
+
+async function unlockPasswordVault() {
+  const masterPassword = masterPasswordInput.value;
+
+  if (!masterPassword) {
+    setPasswordVaultStatus("Введите мастер-пароль.", "error");
+    masterPasswordInput.focus();
+    return false;
+  }
+
+  if (!isWebCryptoAvailable()) {
+    setPasswordVaultStatus("Web Crypto недоступен. Откройте страницу в современном браузере или через localhost/HTTPS.", "error");
+    return false;
+  }
+
+  try {
+    await ensurePasswordVerifier(masterPassword);
+    passwordVaultMaster = masterPassword;
+    masterPasswordInput.value = "";
+    await migratePlainPasswordsToEncryption();
+    updatePasswordVaultUi();
+    renderTable();
+    return true;
+  } catch (error) {
+    passwordVaultMaster = "";
+    setPasswordVaultStatus(error.message || "Не удалось разблокировать хранилище.", "error");
+    return false;
+  }
+}
+
+async function ensurePasswordVaultUnlocked() {
+  if (passwordVaultMaster) return true;
+
+  if (masterPasswordInput.value) {
+    return unlockPasswordVault();
+  }
+
+  updatePasswordVaultUi();
+  masterPasswordInput.focus();
+  return false;
+}
+
+async function encryptPasswordForStorage(password) {
+  if (!(await ensurePasswordVaultUnlocked())) {
+    throw new Error("Разблокируйте хранилище паролей.");
+  }
+
+  return encryptPasswordText(password, passwordVaultMaster);
+}
+
+async function getRecordPassword(record) {
+  if (!record) return "";
+
+  if (decryptedPasswordCache.has(record.id)) {
+    return decryptedPasswordCache.get(record.id);
+  }
+
+  if (!(await ensurePasswordVaultUnlocked())) {
+    throw new Error("Разблокируйте хранилище паролей.");
+  }
+
+  const password = isEncryptedPassword(record.password)
+    ? await decryptPasswordText(record.password, passwordVaultMaster)
+    : String(record.password || "");
+
+  decryptedPasswordCache.set(record.id, password);
+  return password;
+}
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  textarea.remove();
 }
 
 function saveRecords() {
@@ -6946,6 +7875,542 @@ function getSupabaseClient() {
   return supabaseClient;
 }
 
+function setLoginStatus(message, type = "") {
+  if (!loginStatus) return;
+  loginStatus.textContent = message;
+  loginStatus.className = `auth-status${type ? ` is-${type}` : ""}`;
+}
+
+function setLoginLoading(isLoading) {
+  if (loginSubmitButton) {
+    loginSubmitButton.disabled = isLoading;
+  }
+}
+
+function setAdminUsersStatus(message, type = "") {
+  if (!adminUsersStatus) return;
+  adminUsersStatus.textContent = message;
+  adminUsersStatus.className = `sync-status${type ? ` is-${type}` : ""}`;
+}
+
+function setAdminUsersLoading(isLoading) {
+  [
+    adminUserSubmitButton,
+    adminUserResetButton,
+    adminUserLoginInput,
+    adminUserNameInput,
+    adminUserRoleInput,
+    adminUserPasswordInput,
+    adminUserActiveInput,
+  ].forEach((control) => {
+    if (control) control.disabled = isLoading;
+  });
+}
+
+function normalizeAuthLogin(value) {
+  return String(value || "").trim();
+}
+
+function getAuthSessionUser(user) {
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    login: user.login,
+    displayName: user.displayName || user.login,
+    role: user.role || "user",
+    isActive: user.isActive !== false,
+  };
+}
+
+function getStoredAuthSession() {
+  try {
+    const rawSession = sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY);
+    return rawSession ? JSON.parse(rawSession) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveAuthSession(user) {
+  try {
+    sessionStorage.setItem(AUTH_SESSION_STORAGE_KEY, JSON.stringify(getAuthSessionUser(user)));
+  } catch {
+    // Session restore is optional; login still works without sessionStorage.
+  }
+}
+
+function clearAuthSession() {
+  try {
+    sessionStorage.removeItem(AUTH_SESSION_STORAGE_KEY);
+  } catch {
+    // Ignore storage errors during logout.
+  }
+}
+
+function toAuthUser(row) {
+  if (!row) return null;
+
+  return {
+    id: row.id || "",
+    login: row.login || "",
+    displayName: row.displayName || row.login || "",
+    role: row.role || "user",
+    passwordHash: row.passwordHash || "",
+    passwordSalt: row.passwordSalt || "",
+    isActive: row.isActive !== false,
+    createdAt: row.createdAt || "",
+    updatedAt: row.updatedAt || "",
+  };
+}
+
+function canManageAuthUsers() {
+  return currentUser?.role === "admin";
+}
+
+function getAuthTableErrorMessage(error) {
+  const message = error?.message || String(error || "");
+  if (/app_users|schema cache|does not exist|relation/i.test(message)) {
+    return "Создайте таблицу app_users в Supabase. SQL есть на экране входа и в разделе Настройки.";
+  }
+  return message || "Не удалось подключиться к базе пользователей.";
+}
+
+function timingSafeEqual(firstValue, secondValue) {
+  const first = String(firstValue || "");
+  const second = String(secondValue || "");
+  let diff = first.length ^ second.length;
+  const maxLength = Math.max(first.length, second.length);
+  const firstLength = first.length || 1;
+  const secondLength = second.length || 1;
+
+  for (let index = 0; index < maxLength; index += 1) {
+    diff |= (first.charCodeAt(index % firstLength) || 0) ^ (second.charCodeAt(index % secondLength) || 0);
+  }
+
+  return diff === 0;
+}
+
+async function hashAuthPassword(password, salt) {
+  if (!isWebCryptoAvailable()) {
+    throw new Error("Web Crypto недоступен. Откройте страницу через HTTPS или localhost.");
+  }
+
+  const passwordSalt = salt || window.crypto.getRandomValues(new Uint8Array(16));
+  const keyMaterial = await window.crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"],
+  );
+  const derivedBits = await window.crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt: passwordSalt,
+      iterations: AUTH_PASSWORD_DERIVE_ITERATIONS,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    256,
+  );
+
+  return {
+    passwordHash: bytesToBase64(new Uint8Array(derivedBits)),
+    passwordSalt: bytesToBase64(passwordSalt),
+  };
+}
+
+async function verifyAuthPassword(password, passwordSalt, expectedHash) {
+  if (!passwordSalt || !expectedHash) return false;
+  const { passwordHash } = await hashAuthPassword(password, base64ToBytes(passwordSalt));
+  return timingSafeEqual(passwordHash, expectedHash);
+}
+
+async function loadAuthUsersFromDatabase() {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from(AUTH_USERS_TABLE)
+    .select("*")
+    .order("login", { ascending: true });
+
+  if (error) throw error;
+  return (data || []).map(toAuthUser).filter((user) => user.login);
+}
+
+async function getAuthUserByLogin(login) {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from(AUTH_USERS_TABLE)
+    .select("*")
+    .eq("login", login)
+    .maybeSingle();
+
+  if (error) throw error;
+  return toAuthUser(data);
+}
+
+async function upsertAuthUser(user) {
+  const client = getSupabaseClient();
+  const now = new Date().toISOString();
+  const row = {
+    id: user.id || createId(),
+    login: normalizeAuthLogin(user.login),
+    displayName: user.displayName || normalizeAuthLogin(user.login),
+    role: user.role || "user",
+    passwordHash: user.passwordHash,
+    passwordSalt: user.passwordSalt,
+    isActive: user.isActive !== false,
+    createdAt: user.createdAt || now,
+    updatedAt: now,
+  };
+
+  const { error } = await client.from(AUTH_USERS_TABLE).upsert(row, { onConflict: "login" });
+  if (error) throw error;
+  return toAuthUser(row);
+}
+
+async function bootstrapDefaultAdminUsers() {
+  const logins = DEFAULT_ADMIN_USERS.map((user) => user.login);
+  const client = getSupabaseClient();
+  const { data, error } = await client.from(AUTH_USERS_TABLE).select("login").in("login", logins);
+  if (error) throw error;
+
+  const existingLogins = new Set((data || []).map((row) => row.login));
+  const now = new Date().toISOString();
+  const rows = [];
+
+  for (const adminUser of DEFAULT_ADMIN_USERS) {
+    if (existingLogins.has(adminUser.login)) continue;
+    const passwordData = await hashAuthPassword(adminUser.password);
+    rows.push({
+      id: `system-admin-${adminUser.login}`,
+      login: adminUser.login,
+      displayName: adminUser.displayName,
+      role: adminUser.role,
+      passwordHash: passwordData.passwordHash,
+      passwordSalt: passwordData.passwordSalt,
+      isActive: true,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+
+  if (rows.length === 0) return;
+
+  const { error: upsertError } = await client.from(AUTH_USERS_TABLE).upsert(rows, { onConflict: "login" });
+  if (upsertError) throw upsertError;
+}
+
+function updateCurrentUserUi() {
+  if (sidebarUserName) {
+    const label = currentUser
+      ? `${currentUser.displayName || currentUser.login} (${currentUser.role === "admin" ? "admin" : "user"})`
+      : "-";
+    sidebarUserName.textContent = label;
+  }
+}
+
+function resetAdminUserForm() {
+  if (!adminUserForm) return;
+  adminUserForm.reset();
+  adminUserLoginInput.readOnly = false;
+  adminUserRoleInput.value = "user";
+  adminUserActiveInput.checked = true;
+  adminUserPasswordInput.required = false;
+  adminUserPasswordInput.value = "";
+  adminUserLoginInput.focus();
+}
+
+function renderAdminUsersTable() {
+  if (!adminUsersTable || !adminUsersEmptyState) return;
+
+  adminUsersEmptyState.hidden = authUsers.length > 0;
+  adminUsersTable.innerHTML = authUsers
+    .map((user) => {
+      const isSelf = currentUser?.login === user.login;
+      const statusClass = user.isActive ? "status-active" : "status-expired";
+      const statusLabel = user.isActive ? "Активен" : "Отключен";
+      const deleteDisabled = isSelf ? " disabled" : "";
+      const deleteTitle = isSelf ? "Нельзя удалить текущую учетную запись" : "Удалить пользователя";
+
+      return `
+        <tr>
+          <td>${escapeHtml(user.login)}</td>
+          <td>${escapeHtml(user.displayName || user.login)}</td>
+          <td><span class="admin-user-role">${escapeHtml(user.role === "admin" ? "Администратор" : "Пользователь")}</span></td>
+          <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
+          <td>
+            <div class="row-actions">
+              <button class="icon-button" type="button" data-admin-user-action="edit" data-login="${escapeHtml(user.login)}" aria-label="Редактировать" title="Редактировать">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"></path>
+                </svg>
+              </button>
+              <button class="icon-button delete-button" type="button" data-admin-user-action="delete" data-login="${escapeHtml(user.login)}" aria-label="Удалить" title="${deleteTitle}"${deleteDisabled}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 6h18"></path>
+                  <path d="M8 6V4h8v2"></path>
+                  <path d="M19 6l-1 15H6L5 6"></path>
+                  <path d="M10 11v6M14 11v6"></path>
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    })
+    .join("");
+}
+
+async function renderAdminUsersPanel() {
+  if (!adminUsersPanel) return;
+
+  const canManage = canManageAuthUsers();
+  adminUsersPanel.hidden = !canManage;
+
+  if (!canManage) return;
+
+  setAdminUsersStatus("Загружаю пользователей...");
+  setAdminUsersLoading(true);
+
+  try {
+    authUsers = await loadAuthUsersFromDatabase();
+    renderAdminUsersTable();
+    setAdminUsersStatus("Пользователи загружены.", "success");
+  } catch (error) {
+    setAdminUsersStatus(getAuthTableErrorMessage(error), "error");
+  } finally {
+    setAdminUsersLoading(false);
+  }
+}
+
+function fillAdminUserForm(login) {
+  const user = authUsers.find((item) => item.login === login);
+  if (!user) return;
+
+  adminUserLoginInput.value = user.login;
+  adminUserLoginInput.readOnly = true;
+  adminUserNameInput.value = user.displayName || "";
+  adminUserRoleInput.value = user.role || "user";
+  adminUserActiveInput.checked = user.isActive !== false;
+  adminUserPasswordInput.value = "";
+  adminUserPasswordInput.required = false;
+  adminUserPasswordInput.focus();
+  setAdminUsersStatus("Измените данные пользователя и сохраните.", "warning");
+}
+
+async function handleAdminUserSubmit(event) {
+  event.preventDefault();
+  if (!canManageAuthUsers() || !adminUserForm.reportValidity()) return;
+
+  const login = normalizeAuthLogin(adminUserLoginInput.value);
+  const existingUser = authUsers.find((user) => user.login === login);
+  const password = adminUserPasswordInput.value;
+
+  if (!login) {
+    adminUserLoginInput.focus();
+    return;
+  }
+
+  if (!existingUser && !password) {
+    adminUserPasswordInput.setCustomValidity("Укажите пароль для нового пользователя.");
+    adminUserPasswordInput.reportValidity();
+    adminUserPasswordInput.setCustomValidity("");
+    return;
+  }
+
+  if (existingUser?.login === currentUser?.login && adminUserRoleInput.value !== "admin") {
+    setAdminUsersStatus("Нельзя снять роль администратора с текущей учетной записи.", "error");
+    return;
+  }
+
+  if (existingUser?.login === currentUser?.login && !adminUserActiveInput.checked) {
+    setAdminUsersStatus("Нельзя отключить текущую учетную запись.", "error");
+    return;
+  }
+
+  setAdminUsersLoading(true);
+  setAdminUsersStatus("Сохраняю пользователя...");
+
+  try {
+    const passwordData = password
+      ? await hashAuthPassword(password)
+      : {
+          passwordHash: existingUser.passwordHash,
+          passwordSalt: existingUser.passwordSalt,
+        };
+
+    const savedUser = await upsertAuthUser({
+      id: existingUser?.id || createId(),
+      login,
+      displayName: adminUserNameInput.value.trim() || login,
+      role: adminUserRoleInput.value || "user",
+      isActive: adminUserActiveInput.checked,
+      passwordHash: passwordData.passwordHash,
+      passwordSalt: passwordData.passwordSalt,
+      createdAt: existingUser?.createdAt,
+    });
+
+    if (savedUser.login === currentUser?.login) {
+      currentUser = getAuthSessionUser(savedUser);
+      saveAuthSession(currentUser);
+      updateCurrentUserUi();
+    }
+
+    resetAdminUserForm();
+    authUsers = await loadAuthUsersFromDatabase();
+    renderAdminUsersTable();
+    setAdminUsersStatus("Пользователь сохранен.", "success");
+  } catch (error) {
+    setAdminUsersStatus(getAuthTableErrorMessage(error), "error");
+  } finally {
+    setAdminUsersLoading(false);
+  }
+}
+
+async function deleteAuthUser(login) {
+  if (!canManageAuthUsers()) return;
+
+  if (login === currentUser?.login) {
+    setAdminUsersStatus("Нельзя удалить текущую учетную запись.", "error");
+    return;
+  }
+
+  const confirmed = window.confirm(`Удалить пользователя "${login}"?`);
+  if (!confirmed) return;
+
+  setAdminUsersLoading(true);
+  setAdminUsersStatus("Удаляю пользователя...");
+
+  try {
+    const client = getSupabaseClient();
+    const { error } = await client.from(AUTH_USERS_TABLE).delete().eq("login", login);
+    if (error) throw error;
+    authUsers = await loadAuthUsersFromDatabase();
+    renderAdminUsersTable();
+    setAdminUsersStatus("Пользователь удален.", "success");
+  } catch (error) {
+    setAdminUsersStatus(getAuthTableErrorMessage(error), "error");
+  } finally {
+    setAdminUsersLoading(false);
+  }
+}
+
+function showAuthenticatedApp(user) {
+  currentUser = getAuthSessionUser(user);
+  saveAuthSession(currentUser);
+  updateCurrentUserUi();
+
+  if (authShell) authShell.hidden = true;
+  if (appShell) appShell.hidden = false;
+
+  updatePasswordVaultUi();
+  showPage(getPageFromHash());
+  render();
+  renderAdminUsersPanel();
+
+  if (!appBootstrapped) {
+    appBootstrapped = true;
+    initializeGoogleSheetsSync();
+  }
+}
+
+function showLoginScreen(message = "Введите логин и пароль.", type = "") {
+  currentUser = null;
+  updateCurrentUserUi();
+  if (appShell) appShell.hidden = true;
+  if (authShell) authShell.hidden = false;
+  setLoginStatus(message, type);
+  window.setTimeout(() => loginUserInput?.focus(), 0);
+}
+
+async function handleLoginSubmit(event) {
+  event.preventDefault();
+
+  const login = normalizeAuthLogin(loginUserInput.value);
+  const password = loginPasswordInput.value;
+
+  if (!login || !password) {
+    setLoginStatus("Введите логин и пароль.", "error");
+    return;
+  }
+
+  setLoginLoading(true);
+  setLoginStatus("Проверяю учетную запись...");
+
+  try {
+    await bootstrapDefaultAdminUsers();
+    const user = await getAuthUserByLogin(login);
+
+    if (!user || !user.isActive) {
+      throw new Error("Неверный логин или пароль.");
+    }
+
+    const passwordMatches = await verifyAuthPassword(password, user.passwordSalt, user.passwordHash);
+    if (!passwordMatches) {
+      throw new Error("Неверный логин или пароль.");
+    }
+
+    loginPasswordInput.value = "";
+    showAuthenticatedApp(user);
+  } catch (error) {
+    setLoginStatus(getAuthTableErrorMessage(error), "error");
+  } finally {
+    setLoginLoading(false);
+  }
+}
+
+async function initializeAuth() {
+  if (appShell) appShell.hidden = true;
+  if (authShell) authShell.hidden = false;
+  setLoginLoading(true);
+  setLoginStatus("Подключаюсь к базе пользователей...");
+
+  try {
+    await bootstrapDefaultAdminUsers();
+    const storedSession = getStoredAuthSession();
+
+    if (storedSession?.login) {
+      const user = await getAuthUserByLogin(storedSession.login);
+      if (user?.isActive) {
+        showAuthenticatedApp(user);
+        return;
+      }
+      clearAuthSession();
+    }
+
+    showLoginScreen("Введите логин и пароль.", "");
+  } catch (error) {
+    showLoginScreen(getAuthTableErrorMessage(error), "error");
+  } finally {
+    setLoginLoading(false);
+  }
+}
+
+function logoutCurrentUser() {
+  clearAuthSession();
+  currentUser = null;
+  loginForm?.reset();
+
+  if (passwordVaultMaster) {
+    lockPasswordVault();
+  }
+
+  if (systemHubRealtimeChannel) {
+    try {
+      getSupabaseClient().removeChannel(systemHubRealtimeChannel);
+    } catch {
+      // Logout should not fail because realtime cleanup failed.
+    }
+    systemHubRealtimeChannel = null;
+  }
+
+  clearQueuedGoogleSheetsSync();
+  showLoginScreen("Сессия завершена. Войдите снова.", "success");
+}
+
 function clearQueuedGoogleSheetsSync() {
   googleAutoSyncQueued = false;
   googleAutoSyncPendingKeys.clear();
@@ -7346,6 +8811,11 @@ function setSupabaseRealtimeDataset(datasetKey, items) {
 function renderSupabaseRealtimeDataset(datasetKey) {
   switch (datasetKey) {
     case "records":
+      decryptedPasswordCache.clear();
+      visiblePasswords.clear();
+      passwordRevealTimers.forEach((timer) => window.clearTimeout(timer));
+      passwordRevealTimers.clear();
+      updatePasswordVaultUi();
       renderCounters();
       renderTable();
       break;
@@ -7590,8 +9060,9 @@ function renderTable() {
 
   filteredRecords.forEach((record) => {
     const status = getLicenseStatus(record);
-    const isPasswordVisible = visiblePasswords.has(record.id);
-    const passwordValue = isPasswordVisible ? record.password : "••••••••";
+    const isPasswordVisible = visiblePasswords.has(record.id) && decryptedPasswordCache.has(record.id);
+    const passwordValue = isPasswordVisible ? decryptedPasswordCache.get(record.id) : "••••••••";
+    const passwordActionLabel = isPasswordVisible ? "Скрыть пароль" : "Показать пароль";
     const row = document.createElement("tr");
 
     row.innerHTML = `
@@ -7605,10 +9076,16 @@ function renderTable() {
       <td>
         <span class="password-cell">
           <span class="password-value">${escapeHtml(passwordValue)}</span>
-          <button class="icon-button" type="button" data-action="toggle-row-password" data-id="${record.id}" aria-label="Показать или скрыть пароль" title="Показать или скрыть пароль">
+          <button class="icon-button" type="button" data-action="toggle-row-password" data-id="${record.id}" aria-label="${passwordActionLabel}" title="${passwordActionLabel}">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path>
               <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+          <button class="icon-button" type="button" data-action="copy-row-password" data-id="${record.id}" aria-label="Скопировать пароль" title="Скопировать пароль">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 8h11v13H8z"></path>
+              <path d="M5 16H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
         </span>
@@ -9572,6 +11049,7 @@ function renderStep(name, callback) {
 }
 
 function render() {
+  renderStep("passwordVault", updatePasswordVaultUi);
   renderStep("counters", renderCounters);
   renderStep("links", renderLinks);
   renderStep("surveyLinks", renderSurveyLinks);
@@ -9604,12 +11082,12 @@ function resetForm({ focus = true } = {}) {
   }
 }
 
-function createRecordFromForm() {
+async function createRecordFromForm() {
   return {
     id: recordIdInput.value || createId(),
     systemName: systemNameInput.value.trim(),
     login: loginInput.value.trim(),
-    password: passwordInput.value,
+    password: await encryptPasswordForStorage(passwordInput.value),
     purchaseDate: purchaseDateInput.value,
     licenseEndDate: licenseEndDateInput.value,
     updatedAt: new Date().toISOString(),
@@ -9843,14 +11321,22 @@ function createTrmsReleaseTaskFromForm() {
   };
 }
 
-function editRecord(id) {
+async function editRecord(id) {
   const record = records.find((item) => item.id === id);
   if (!record) return;
+
+  let password;
+  try {
+    password = await getRecordPassword(record);
+  } catch (error) {
+    setPasswordVaultStatus(error.message || "Разблокируйте хранилище для редактирования пароля.", "error");
+    return;
+  }
 
   recordIdInput.value = record.id;
   systemNameInput.value = record.systemName;
   loginInput.value = record.login;
-  passwordInput.value = record.password;
+  passwordInput.value = password;
   purchaseDateInput.value = record.purchaseDate;
   licenseEndDateInput.value = record.licenseEndDate;
   submitText.textContent = "Обновить запись";
@@ -9943,12 +11429,19 @@ function editTrmsReleaseTask(id) {
   trmsTaskNameInput.focus();
 }
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (!form.reportValidity()) return;
 
-  const formRecord = createRecordFromForm();
+  let formRecord;
+  try {
+    formRecord = await createRecordFromForm();
+  } catch (error) {
+    setPasswordVaultStatus(error.message || "Не удалось зашифровать пароль.", "error");
+    return;
+  }
+
   const existingIndex = records.findIndex((record) => record.id === formRecord.id);
 
   if (existingIndex >= 0) {
@@ -9958,11 +11451,28 @@ form.addEventListener("submit", (event) => {
   }
 
   saveRecords();
+  clearPasswordRevealTimer(formRecord.id);
+  visiblePasswords.delete(formRecord.id);
+  decryptedPasswordCache.delete(formRecord.id);
+  updatePasswordVaultUi();
   resetForm();
   render();
 });
 
 resetFormButton.addEventListener("click", resetForm);
+
+unlockPasswordVaultButton.addEventListener("click", () => {
+  unlockPasswordVault();
+});
+
+lockPasswordVaultButton.addEventListener("click", lockPasswordVault);
+
+masterPasswordInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    unlockPasswordVault();
+  }
+});
 
 linkForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -10415,7 +11925,7 @@ togglePasswordButton.addEventListener("click", () => {
 searchInput.addEventListener("input", renderTable);
 statusFilter.addEventListener("change", renderTable);
 
-tableBody.addEventListener("click", (event) => {
+tableBody.addEventListener("click", async (event) => {
   const button = event.target.closest("button[data-action]");
   if (!button) return;
 
@@ -10424,10 +11934,36 @@ tableBody.addEventListener("click", (event) => {
   if (action === "toggle-row-password") {
     if (visiblePasswords.has(id)) {
       visiblePasswords.delete(id);
+      decryptedPasswordCache.delete(id);
+      clearPasswordRevealTimer(id);
     } else {
+      const record = records.find((item) => item.id === id);
+      if (!record) return;
+
+      try {
+        await getRecordPassword(record);
+      } catch (error) {
+        setPasswordVaultStatus(error.message || "Разблокируйте хранилище для просмотра пароля.", "error");
+        return;
+      }
+
       visiblePasswords.add(id);
+      schedulePasswordAutoHide(id);
     }
     renderTable();
+  }
+
+  if (action === "copy-row-password") {
+    const record = records.find((item) => item.id === id);
+    if (!record) return;
+
+    try {
+      const password = await getRecordPassword(record);
+      await copyTextToClipboard(password);
+      setPasswordVaultStatus("Пароль скопирован в буфер обмена.", "success");
+    } catch (error) {
+      setPasswordVaultStatus(error.message || "Не удалось скопировать пароль.", "error");
+    }
   }
 
   if (action === "edit") {
@@ -10443,7 +11979,10 @@ tableBody.addEventListener("click", (event) => {
 
     records = records.filter((item) => item.id !== id);
     visiblePasswords.delete(id);
+    decryptedPasswordCache.delete(id);
+    clearPasswordRevealTimer(id);
     saveRecords();
+    updatePasswordVaultUi();
     render();
   }
 });
@@ -10607,6 +12146,38 @@ promoPurchaseTable.addEventListener("change", (event) => {
   renderPurchaseAnalytics();
 });
 
+if (loginForm) {
+  loginForm.addEventListener("submit", handleLoginSubmit);
+}
+
+if (logoutButton) {
+  logoutButton.addEventListener("click", logoutCurrentUser);
+}
+
+if (adminUserForm) {
+  adminUserForm.addEventListener("submit", handleAdminUserSubmit);
+}
+
+if (adminUserResetButton) {
+  adminUserResetButton.addEventListener("click", resetAdminUserForm);
+}
+
+if (adminUsersTable) {
+  adminUsersTable.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-admin-user-action]");
+    if (!button) return;
+
+    const { adminUserAction, login } = button.dataset;
+    if (adminUserAction === "edit") {
+      fillAdminUserForm(login);
+    }
+
+    if (adminUserAction === "delete") {
+      deleteAuthUser(login);
+    }
+  });
+}
+
 if (themeToggleButton) {
   themeToggleButton.addEventListener("click", toggleTheme);
 }
@@ -10616,7 +12187,7 @@ window.addEventListener("hashchange", () => {
 });
 
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) {
+  if (!document.hidden && currentUser) {
     refreshGoogleSheetsData({ force: true }).catch((error) => {
       setGoogleSheetsStatus(error.message, "error");
     });
@@ -10624,9 +12195,7 @@ document.addEventListener("visibilitychange", () => {
 });
 
 applyTheme(getSavedTheme());
-showPage(getPageFromHash());
-render();
-initializeGoogleSheetsSync();
+initializeAuth();
 </script>
 <script>
 (function () {
