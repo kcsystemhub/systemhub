@@ -865,6 +865,274 @@ svg {
   background: linear-gradient(90deg, var(--air-sky), var(--air-blue), var(--air-gold-light));
 }
 
+.calendar-controls {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.2fr) repeat(3, minmax(150px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.calendar-period-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-period-control .ghost-button {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+}
+
+.calendar-period-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  min-width: 170px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-weight: 900;
+  text-align: center;
+}
+
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: start;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.calendar-weekday {
+  padding: 0 6px 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.calendar-day {
+  display: grid;
+  grid-template-rows: auto minmax(64px, 1fr);
+  gap: 8px;
+  min-height: 132px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(4, 10, 24, 0.34);
+  color: var(--ink);
+  text-align: left;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.calendar-day:hover,
+.calendar-day.is-selected {
+  border-color: rgba(255, 200, 90, 0.48);
+  background: rgba(255, 200, 90, 0.09);
+}
+
+.calendar-day.is-today {
+  border-color: rgba(47, 183, 229, 0.62);
+  box-shadow: inset 0 0 0 1px rgba(47, 183, 229, 0.2);
+}
+
+.calendar-day.is-outside {
+  opacity: 0.48;
+}
+
+.calendar-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.calendar-day-number {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.calendar-day-count {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.calendar-day-events {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+}
+
+.calendar-chip {
+  overflow: hidden;
+  max-width: 100%;
+  padding: 5px 7px;
+  border-left: 3px solid var(--air-sky);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-chip.is-license,
+.calendar-event-dot.is-license {
+  border-color: var(--amber);
+}
+
+.calendar-chip.is-task,
+.calendar-event-dot.is-task {
+  border-color: var(--air-sky);
+}
+
+.calendar-chip.is-release,
+.calendar-event-dot.is-release {
+  border-color: var(--air-gold-light);
+}
+
+.calendar-more {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.calendar-side {
+  display: grid;
+  gap: 22px;
+}
+
+.calendar-list {
+  display: grid;
+  gap: 10px;
+}
+
+.calendar-list-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.calendar-event-dot {
+  width: 10px;
+  height: 100%;
+  min-height: 42px;
+  border-left: 4px solid var(--air-sky);
+  border-radius: 999px;
+}
+
+.calendar-list-main {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.calendar-list-main strong {
+  color: #ffffff;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.calendar-list-main span {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.calendar-event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.calendar-event-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.calendar-event-meta .is-overdue {
+  border-color: rgba(255, 116, 106, 0.38);
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.calendar-event-meta .is-today {
+  border-color: rgba(255, 200, 90, 0.42);
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.calendar-event-meta .is-done,
+.calendar-event-meta .is-past {
+  border-color: rgba(94, 225, 164, 0.32);
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.calendar-open-link {
+  width: fit-content;
+  color: var(--gold);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.calendar-open-link:hover {
+  text-decoration: underline;
+}
+
+.calendar-empty {
+  padding: 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-align: center;
+}
+
+html[data-theme="light"] .calendar-period-label,
+html[data-theme="light"] .calendar-day-number,
+html[data-theme="light"] .calendar-chip,
+html[data-theme="light"] .calendar-list-main strong {
+  color: var(--ink);
+}
+
+html[data-theme="light"] .calendar-day,
+html[data-theme="light"] .calendar-list-item,
+html[data-theme="light"] .calendar-period-label {
+  background: rgba(255, 255, 255, 0.72);
+}
+
 .report-layout {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
@@ -2868,6 +3136,14 @@ html[data-theme="light"] .report-pie {
   #participantReportsPage .participant-filter-panel #resetParticipantReportFilters {
     grid-column: 1;
   }
+
+  .calendar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 720px) {
@@ -2991,6 +3267,8 @@ html[data-theme="light"] .report-pie {
 
   .stats-grid,
   .analytics-grid,
+  .calendar-controls,
+  .calendar-layout,
   .dashboard-grid,
   .dashboard-filters,
   .dashboard-upload,
@@ -3016,6 +3294,56 @@ html[data-theme="light"] .report-pie {
 
   .purchase-items-grid {
     grid-template-columns: 1fr;
+  }
+
+  .calendar-period-control {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+  }
+
+  .calendar-period-label {
+    min-width: 0;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-weekday {
+    padding: 0;
+    font-size: 0.68rem;
+  }
+
+  .calendar-day {
+    min-height: 74px;
+    padding: 6px;
+    grid-template-rows: auto auto;
+  }
+
+  .calendar-day-count {
+    display: none;
+  }
+
+  .calendar-chip {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 999px;
+    color: transparent;
+  }
+
+  .calendar-chip.is-license {
+    background: var(--amber);
+  }
+
+  .calendar-chip.is-task {
+    background: var(--air-sky);
+  }
+
+  .calendar-chip.is-release {
+    background: var(--air-gold-light);
   }
 
   .stat-card {
@@ -3173,6 +3501,15 @@ html[data-theme="light"] .report-pie {
               <path d="M8 13h7M8 17h5" />
             </svg>
             ТРМС Релизы
+          </a>
+          <a class="nav-link" href="#calendar" data-nav-link="calendar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 2v4M16 2v4" />
+              <path d="M3 9h18" />
+              <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+              <path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01" />
+            </svg>
+            Календарь
           </a>
           <a class="nav-link" href="#lms" data-nav-link="lms">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -4169,6 +4506,132 @@ html[data-theme="light"] .report-pie {
           </div>
         </section>
 
+        <section class="page-section" id="calendarPage" data-page-panel="calendar" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Планирование</p>
+              <h1>Календарь</h1>
+            </div>
+            <div class="sheet-badge" title="События собираются из систем, задач и TRMS-релизов">
+              <span class="status-dot"></span>
+              Общий календарь
+            </div>
+          </header>
+
+          <section class="stats-grid" aria-label="Сводка календаря">
+            <article class="stat-card">
+              <span>Всего событий</span>
+              <strong id="calendarTotalCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Просрочено</span>
+              <strong id="calendarOverdueCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Сегодня</span>
+              <strong id="calendarTodayCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>7 дней</span>
+              <strong id="calendarWeekCount">0</strong>
+            </article>
+          </section>
+
+          <section class="entry-panel" aria-labelledby="calendarFiltersTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Фильтры</p>
+                <h2 id="calendarFiltersTitle">Период и типы событий</h2>
+              </div>
+              <button class="ghost-button" id="calendarTodayButton" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 2v4M16 2v4M3 10h18" />
+                  <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+                </svg>
+                Сегодня
+              </button>
+            </div>
+
+            <div class="calendar-controls">
+              <div class="calendar-period-control" aria-label="Переключение месяца">
+                <button class="ghost-button" id="calendarPrevMonth" type="button" aria-label="Предыдущий месяц" title="Предыдущий месяц">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+                <strong class="calendar-period-label" id="calendarMonthLabel">Месяц</strong>
+                <button class="ghost-button" id="calendarNextMonth" type="button" aria-label="Следующий месяц" title="Следующий месяц">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+
+              <label class="field">
+                <span>Тип события</span>
+                <select id="calendarTypeFilter">
+                  <option value="all">Все типы</option>
+                  <option value="license">Лицензии</option>
+                  <option value="task">Задачи</option>
+                  <option value="release">TRMS релизы</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Статус даты</span>
+                <select id="calendarStatusFilter">
+                  <option value="all">Все статусы</option>
+                  <option value="overdue">Просрочено</option>
+                  <option value="today">Сегодня</option>
+                  <option value="week">Ближайшие 7 дней</option>
+                  <option value="upcoming">Будущие</option>
+                  <option value="past">Прошедшие</option>
+                  <option value="done">Завершенные задачи</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Поиск</span>
+                <input id="calendarSearchInput" type="search" placeholder="Система, задача, релиз или тренинг" />
+              </label>
+            </div>
+          </section>
+
+          <section class="calendar-layout">
+            <section class="table-panel" aria-labelledby="calendarGridTitle">
+              <div class="table-toolbar">
+                <div>
+                  <p class="eyebrow">Месяц</p>
+                  <h2 id="calendarGridTitle">События по дням</h2>
+                </div>
+              </div>
+              <div class="calendar-grid" id="calendarGrid"></div>
+            </section>
+
+            <aside class="calendar-side">
+              <section class="table-panel" aria-labelledby="calendarSelectedTitle">
+                <div class="table-toolbar">
+                  <div>
+                    <p class="eyebrow">Выбранный день</p>
+                    <h2 id="calendarSelectedTitle">События</h2>
+                  </div>
+                </div>
+                <div class="calendar-list" id="calendarSelectedDateList"></div>
+              </section>
+
+              <section class="table-panel" aria-labelledby="calendarUpcomingTitle">
+                <div class="table-toolbar">
+                  <div>
+                    <p class="eyebrow">Ближайшее</p>
+                    <h2 id="calendarUpcomingTitle">Следующие события</h2>
+                  </div>
+                </div>
+                <div class="calendar-list" id="calendarUpcomingList"></div>
+              </section>
+            </aside>
+          </section>
+        </section>
+
         <section class="page-section" id="dashboardsPage" data-page-panel="dashboards" hidden>
           <header class="topbar">
             <div>
@@ -5021,6 +5484,491 @@ window.SYSTEMHUB_BUILD = "supabase-migration-2026-05-15";
   script.text = source;
   document.head.appendChild(script);
   script.parentNode.removeChild(script);
+}());
+</script>
+<script>
+(function () {
+  var STORAGE_KEYS = {
+    records: "systemhub.records",
+    teamTasks: "systemhub.teamTasks",
+    trmsReleases: "systemhub.trmsReleases",
+  };
+
+  var TYPE_META = {
+    license: { label: "Лицензия", className: "is-license", href: "#systems" },
+    task: { label: "Задача", className: "is-task", href: "#team-tasks" },
+    release: { label: "TRMS", className: "is-release", href: "#trms-releases" },
+  };
+
+  var TEAM_STATUS_LABELS = {
+    new: "Новая",
+    inprogress: "В работе",
+    review: "На проверке",
+    done: "Завершена",
+    overdue: "Просрочена",
+    paused: "Отложена",
+  };
+
+  var elements = {
+    page: document.querySelector("#calendarPage"),
+    grid: document.querySelector("#calendarGrid"),
+    monthLabel: document.querySelector("#calendarMonthLabel"),
+    prevButton: document.querySelector("#calendarPrevMonth"),
+    nextButton: document.querySelector("#calendarNextMonth"),
+    todayButton: document.querySelector("#calendarTodayButton"),
+    typeFilter: document.querySelector("#calendarTypeFilter"),
+    statusFilter: document.querySelector("#calendarStatusFilter"),
+    searchInput: document.querySelector("#calendarSearchInput"),
+    selectedTitle: document.querySelector("#calendarSelectedTitle"),
+    selectedList: document.querySelector("#calendarSelectedDateList"),
+    upcomingList: document.querySelector("#calendarUpcomingList"),
+    totalCount: document.querySelector("#calendarTotalCount"),
+    overdueCount: document.querySelector("#calendarOverdueCount"),
+    todayCount: document.querySelector("#calendarTodayCount"),
+    weekCount: document.querySelector("#calendarWeekCount"),
+  };
+
+  if (!elements.page || !elements.grid) return;
+
+  var today = startOfDay(new Date());
+  var calendarCursor = new Date(today.getFullYear(), today.getMonth(), 1);
+  var selectedDateKey = getDateKey(today);
+  var renderTimer = 0;
+
+  function readArray(key, runtimeName) {
+    try {
+      if (runtimeName === "records" && typeof records !== "undefined" && Array.isArray(records)) return records;
+      if (runtimeName === "teamTasks" && typeof teamTasks !== "undefined" && Array.isArray(teamTasks)) return teamTasks;
+      if (runtimeName === "trmsReleaseTasks" && typeof trmsReleaseTasks !== "undefined" && Array.isArray(trmsReleaseTasks)) return trmsReleaseTasks;
+    } catch (error) {
+      // Fall back to localStorage when the main script scope is unavailable.
+    }
+
+    try {
+      var value = localStorage.getItem(key);
+      return value ? JSON.parse(value) || [] : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function startOfDay(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+
+  function parseDate(value) {
+    if (value instanceof Date && !Number.isNaN(value.getTime())) {
+      return startOfDay(value);
+    }
+
+    var text = String(value || "").trim();
+    var match;
+    var year;
+
+    if (!text) return null;
+
+    match = text.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+    if (match) {
+      return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    }
+
+    match = text.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})/);
+    if (match) {
+      year = match[3].length === 2 ? "20" + match[3] : match[3];
+      return new Date(Number(year), Number(match[2]) - 1, Number(match[1]));
+    }
+
+    var serial = Number(text);
+    if (Number.isFinite(serial) && serial > 20000) {
+      var excelEpoch = Date.UTC(1899, 11, 30);
+      var excelDate = new Date(excelEpoch + serial * 86400000);
+      return new Date(excelDate.getUTCFullYear(), excelDate.getUTCMonth(), excelDate.getUTCDate());
+    }
+
+    var fallback = new Date(text);
+    return Number.isNaN(fallback.getTime()) ? null : startOfDay(fallback);
+  }
+
+  function getDateKey(date) {
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-");
+  }
+
+  function formatDate(date, options) {
+    return new Intl.DateTimeFormat("ru-RU", options || {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }).format(date);
+  }
+
+  function getDayDiff(date) {
+    return Math.round((startOfDay(date) - today) / 86400000);
+  }
+
+  function getTemporalStatus(date, options) {
+    var settings = options || {};
+    var diff = getDayDiff(date);
+
+    if (settings.done) return { key: "done", label: "Завершено" };
+    if (settings.manualOverdue) return { key: "overdue", label: "Просрочено" };
+    if (diff < 0) {
+      return {
+        key: settings.pastKey || "overdue",
+        label: settings.pastLabel || "Просрочено",
+      };
+    }
+    if (diff === 0) return { key: "today", label: "Сегодня" };
+    if (diff <= 7) return { key: "week", label: diff + " дн." };
+    return { key: "upcoming", label: "Запланировано" };
+  }
+
+  function addEvent(events, config) {
+    var date = parseDate(config.date);
+    if (!date) return;
+
+    events.push({
+      id: config.id,
+      type: config.type,
+      date: date,
+      dateKey: getDateKey(date),
+      title: config.title,
+      subtitle: config.subtitle || "",
+      href: config.href || TYPE_META[config.type].href,
+      status: config.status || getTemporalStatus(date, config.statusOptions),
+      searchable: [config.title, config.subtitle, TYPE_META[config.type].label].join(" "),
+    });
+  }
+
+  function buildEvents() {
+    var events = [];
+    var recordsData = readArray(STORAGE_KEYS.records, "records");
+    var taskData = readArray(STORAGE_KEYS.teamTasks, "teamTasks");
+    var releaseData = readArray(STORAGE_KEYS.trmsReleases, "trmsReleaseTasks");
+
+    recordsData.forEach(function (record) {
+      addEvent(events, {
+        id: "license-" + (record.id || record.systemName),
+        type: "license",
+        date: record.licenseEndDate,
+        title: "Лицензия: " + (record.systemName || "Система"),
+        subtitle: record.login ? "Логин: " + record.login : "Дата завершения лицензии",
+        statusOptions: {},
+      });
+    });
+
+    taskData.forEach(function (task) {
+      var taskDate = parseDate(task.deadline);
+      var status;
+
+      if (!taskDate) return;
+
+      status = getTemporalStatus(taskDate, {
+        done: task.status === "done",
+        manualOverdue: task.status === "overdue",
+      });
+
+      addEvent(events, {
+        id: "task-" + (task.id || task.title),
+        type: "task",
+        date: taskDate,
+        title: task.title || "Задача команды",
+        subtitle: [
+          TEAM_STATUS_LABELS[task.status] || "Без статуса",
+          (task.assignees || []).join(", "),
+        ].filter(Boolean).join(" · "),
+        status: status,
+      });
+    });
+
+    releaseData.forEach(function (task) {
+      [
+        ["taskWrittenDate", "Задача написана"],
+        ["taskStartDate", "Старт задачи"],
+        ["taskEndDate", "Завершение задачи"],
+        ["taskProdDate", "Выход в прод"],
+      ].forEach(function (field) {
+        addEvent(events, {
+          id: "release-" + (task.id || task.taskName) + "-" + field[0],
+          type: "release",
+          date: task[field[0]],
+          title: field[1] + ": " + (task.releaseName || "TRMS релиз"),
+          subtitle: task.taskName || "",
+          statusOptions: { pastKey: "past", pastLabel: "Прошло" },
+        });
+      });
+    });
+
+    return events.sort(function (a, b) {
+      return a.date - b.date || a.title.localeCompare(b.title, "ru");
+    });
+  }
+
+  function getFilteredEvents(events) {
+    var type = elements.typeFilter ? elements.typeFilter.value : "all";
+    var status = elements.statusFilter ? elements.statusFilter.value : "all";
+    var query = elements.searchInput ? elements.searchInput.value.trim().toLowerCase() : "";
+
+    return events.filter(function (event) {
+      var diff = getDayDiff(event.date);
+      var matchesType = type === "all" || event.type === type;
+      var matchesStatus = status === "all"
+        || event.status.key === status
+        || (status === "week" && diff >= 0 && diff <= 7)
+        || (status === "upcoming" && diff > 0);
+      var matchesQuery = !query || event.searchable.toLowerCase().includes(query);
+
+      return matchesType && matchesStatus && matchesQuery;
+    });
+  }
+
+  function renderCounters(events) {
+    var todayKey = getDateKey(today);
+    var weekCount = events.filter(function (event) {
+      var diff = getDayDiff(event.date);
+      return diff >= 0 && diff <= 7;
+    }).length;
+
+    elements.totalCount.textContent = String(events.length);
+    elements.overdueCount.textContent = String(events.filter(function (event) { return event.status.key === "overdue"; }).length);
+    elements.todayCount.textContent = String(events.filter(function (event) { return event.dateKey === todayKey; }).length);
+    elements.weekCount.textContent = String(weekCount);
+  }
+
+  function groupEventsByDate(events) {
+    return events.reduce(function (map, event) {
+      var items = map.get(event.dateKey) || [];
+      items.push(event);
+      map.set(event.dateKey, items);
+      return map;
+    }, new Map());
+  }
+
+  function renderCalendarGrid(events) {
+    var month = calendarCursor.getMonth();
+    var firstDay = new Date(calendarCursor.getFullYear(), month, 1);
+    var startOffset = (firstDay.getDay() + 6) % 7;
+    var startDate = new Date(firstDay);
+    var grouped = groupEventsByDate(events);
+    var weekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+    var html = weekdays.map(function (day) {
+      return '<div class="calendar-weekday">' + day + '</div>';
+    }).join("");
+
+    startDate.setDate(firstDay.getDate() - startOffset);
+
+    for (var index = 0; index < 42; index += 1) {
+      var date = new Date(startDate);
+      var key;
+      var items;
+      var visibleItems;
+      var classes;
+
+      date.setDate(startDate.getDate() + index);
+      key = getDateKey(date);
+      items = grouped.get(key) || [];
+      visibleItems = items.slice(0, 3);
+      classes = [
+        "calendar-day",
+        date.getMonth() !== month ? "is-outside" : "",
+        key === getDateKey(today) ? "is-today" : "",
+        key === selectedDateKey ? "is-selected" : "",
+      ].filter(Boolean).join(" ");
+
+      html += [
+        '<button class="' + classes + '" type="button" data-calendar-date="' + key + '">',
+        '<span class="calendar-day-head">',
+        '<span class="calendar-day-number">' + date.getDate() + '</span>',
+        items.length ? '<span class="calendar-day-count">' + items.length + '</span>' : '<span></span>',
+        '</span>',
+        '<span class="calendar-day-events">',
+        visibleItems.map(function (event) {
+          return '<span class="calendar-chip ' + TYPE_META[event.type].className + '">' + escapeHtml(event.title) + '</span>';
+        }).join(""),
+        items.length > visibleItems.length ? '<span class="calendar-more">+' + (items.length - visibleItems.length) + '</span>' : "",
+        '</span>',
+        '</button>',
+      ].join("");
+    }
+
+    elements.grid.innerHTML = html;
+    elements.monthLabel.textContent = formatDate(calendarCursor, { month: "long", year: "numeric" });
+  }
+
+  function renderEventList(container, events, emptyText) {
+    if (!events.length) {
+      container.innerHTML = '<div class="calendar-empty">' + escapeHtml(emptyText) + '</div>';
+      return;
+    }
+
+    container.innerHTML = events.map(function (event) {
+      var meta = TYPE_META[event.type];
+      return [
+        '<article class="calendar-list-item">',
+        '<span class="calendar-event-dot ' + meta.className + '"></span>',
+        '<div class="calendar-list-main">',
+        '<strong>' + escapeHtml(event.title) + '</strong>',
+        event.subtitle ? '<span>' + escapeHtml(event.subtitle) + '</span>' : "",
+        '<div class="calendar-event-meta">',
+        '<span>' + escapeHtml(formatDate(event.date, { day: "2-digit", month: "2-digit", year: "numeric" })) + '</span>',
+        '<span>' + escapeHtml(meta.label) + '</span>',
+        '<span class="is-' + event.status.key + '">' + escapeHtml(event.status.label) + '</span>',
+        '</div>',
+        '<a class="calendar-open-link" href="' + meta.href + '">Открыть раздел</a>',
+        '</div>',
+        '</article>',
+      ].join("");
+    }).join("");
+  }
+
+  function renderCalendar() {
+    today = startOfDay(new Date());
+    var allEvents = buildEvents();
+    var filteredEvents = getFilteredEvents(allEvents);
+    var selectedDate = parseDate(selectedDateKey) || today;
+    var upcomingEvents = filteredEvents
+      .filter(function (event) { return getDayDiff(event.date) >= 0; })
+      .slice(0, 10);
+    var selectedEvents = filteredEvents.filter(function (event) {
+      return event.dateKey === selectedDateKey;
+    });
+
+    renderCounters(allEvents);
+    renderCalendarGrid(filteredEvents);
+
+    elements.selectedTitle.textContent = formatDate(selectedDate, {
+      day: "2-digit",
+      month: "long",
+    });
+    renderEventList(elements.selectedList, selectedEvents, "На выбранную дату событий нет.");
+    renderEventList(elements.upcomingList, upcomingEvents, "Ближайших событий по текущим фильтрам нет.");
+  }
+
+  function scheduleCalendarRender(delay) {
+    window.clearTimeout(renderTimer);
+    renderTimer = window.setTimeout(renderCalendar, delay || 0);
+  }
+
+  function showCalendarPage() {
+    if (typeof showPage === "function") {
+      showPage("calendar");
+    } else {
+      document.querySelectorAll("[data-page-panel]").forEach(function (panel) {
+        var isActive = panel.dataset.pagePanel === "calendar";
+        panel.hidden = !isActive;
+        panel.classList.toggle("is-active", isActive);
+      });
+
+      document.querySelectorAll("[data-nav-link]").forEach(function (link) {
+        var isActive = link.dataset.navLink === "calendar";
+        link.classList.toggle("is-active", isActive);
+        if (isActive) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+    }
+
+    document.title = "Календарь";
+    renderCalendar();
+  }
+
+  function syncCalendarRoute() {
+    if (window.location.hash === "#calendar") {
+      showCalendarPage();
+    }
+  }
+
+  elements.prevButton.addEventListener("click", function () {
+    calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() - 1, 1);
+    selectedDateKey = getDateKey(calendarCursor);
+    renderCalendar();
+  });
+
+  elements.nextButton.addEventListener("click", function () {
+    calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() + 1, 1);
+    selectedDateKey = getDateKey(calendarCursor);
+    renderCalendar();
+  });
+
+  elements.todayButton.addEventListener("click", function () {
+    today = startOfDay(new Date());
+    calendarCursor = new Date(today.getFullYear(), today.getMonth(), 1);
+    selectedDateKey = getDateKey(today);
+    renderCalendar();
+  });
+
+  [elements.typeFilter, elements.statusFilter, elements.searchInput].forEach(function (control) {
+    if (!control) return;
+    control.addEventListener(control.tagName === "INPUT" ? "input" : "change", renderCalendar);
+  });
+
+  elements.grid.addEventListener("click", function (event) {
+    var button = event.target.closest("[data-calendar-date]");
+    if (!button) return;
+    selectedDateKey = button.dataset.calendarDate;
+    renderCalendar();
+  });
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest('[data-nav-link="calendar"]');
+    if (!link) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if (window.location.hash === "#calendar") {
+      showCalendarPage();
+    } else {
+      window.location.hash = "#calendar";
+    }
+
+    if (typeof window.closeMobileNav === "function") {
+      window.closeMobileNav();
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, true);
+
+  [
+    "#systemForm",
+    "#teamTaskForm",
+    "#trmsReleaseForm",
+    "#pullFromSupabase",
+  ].forEach(function (selector) {
+    var node = document.querySelector(selector);
+    if (!node) return;
+    node.addEventListener("submit", function () { scheduleCalendarRender(80); });
+    node.addEventListener("change", function () {
+      scheduleCalendarRender(600);
+      window.setTimeout(renderCalendar, 2200);
+    });
+    node.addEventListener("click", function () {
+      scheduleCalendarRender(120);
+      window.setTimeout(renderCalendar, 2500);
+    });
+  });
+
+  window.addEventListener("storage", function (event) {
+    if (Object.values(STORAGE_KEYS).includes(event.key)) {
+      renderCalendar();
+    }
+  });
+
+  window.addEventListener("hashchange", syncCalendarRoute);
+  window.SystemHubCalendar = { render: renderCalendar };
+  renderCalendar();
+  syncCalendarRoute();
 }());
 </script>
 <script>
