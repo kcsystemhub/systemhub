@@ -139,8 +139,13 @@ svg {
   z-index: 2;
   display: grid;
   min-height: 100vh;
-  place-items: center;
-  padding: 24px;
+  align-items: center;
+  justify-items: start;
+  padding: clamp(24px, 7vw, 96px);
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(5, 13, 30, 0.68), rgba(5, 13, 30, 0.68)),
+    url("./Background.png") right center / cover no-repeat;
 }
 
 .auth-card {
@@ -153,6 +158,14 @@ svg {
     var(--panel);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+}
+
+@media (max-width: 720px) {
+  .auth-shell {
+    place-items: center;
+    padding: 24px;
+    background-position: center;
+  }
 }
 
 .auth-brand {
@@ -208,39 +221,6 @@ svg {
   border-color: rgba(255, 116, 106, 0.4);
   background: var(--red-soft);
   color: var(--red);
-}
-
-.auth-meta {
-  margin: 16px 0 0;
-  color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.5;
-}
-
-.auth-setup {
-  margin-top: 16px;
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-}
-
-.auth-setup summary {
-  color: var(--gold);
-  cursor: pointer;
-  font-size: 0.86rem;
-  font-weight: 900;
-}
-
-.auth-setup pre {
-  overflow-x: auto;
-  max-height: 220px;
-  margin: 12px 0 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: rgba(5, 13, 30, 0.72);
-  color: var(--ink);
-  font-size: 0.78rem;
-  line-height: 1.5;
 }
 
 .app-shell {
@@ -3938,7 +3918,6 @@ html[data-theme="light"] .report-pie {
         <div class="auth-brand">
           <span class="eyebrow">SystemHub</span>
           <strong id="authTitle">Вход в систему</strong>
-          <span>Введите логин и пароль, выданные администратором.</span>
         </div>
 
         <form class="auth-form" id="loginForm" autocomplete="off">
@@ -3961,37 +3940,8 @@ html[data-theme="light"] .report-pie {
             Войти
           </button>
 
-          <div class="auth-status" id="loginStatus" role="status">
-            Подключаюсь к базе пользователей...
-          </div>
+          <div class="auth-status" id="loginStatus" role="status" hidden></div>
         </form>
-
-        <p class="auth-meta">Стартовые администраторы: 16643 и 14524.</p>
-        <details class="auth-setup">
-          <summary>SQL для первого запуска</summary>
-          <pre><code>create table if not exists public.app_users (
-  id text primary key,
-  login text not null unique,
-  "displayName" text,
-  role text not null default 'user',
-  "passwordHash" text not null,
-  "passwordSalt" text not null,
-  "isActive" boolean not null default true,
-  "createdAt" timestamptz not null default now(),
-  "updatedAt" timestamptz not null default now()
-);
-
-alter table public.app_users enable row level security;
-
-create policy "systemhub app users read"
-on public.app_users for select
-using (true);
-
-create policy "systemhub app users write"
-on public.app_users for all
-using (true)
-with check (true);</code></pre>
-        </details>
       </div>
     </section>
 
@@ -8149,7 +8099,9 @@ function getSupabaseClient() {
 
 function setLoginStatus(message, type = "") {
   if (!loginStatus) return;
-  loginStatus.textContent = message;
+  const hasMessage = Boolean(String(message || "").trim());
+  loginStatus.hidden = !hasMessage;
+  loginStatus.textContent = hasMessage ? message : "";
   loginStatus.className = `auth-status${type ? ` is-${type}` : ""}`;
 }
 
@@ -8589,7 +8541,7 @@ function showAuthenticatedApp(user) {
   }
 }
 
-function showLoginScreen(message = "Введите логин и пароль.", type = "") {
+function showLoginScreen(message = "", type = "") {
   currentUser = null;
   updateCurrentUserUi();
   if (appShell) appShell.hidden = true;
@@ -8605,7 +8557,7 @@ async function handleLoginSubmit(event) {
   const password = loginPasswordInput.value;
 
   if (!login || !password) {
-    setLoginStatus("Введите логин и пароль.", "error");
+    setLoginStatus("Заполните логин и пароль.", "error");
     return;
   }
 
@@ -8653,7 +8605,7 @@ async function initializeAuth() {
       clearAuthSession();
     }
 
-    showLoginScreen("Введите логин и пароль.", "");
+    showLoginScreen("", "");
   } catch (error) {
     showLoginScreen(getAuthTableErrorMessage(error), "error");
   } finally {
