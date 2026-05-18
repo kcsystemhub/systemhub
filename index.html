@@ -6237,6 +6237,57 @@ with check (true);</code></pre>
             </div>
           </section>
 
+          <section class="entry-panel" aria-labelledby="telegramBotTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Telegram bot</p>
+                <h2 id="telegramBotTitle">Уведомления по задачам</h2>
+              </div>
+            </div>
+
+            <form id="telegramBotForm" class="supabase-form" autocomplete="off">
+              <label class="field field-wide">
+                <span>Telegram webhook URL</span>
+                <input id="telegramBotUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" />
+              </label>
+
+              <label class="field field-wide">
+                <span>WEBHOOK_TOKEN</span>
+                <input id="telegramBotTokenInput" type="password" placeholder="Токен webhook, если нужен" />
+              </label>
+
+              <label class="field field-wide">
+                <span>Telegram Chat ID</span>
+                <input id="telegramBotChatIdInput" type="text" placeholder="Например: -1001234567890 или @channel" />
+              </label>
+
+              <label class="admin-user-active">
+                <input id="telegramBotEnabledInput" type="checkbox" />
+                Отправлять сообщение в Telegram при назначении задачи
+              </label>
+
+              <div class="supabase-sync-actions">
+                <button class="ghost-button" id="saveTelegramBotSettings" type="submit">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
+                    <path d="M17 21v-8H7v8M7 3v5h8" />
+                  </svg>
+                  Сохранить
+                </button>
+                <button class="ghost-button" id="testTelegramBot" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                  Проверить
+                </button>
+              </div>
+            </form>
+
+            <div class="sync-status" id="telegramBotStatus" role="status">
+              Укажите webhook Telegram-бота. При назначении задачи SystemHub отправит туда текст сообщения.
+            </div>
+          </section>
+
           <section class="entry-panel admin-users-panel" id="adminUsersPanel" aria-labelledby="adminUsersTitle">
             <div class="panel-heading">
               <div>
@@ -6396,6 +6447,10 @@ const GOOGLE_CALENDAR_TOKEN_STORAGE_KEY = "systemhub.googleCalendarToken";
 const GOOGLE_CALENDAR_SCRIPT_URL_2_STORAGE_KEY = "systemhub.googleCalendarScriptUrl2";
 const GOOGLE_CALENDAR_TOKEN_2_STORAGE_KEY = "systemhub.googleCalendarToken2";
 const GOOGLE_CALENDAR_AUTO_SYNC_STORAGE_KEY = "systemhub.googleCalendarAutoSync";
+const TELEGRAM_BOT_URL_STORAGE_KEY = "systemhub.telegramBotUrl";
+const TELEGRAM_BOT_TOKEN_STORAGE_KEY = "systemhub.telegramBotToken";
+const TELEGRAM_BOT_CHAT_ID_STORAGE_KEY = "systemhub.telegramBotChatId";
+const TELEGRAM_BOT_ENABLED_STORAGE_KEY = "systemhub.telegramBotEnabled";
 const GOOGLE_CALENDAR_SYNC_DEBOUNCE_MS = 1200;
 const THEME_STORAGE_KEY = "systemhub.theme";
 const MASTER_PASSWORD_VERIFIER_KEY = "systemhub.masterPasswordVerifier";
@@ -6633,6 +6688,13 @@ const googleCalendarAutoSyncInput = document.querySelector("#googleCalendarAutoS
 const testGoogleCalendarButton = document.querySelector("#testGoogleCalendar");
 const syncGoogleCalendarButton = document.querySelector("#syncGoogleCalendar");
 const googleCalendarStatus = document.querySelector("#googleCalendarStatus");
+const telegramBotForm = document.querySelector("#telegramBotForm");
+const telegramBotUrlInput = document.querySelector("#telegramBotUrlInput");
+const telegramBotTokenInput = document.querySelector("#telegramBotTokenInput");
+const telegramBotChatIdInput = document.querySelector("#telegramBotChatIdInput");
+const telegramBotEnabledInput = document.querySelector("#telegramBotEnabledInput");
+const testTelegramBotButton = document.querySelector("#testTelegramBot");
+const telegramBotStatus = document.querySelector("#telegramBotStatus");
 const navLinks = document.querySelectorAll("[data-nav-link]");
 const pagePanels = document.querySelectorAll("[data-page-panel]");
 const themeToggleButton = document.querySelector("#themeToggle");
@@ -6697,6 +6759,10 @@ let googleCalendarToken = loadGoogleCalendarToken();
 let googleCalendarScriptUrl2 = loadGoogleCalendarScriptUrl2();
 let googleCalendarToken2 = loadGoogleCalendarToken2();
 let googleCalendarAutoSync = loadGoogleCalendarAutoSync();
+let telegramBotUrl = loadTelegramBotUrl();
+let telegramBotToken = loadTelegramBotToken();
+let telegramBotChatId = loadTelegramBotChatId();
+let telegramBotEnabled = loadTelegramBotEnabled();
 let googleAutoSyncTimer = null;
 let googleAutoSyncQueued = false;
 let googleAutoSyncInFlight = false;
@@ -7503,6 +7569,56 @@ function loadGoogleCalendarAutoSync() {
 
 function saveGoogleCalendarAutoSync() {
   setStorageValue(GOOGLE_CALENDAR_AUTO_SYNC_STORAGE_KEY, googleCalendarAutoSync ? "true" : "false");
+}
+
+function loadTelegramBotUrl() {
+  try {
+    return localStorage.getItem(TELEGRAM_BOT_URL_STORAGE_KEY) || globalThis.SYSTEMHUB_TELEGRAM_BOT_URL || "";
+  } catch {
+    return globalThis.SYSTEMHUB_TELEGRAM_BOT_URL || "";
+  }
+}
+
+function saveTelegramBotUrl() {
+  setStorageValue(TELEGRAM_BOT_URL_STORAGE_KEY, telegramBotUrl);
+}
+
+function loadTelegramBotToken() {
+  try {
+    return localStorage.getItem(TELEGRAM_BOT_TOKEN_STORAGE_KEY) || globalThis.SYSTEMHUB_TELEGRAM_BOT_TOKEN || "";
+  } catch {
+    return globalThis.SYSTEMHUB_TELEGRAM_BOT_TOKEN || "";
+  }
+}
+
+function saveTelegramBotToken() {
+  setStorageValue(TELEGRAM_BOT_TOKEN_STORAGE_KEY, telegramBotToken);
+}
+
+function loadTelegramBotChatId() {
+  try {
+    return localStorage.getItem(TELEGRAM_BOT_CHAT_ID_STORAGE_KEY) || globalThis.SYSTEMHUB_TELEGRAM_CHAT_ID || "";
+  } catch {
+    return globalThis.SYSTEMHUB_TELEGRAM_CHAT_ID || "";
+  }
+}
+
+function saveTelegramBotChatId() {
+  setStorageValue(TELEGRAM_BOT_CHAT_ID_STORAGE_KEY, telegramBotChatId);
+}
+
+function loadTelegramBotEnabled() {
+  try {
+    const storedValue = localStorage.getItem(TELEGRAM_BOT_ENABLED_STORAGE_KEY);
+    if (storedValue !== null) return storedValue === "true";
+    return Boolean(globalThis.SYSTEMHUB_TELEGRAM_BOT_ENABLED);
+  } catch {
+    return Boolean(globalThis.SYSTEMHUB_TELEGRAM_BOT_ENABLED);
+  }
+}
+
+function saveTelegramBotEnabled() {
+  setStorageValue(TELEGRAM_BOT_ENABLED_STORAGE_KEY, telegramBotEnabled ? "true" : "false");
 }
 
 function saveLocalSyncData() {
@@ -8849,6 +8965,58 @@ function getGoogleCalendarConnections() {
   ].filter((connection) => connection.url && connection.token);
 }
 
+function hasTelegramBotTarget() {
+  return Boolean(telegramBotEnabled && telegramBotUrl);
+}
+
+function setTelegramBotStatus(message, type = "") {
+  if (!telegramBotStatus) return;
+
+  telegramBotStatus.textContent = message;
+  telegramBotStatus.className = `sync-status${type ? ` is-${type}` : ""}`;
+}
+
+function setTelegramBotLoading(isLoading) {
+  if (testTelegramBotButton) testTelegramBotButton.disabled = isLoading;
+}
+
+function updateTelegramBotSettingsFromInput() {
+  telegramBotUrl = telegramBotUrlInput?.value.trim() || globalThis.SYSTEMHUB_TELEGRAM_BOT_URL || "";
+  telegramBotToken = telegramBotTokenInput?.value.trim() || globalThis.SYSTEMHUB_TELEGRAM_BOT_TOKEN || "";
+  telegramBotChatId = telegramBotChatIdInput?.value.trim() || globalThis.SYSTEMHUB_TELEGRAM_CHAT_ID || "";
+  telegramBotEnabled = Boolean(telegramBotEnabledInput?.checked);
+  saveTelegramBotUrl();
+  saveTelegramBotToken();
+  saveTelegramBotChatId();
+  saveTelegramBotEnabled();
+}
+
+function renderTelegramBotSettings() {
+  if (telegramBotUrlInput) {
+    telegramBotUrlInput.value = telegramBotUrl;
+  }
+
+  if (telegramBotTokenInput) {
+    telegramBotTokenInput.value = telegramBotToken;
+  }
+
+  if (telegramBotChatIdInput) {
+    telegramBotChatIdInput.value = telegramBotChatId;
+  }
+
+  if (telegramBotEnabledInput) {
+    telegramBotEnabledInput.checked = telegramBotEnabled;
+  }
+
+  if (!telegramBotStatus) return;
+
+  if (hasTelegramBotTarget()) {
+    setTelegramBotStatus("Telegram-бот включен. Новые назначения задач будут отправляться на webhook.", "success");
+  } else {
+    setTelegramBotStatus("Укажите webhook URL и включите отправку сообщений при назначении задачи.");
+  }
+}
+
 function getGoogleCalendarDateValue(value) {
   const text = String(value || "").trim();
   return /^\d{4}-\d{2}-\d{2}$/.test(text) ? text : "";
@@ -9052,6 +9220,176 @@ function queueGoogleCalendarSync() {
         googleCalendarSyncInFlight = false;
       });
   }, GOOGLE_CALENDAR_SYNC_DEBOUNCE_MS);
+}
+
+function getNewTeamTaskAssignees(task, previousTask) {
+  const currentAssignees = normalizeTeamTaskMemberList(task.assignees || []);
+  const previousAssignees = normalizeTeamTaskMemberList(previousTask?.assignees || []);
+  const previousLookup = new Set(previousAssignees.map((assignee) => assignee.toLowerCase()));
+
+  return currentAssignees.filter((assignee) => !previousLookup.has(assignee.toLowerCase()));
+}
+
+function getTeamTaskUrl() {
+  return `${window.location.origin}${window.location.pathname}#team-tasks`;
+}
+
+function buildTelegramTaskMessage(task, assignees) {
+  const direction = getTeamDirectionMeta(task.direction);
+  const status = getTeamTaskStatusMeta(task.status);
+  const priority = getTeamTaskPriorityMeta(task.priority);
+
+  return [
+    "Новая задача SystemHub",
+    "",
+    `Задача: ${task.title || "Без названия"}`,
+    `Направление: ${direction.label}`,
+    `Ответственные: ${assignees.join(", ") || "Не назначено"}`,
+    `Статус: ${status.label}`,
+    `Приоритет: ${priority.label}`,
+    task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Дедлайн: не указан",
+    task.description ? `Описание: ${task.description}` : "",
+    task.notes ? `Заметки: ${task.notes}` : "",
+    `Открыть: ${getTeamTaskUrl()}`,
+  ].filter(Boolean).join("\n");
+}
+
+function buildTeamTaskTelegramPayload(task, assignees) {
+  const direction = getTeamDirectionMeta(task.direction);
+  const status = getTeamTaskStatusMeta(task.status);
+  const priority = getTeamTaskPriorityMeta(task.priority);
+
+  return {
+    action: "telegramTeamTaskAssigned",
+    source: "SystemHub",
+    sentAt: new Date().toISOString(),
+    assignedBy: currentUser?.displayName || currentUser?.login || "",
+    chatId: telegramBotChatId,
+    text: buildTelegramTaskMessage(task, assignees),
+    taskUrl: getTeamTaskUrl(),
+    assignees,
+    task: {
+      id: task.id,
+      title: task.title,
+      description: task.description || "",
+      direction: task.direction,
+      directionLabel: direction.label,
+      status: task.status,
+      statusLabel: status.label,
+      priority: task.priority,
+      priorityLabel: priority.label,
+      startDate: task.startDate || "",
+      deadline: task.deadline || "",
+      notes: task.notes || "",
+      createdAt: task.createdAt || "",
+      updatedAt: task.updatedAt || "",
+    },
+  };
+}
+
+async function sendTelegramBotPayload(payload, options = {}) {
+  if (!telegramBotUrl) {
+    throw new Error("Укажите Telegram webhook URL.");
+  }
+
+  const requestBody = JSON.stringify({
+    ...payload,
+    token: telegramBotToken,
+  });
+
+  try {
+    const response = await fetch(telegramBotUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: requestBody,
+    });
+
+    if (response.type === "opaque") {
+      return { ok: true, opaque: true };
+    }
+
+    const text = await response.text();
+    let data = {};
+
+    if (text.trim()) {
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { ok: true, raw: text };
+      }
+    }
+
+    if (!response.ok || data.ok === false) {
+      throw new Error(data.error || response.statusText || "Telegram bot request failed.");
+    }
+
+    return data;
+  } catch (error) {
+    if (!options.allowOpaqueFallback) throw error;
+
+    await fetch(telegramBotUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: requestBody,
+    });
+
+    return { ok: true, opaque: true };
+  }
+}
+
+async function testTelegramBotConnection() {
+  updateTelegramBotSettingsFromInput();
+  setTelegramBotLoading(true);
+  setTelegramBotStatus("Проверяю Telegram-бота...");
+
+  try {
+    if (!telegramBotUrl) {
+      throw new Error("Укажите Telegram webhook URL.");
+    }
+
+    await sendTelegramBotPayload(
+      {
+        action: "ping",
+        source: "SystemHub",
+        sentAt: new Date().toISOString(),
+        chatId: telegramBotChatId,
+        text: "Проверка Telegram-уведомлений SystemHub.",
+      },
+      { allowOpaqueFallback: true },
+    );
+    setTelegramBotStatus("Telegram-бот отвечает. Уведомления можно отправлять.", "success");
+  } catch (error) {
+    setTelegramBotStatus(error.message || "Не удалось проверить Telegram-бота.", "error");
+  } finally {
+    setTelegramBotLoading(false);
+  }
+}
+
+function notifyTeamTaskAssignmentInTelegram(task, previousTask) {
+  const newAssignees = getNewTeamTaskAssignees(task, previousTask);
+  if (newAssignees.length === 0 || !telegramBotEnabled) return;
+
+  if (!telegramBotUrl) {
+    setTelegramBotStatus("Задача назначена, но webhook Telegram-бота не настроен.", "warning");
+    return;
+  }
+
+  const payload = buildTeamTaskTelegramPayload(task, newAssignees);
+
+  setTelegramBotStatus(`Отправляю сообщение в Telegram: ${newAssignees.join(", ")}...`);
+
+  sendTelegramBotPayload(payload, { allowOpaqueFallback: true })
+    .then(() => {
+      setTelegramBotStatus(`Сообщение отправлено в Telegram: ${newAssignees.join(", ")}.`, "success");
+    })
+    .catch((error) => {
+      setTelegramBotStatus(error.message || "Не удалось отправить сообщение в Telegram.", "error");
+    });
 }
 
 function getGoogleSyncPayload() {
@@ -11509,6 +11847,7 @@ function render() {
   renderStep("participantReports", renderParticipantReports);
   renderStep("googleSheetsSettings", renderGoogleSheetsSettings);
   renderStep("googleCalendarSettings", renderGoogleCalendarSettings);
+  renderStep("telegramBotSettings", renderTelegramBotSettings);
   renderStep("systemsTable", renderTable);
 }
 
@@ -12269,6 +12608,7 @@ teamTaskForm.addEventListener("submit", (event) => {
 
   const formTask = createTeamTaskFromForm();
   const existingIndex = teamTasks.findIndex((task) => task.id === formTask.id);
+  const previousTask = existingIndex >= 0 ? teamTasks[existingIndex] : null;
 
   if (existingIndex >= 0) {
     teamTasks[existingIndex] = formTask;
@@ -12280,6 +12620,7 @@ teamTaskForm.addEventListener("submit", (event) => {
   closeTeamTaskModal();
   renderTeamMembers();
   renderTeamTasks();
+  notifyTeamTaskAssignmentInTelegram(formTask, previousTask);
 });
 
 closeTeamTaskModalButton.addEventListener("click", closeTeamTaskModal);
@@ -12346,6 +12687,18 @@ if (testGoogleCalendarButton) {
 
 if (syncGoogleCalendarButton) {
   syncGoogleCalendarButton.addEventListener("click", () => syncGoogleCalendarEvents());
+}
+
+if (telegramBotForm) {
+  telegramBotForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateTelegramBotSettingsFromInput();
+    renderTelegramBotSettings();
+  });
+}
+
+if (testTelegramBotButton) {
+  testTelegramBotButton.addEventListener("click", testTelegramBotConnection);
 }
 
 trmsReleasesList.addEventListener("click", (event) => {
