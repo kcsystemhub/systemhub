@@ -6172,6 +6172,71 @@ with check (true);</code></pre>
             </div>
           </section>
 
+          <section class="entry-panel" aria-labelledby="googleCalendarTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Google Calendar</p>
+                <h2 id="googleCalendarTitle">Синхронизация календаря</h2>
+              </div>
+            </div>
+
+            <form id="googleCalendarForm" class="supabase-form" autocomplete="off">
+              <label class="field field-wide">
+                <span>Аккаунт 1: Apps Script Web App URL</span>
+                <input id="googleCalendarUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" />
+              </label>
+
+              <label class="field field-wide">
+                <span>Аккаунт 1: WEB_APP_TOKEN</span>
+                <input id="googleCalendarTokenInput" type="password" placeholder="SYSTEMHUB_WEB_APP_TOKEN" />
+              </label>
+
+              <label class="field field-wide">
+                <span>Аккаунт 2: Apps Script Web App URL</span>
+                <input id="googleCalendarUrlInput2" type="url" placeholder="https://script.google.com/macros/s/.../exec" />
+              </label>
+
+              <label class="field field-wide">
+                <span>Аккаунт 2: WEB_APP_TOKEN</span>
+                <input id="googleCalendarTokenInput2" type="password" placeholder="SYSTEMHUB_WEB_APP_TOKEN" />
+              </label>
+
+              <label class="admin-user-active">
+                <input id="googleCalendarAutoSyncInput" type="checkbox" />
+                Автосинхронизация при изменениях
+              </label>
+
+              <div class="supabase-sync-actions">
+                <button class="ghost-button" id="saveGoogleCalendarSettings" type="submit">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
+                    <path d="M17 21v-8H7v8M7 3v5h8" />
+                  </svg>
+                  Сохранить
+                </button>
+                <button class="ghost-button" id="testGoogleCalendar" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                  Проверить
+                </button>
+                <button class="primary-button" id="syncGoogleCalendar" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 2v4M16 2v4" />
+                    <path d="M3 9h18" />
+                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+                    <path d="M9 16l2 2 4-5" />
+                  </svg>
+                  Синхронизировать
+                </button>
+              </div>
+            </form>
+
+            <div class="sync-status" id="googleCalendarStatus" role="status">
+              События календаря можно выгрузить в отдельный Google Calendar SystemHub.
+            </div>
+          </section>
+
           <section class="entry-panel admin-users-panel" id="adminUsersPanel" aria-labelledby="adminUsersTitle">
             <div class="panel-heading">
               <div>
@@ -6304,7 +6369,13 @@ with check (true);</code></pre>
     <script>
 window.SYSTEMHUB_SUPABASE_URL = "https://galxkuzqgdnwpxscrbje.supabase.co";
 window.SYSTEMHUB_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhbHhrdXpxZ2Rud3B4c2NyYmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3OTUzOTIsImV4cCI6MjA5NDM3MTM5Mn0.gqL5eppxOjvZLH4i24rAJKk9pjOTXmfqp8BeHL2L4TA";
-window.SYSTEMHUB_BUILD = "auth-users-2026-05-18";
+window.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQhD4QmZsTOs7KWhtvjZk34yuMLuV1qhWwKRtBgxYGFdkOHp637iiR422ucta3LB5c/exec";
+window.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN = "ae0af63531644b6eaac16b2c19935536dee058e99b154a52927571f2851c8743";
+window.SYSTEMHUB_GOOGLE_CALENDAR_ID = "a51581256de51cda77f4611103f1b12d8d6aaede7775cf4c607c6610f368686c@group.calendar.google.com";
+window.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL_2 = "https://script.google.com/macros/s/AKfycbwz783v1jlzkfkRWMI9yOqwF4IiDoeLC8wdxZVivCg5cmI2zU5wF2HJLoEVzHRmYEvl/exec";
+window.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN_2 = "3b8667b6d7a043c0a9fd68f2848ea365a9f65ac59c644a029f4c7a6cc1a941d1";
+window.SYSTEMHUB_GOOGLE_CALENDAR_ID_2 = "598865eb3a14a509d9058a62cabe3ecbd97f05628a0a7ff34942aee791c21590@group.calendar.google.com";
+window.SYSTEMHUB_BUILD = "multi-google-calendar-sync-2026-05-18";
 </script>
 <script>
 const STORAGE_KEY = "systemhub.records";
@@ -6320,6 +6391,12 @@ const TEAM_TASK_MEMBERS_STORAGE_KEY = "systemhub.teamTaskMembers";
 const REPORT_STORAGE_KEY = "systemhub.reportCsv";
 const GOOGLE_SCRIPT_URL_STORAGE_KEY = "systemhub.supabaseUrl";
 const GOOGLE_SYNC_TOKEN_STORAGE_KEY = "systemhub.supabaseAnonKey";
+const GOOGLE_CALENDAR_SCRIPT_URL_STORAGE_KEY = "systemhub.googleCalendarScriptUrl";
+const GOOGLE_CALENDAR_TOKEN_STORAGE_KEY = "systemhub.googleCalendarToken";
+const GOOGLE_CALENDAR_SCRIPT_URL_2_STORAGE_KEY = "systemhub.googleCalendarScriptUrl2";
+const GOOGLE_CALENDAR_TOKEN_2_STORAGE_KEY = "systemhub.googleCalendarToken2";
+const GOOGLE_CALENDAR_AUTO_SYNC_STORAGE_KEY = "systemhub.googleCalendarAutoSync";
+const GOOGLE_CALENDAR_SYNC_DEBOUNCE_MS = 1200;
 const THEME_STORAGE_KEY = "systemhub.theme";
 const MASTER_PASSWORD_VERIFIER_KEY = "systemhub.masterPasswordVerifier";
 const DEFAULT_TEAM_TASK_MEMBERS = ["Фатима", "Темирлан", "Аружан", "Шерхан", "Алина"];
@@ -6547,6 +6624,15 @@ const testGoogleSheetsButton = document.querySelector("#testSupabase");
 const pushToGoogleSheetsButton = document.querySelector("#pushToSupabase");
 const pullFromGoogleSheetsButton = document.querySelector("#pullFromSupabase");
 const googleSheetsStatus = document.querySelector("#supabaseStatus");
+const googleCalendarForm = document.querySelector("#googleCalendarForm");
+const googleCalendarUrlInput = document.querySelector("#googleCalendarUrlInput");
+const googleCalendarTokenInput = document.querySelector("#googleCalendarTokenInput");
+const googleCalendarUrlInput2 = document.querySelector("#googleCalendarUrlInput2");
+const googleCalendarTokenInput2 = document.querySelector("#googleCalendarTokenInput2");
+const googleCalendarAutoSyncInput = document.querySelector("#googleCalendarAutoSyncInput");
+const testGoogleCalendarButton = document.querySelector("#testGoogleCalendar");
+const syncGoogleCalendarButton = document.querySelector("#syncGoogleCalendar");
+const googleCalendarStatus = document.querySelector("#googleCalendarStatus");
 const navLinks = document.querySelectorAll("[data-nav-link]");
 const pagePanels = document.querySelectorAll("[data-page-panel]");
 const themeToggleButton = document.querySelector("#themeToggle");
@@ -6606,6 +6692,11 @@ let trmsReleaseTasks = loadTrmsReleaseTasks();
 let reportRows = loadReportRows();
 let googleScriptUrl = loadGoogleScriptUrl();
 let googleSyncToken = loadGoogleSyncToken();
+let googleCalendarScriptUrl = loadGoogleCalendarScriptUrl();
+let googleCalendarToken = loadGoogleCalendarToken();
+let googleCalendarScriptUrl2 = loadGoogleCalendarScriptUrl2();
+let googleCalendarToken2 = loadGoogleCalendarToken2();
+let googleCalendarAutoSync = loadGoogleCalendarAutoSync();
 let googleAutoSyncTimer = null;
 let googleAutoSyncQueued = false;
 let googleAutoSyncInFlight = false;
@@ -6614,6 +6705,8 @@ let googleAutoSyncReplaceKeys = new Set();
 let googleSheetsRevision = "";
 let googleSheetsRefreshTimer = null;
 let googleSheetsLoadInFlight = false;
+let googleCalendarSyncTimer = null;
+let googleCalendarSyncInFlight = false;
 let isApplyingGoogleSyncPayload = false;
 let visiblePasswords = new Set();
 let passwordVaultMaster = "";
@@ -7055,6 +7148,7 @@ async function copyTextToClipboard(text) {
 function saveRecords() {
   persistDatasetLocally("records");
   queueGoogleSheetsSync("records");
+  queueGoogleCalendarSync();
 }
 
 function loadLinks() {
@@ -7297,6 +7391,7 @@ function saveTeamTasks() {
   teamTasks = normalizeTeamTasks(teamTasks);
   persistDatasetLocally("teamTasks");
   queueGoogleSheetsSync("teamTasks");
+  queueGoogleCalendarSync();
 }
 
 function loadTrmsReleaseTasks() {
@@ -7310,6 +7405,7 @@ function loadTrmsReleaseTasks() {
 function saveTrmsReleaseTasks() {
   persistDatasetLocally("trmsReleaseTasks");
   queueGoogleSheetsSync("trmsReleaseTasks");
+  queueGoogleCalendarSync();
 }
 
 function loadReportRows() {
@@ -7347,6 +7443,66 @@ function loadGoogleSyncToken() {
 
 function saveGoogleSyncToken() {
   setStorageValue(GOOGLE_SYNC_TOKEN_STORAGE_KEY, googleSyncToken);
+}
+
+function loadGoogleCalendarScriptUrl() {
+  try {
+    return localStorage.getItem(GOOGLE_CALENDAR_SCRIPT_URL_STORAGE_KEY) || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL || "";
+  } catch {
+    return globalThis.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL || "";
+  }
+}
+
+function saveGoogleCalendarScriptUrl() {
+  setStorageValue(GOOGLE_CALENDAR_SCRIPT_URL_STORAGE_KEY, googleCalendarScriptUrl);
+}
+
+function loadGoogleCalendarToken() {
+  try {
+    return localStorage.getItem(GOOGLE_CALENDAR_TOKEN_STORAGE_KEY) || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN || "";
+  } catch {
+    return globalThis.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN || "";
+  }
+}
+
+function saveGoogleCalendarToken() {
+  setStorageValue(GOOGLE_CALENDAR_TOKEN_STORAGE_KEY, googleCalendarToken);
+}
+
+function loadGoogleCalendarScriptUrl2() {
+  try {
+    return localStorage.getItem(GOOGLE_CALENDAR_SCRIPT_URL_2_STORAGE_KEY) || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL_2 || "";
+  } catch {
+    return globalThis.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL_2 || "";
+  }
+}
+
+function saveGoogleCalendarScriptUrl2() {
+  setStorageValue(GOOGLE_CALENDAR_SCRIPT_URL_2_STORAGE_KEY, googleCalendarScriptUrl2);
+}
+
+function loadGoogleCalendarToken2() {
+  try {
+    return localStorage.getItem(GOOGLE_CALENDAR_TOKEN_2_STORAGE_KEY) || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN_2 || "";
+  } catch {
+    return globalThis.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN_2 || "";
+  }
+}
+
+function saveGoogleCalendarToken2() {
+  setStorageValue(GOOGLE_CALENDAR_TOKEN_2_STORAGE_KEY, googleCalendarToken2);
+}
+
+function loadGoogleCalendarAutoSync() {
+  try {
+    return localStorage.getItem(GOOGLE_CALENDAR_AUTO_SYNC_STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function saveGoogleCalendarAutoSync() {
+  setStorageValue(GOOGLE_CALENDAR_AUTO_SYNC_STORAGE_KEY, googleCalendarAutoSync ? "true" : "false");
 }
 
 function saveLocalSyncData() {
@@ -8613,6 +8769,289 @@ function renderGoogleSheetsSettings() {
   } else {
     setGoogleSheetsStatus("Укажите Supabase URL и anon key для подключения.");
   }
+}
+
+function hasGoogleCalendarSyncTarget() {
+  return getGoogleCalendarConnections().length > 0;
+}
+
+function setGoogleCalendarStatus(message, type = "") {
+  if (!googleCalendarStatus) return;
+
+  googleCalendarStatus.textContent = message;
+  googleCalendarStatus.className = `sync-status${type ? ` is-${type}` : ""}`;
+}
+
+function setGoogleCalendarLoading(isLoading) {
+  [testGoogleCalendarButton, syncGoogleCalendarButton].forEach((button) => {
+    if (button) button.disabled = isLoading;
+  });
+}
+
+function updateGoogleCalendarSettingsFromInput() {
+  googleCalendarScriptUrl = googleCalendarUrlInput?.value.trim() || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL || "";
+  googleCalendarToken = googleCalendarTokenInput?.value.trim() || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN || "";
+  googleCalendarScriptUrl2 = googleCalendarUrlInput2?.value.trim() || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL_2 || "";
+  googleCalendarToken2 = googleCalendarTokenInput2?.value.trim() || globalThis.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN_2 || "";
+  googleCalendarAutoSync = Boolean(googleCalendarAutoSyncInput?.checked);
+  saveGoogleCalendarScriptUrl();
+  saveGoogleCalendarToken();
+  saveGoogleCalendarScriptUrl2();
+  saveGoogleCalendarToken2();
+  saveGoogleCalendarAutoSync();
+}
+
+function renderGoogleCalendarSettings() {
+  if (googleCalendarUrlInput) {
+    googleCalendarUrlInput.value = googleCalendarScriptUrl;
+  }
+
+  if (googleCalendarTokenInput) {
+    googleCalendarTokenInput.value = googleCalendarToken;
+  }
+
+  if (googleCalendarUrlInput2) {
+    googleCalendarUrlInput2.value = googleCalendarScriptUrl2;
+  }
+
+  if (googleCalendarTokenInput2) {
+    googleCalendarTokenInput2.value = googleCalendarToken2;
+  }
+
+  if (googleCalendarAutoSyncInput) {
+    googleCalendarAutoSyncInput.checked = googleCalendarAutoSync;
+  }
+
+  if (!googleCalendarStatus) return;
+
+  if (hasGoogleCalendarSyncTarget()) {
+    const count = getGoogleCalendarConnections().length;
+    setGoogleCalendarStatus(`Google Calendar настроен. Подключено календарей: ${count}.`, "success");
+  } else {
+    setGoogleCalendarStatus("Укажите Apps Script URL и WEB_APP_TOKEN для синхронизации.");
+  }
+}
+
+function getGoogleCalendarConnections() {
+  return [
+    {
+      name: "Аккаунт 1",
+      url: googleCalendarScriptUrl,
+      token: googleCalendarToken,
+      calendarId: globalThis.SYSTEMHUB_GOOGLE_CALENDAR_ID || "",
+    },
+    {
+      name: "Аккаунт 2",
+      url: googleCalendarScriptUrl2,
+      token: googleCalendarToken2,
+      calendarId: globalThis.SYSTEMHUB_GOOGLE_CALENDAR_ID_2 || "",
+    },
+  ].filter((connection) => connection.url && connection.token);
+}
+
+function getGoogleCalendarDateValue(value) {
+  const text = String(value || "").trim();
+  return /^\d{4}-\d{2}-\d{2}$/.test(text) ? text : "";
+}
+
+function buildGoogleCalendarEvents() {
+  const events = [];
+  const releaseDateFields = [
+    ["taskWrittenDate", "Задача написана"],
+    ["taskStartDate", "Старт задачи"],
+    ["taskEndDate", "Завершение задачи"],
+    ["taskProdDate", "Выход в прод"],
+  ];
+
+  records.forEach((record) => {
+    const date = getGoogleCalendarDateValue(record.licenseEndDate);
+    if (!date) return;
+
+    events.push({
+      sourceKey: `license:${record.id || record.systemName}`,
+      type: "license",
+      date,
+      title: `Лицензия: ${record.systemName || "Система"}`,
+      description: [
+        record.login ? `Логин: ${record.login}` : "",
+        "Источник: SystemHub / Данные систем",
+      ].filter(Boolean).join("\n"),
+    });
+  });
+
+  teamTasks.forEach((task) => {
+    const date = getGoogleCalendarDateValue(task.deadline);
+    if (!date) return;
+
+    events.push({
+      sourceKey: `task:${task.id || task.title}`,
+      type: "task",
+      date,
+      title: `Задача: ${task.title || "Задача команды"}`,
+      description: [
+        task.description,
+        task.assignees?.length ? `Исполнители: ${task.assignees.join(", ")}` : "",
+        task.status ? `Статус: ${task.status}` : "",
+        task.priority ? `Приоритет: ${task.priority}` : "",
+        task.notes ? `Заметки: ${task.notes}` : "",
+        "Источник: SystemHub / Задачи команды",
+      ].filter(Boolean).join("\n"),
+    });
+  });
+
+  trmsReleaseTasks.forEach((task) => {
+    releaseDateFields.forEach(([field, label]) => {
+      const date = getGoogleCalendarDateValue(task[field]);
+      if (!date) return;
+
+      events.push({
+        sourceKey: `release:${task.id || task.taskName}:${field}`,
+        type: "release",
+        date,
+        title: `${label}: ${task.releaseName || "TRMS релиз"}`,
+        description: [
+          task.taskName ? `Задача: ${task.taskName}` : "",
+          "Источник: SystemHub / TRMS Релизы",
+        ].filter(Boolean).join("\n"),
+        url: task.taskUrl || "",
+      });
+    });
+  });
+
+  return events;
+}
+
+async function sendGoogleCalendarPayload(connection, payload, options = {}) {
+  if (!connection?.url || !connection?.token) {
+    throw new Error("Укажите Apps Script URL и WEB_APP_TOKEN.");
+  }
+
+  const requestBody = JSON.stringify({
+    ...payload,
+    token: connection.token,
+  });
+
+  try {
+    const response = await fetch(connection.url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: requestBody,
+    });
+
+    if (response.type === "opaque") {
+      return { ok: true, opaque: true, connection };
+    }
+
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+
+    if (!response.ok || data.ok === false) {
+      throw new Error(data.error || response.statusText || "Google Calendar sync failed.");
+    }
+
+    return { ...data, connection };
+  } catch (error) {
+    if (!options.allowOpaqueFallback) throw error;
+
+    await fetch(connection.url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: requestBody,
+    });
+
+    return { ok: true, opaque: true, connection };
+  }
+}
+
+async function testGoogleCalendarConnection() {
+  updateGoogleCalendarSettingsFromInput();
+  setGoogleCalendarLoading(true);
+  setGoogleCalendarStatus("Проверяю подключение к Google Calendar...");
+
+  try {
+    const connections = getGoogleCalendarConnections();
+    if (connections.length === 0) {
+      throw new Error("Добавьте хотя бы один Apps Script URL и WEB_APP_TOKEN.");
+    }
+
+    const results = await Promise.all(
+      connections.map((connection) => sendGoogleCalendarPayload(connection, { action: "ping" }, { allowOpaqueFallback: true })),
+    );
+    const labels = results.map((result) => result.connection.name).join(", ");
+    setGoogleCalendarStatus(`Подключение работает: ${labels}.`, "success");
+  } catch (error) {
+    setGoogleCalendarStatus(error.message || "Не удалось проверить Google Calendar.", "error");
+  } finally {
+    setGoogleCalendarLoading(false);
+  }
+}
+
+async function syncGoogleCalendarEvents(options = {}) {
+  updateGoogleCalendarSettingsFromInput();
+  setGoogleCalendarLoading(true);
+
+  const events = buildGoogleCalendarEvents();
+  const connections = getGoogleCalendarConnections();
+  setGoogleCalendarStatus(`Отправляю ${events.length} событий в ${connections.length} Google Calendar...`);
+
+  try {
+    if (connections.length === 0) {
+      throw new Error("Добавьте хотя бы один Apps Script URL и WEB_APP_TOKEN.");
+    }
+
+    const results = await Promise.all(
+      connections.map((connection) => sendGoogleCalendarPayload(
+        connection,
+        {
+          action: "syncEvents",
+          deleteMissing: true,
+          events,
+        },
+        { allowOpaqueFallback: true },
+      )),
+    );
+
+    if (results.some((result) => result.opaque)) {
+      setGoogleCalendarStatus(`Запрос синхронизации отправлен в календарей: ${results.length}. Событий: ${events.length}.`, "success");
+    } else {
+      const syncedTotal = results.reduce((sum, result) => sum + (result.syncedCount ?? events.length), 0);
+      const deletedTotal = results.reduce((sum, result) => sum + (result.deletedCount ?? 0), 0);
+      setGoogleCalendarStatus(
+        `Google Calendar обновлен. Календарей: ${results.length}, синхронизировано: ${syncedTotal}, удалено: ${deletedTotal}.`,
+        "success",
+      );
+    }
+  } catch (error) {
+    setGoogleCalendarStatus(error.message || "Не удалось синхронизировать Google Calendar.", "error");
+    if (options.throwOnError) throw error;
+  } finally {
+    setGoogleCalendarLoading(false);
+  }
+}
+
+function queueGoogleCalendarSync() {
+  if (isApplyingGoogleSyncPayload || !googleCalendarAutoSync || !hasGoogleCalendarSyncTarget()) {
+    return;
+  }
+
+  if (googleCalendarSyncTimer) {
+    clearTimeout(googleCalendarSyncTimer);
+  }
+
+  googleCalendarSyncTimer = setTimeout(() => {
+    if (googleCalendarSyncInFlight) return;
+    googleCalendarSyncInFlight = true;
+    syncGoogleCalendarEvents()
+      .catch(() => {})
+      .finally(() => {
+        googleCalendarSyncInFlight = false;
+      });
+  }, GOOGLE_CALENDAR_SYNC_DEBOUNCE_MS);
 }
 
 function getGoogleSyncPayload() {
@@ -11069,6 +11508,7 @@ function render() {
   renderStep("trainingReport", renderTrainingReport);
   renderStep("participantReports", renderParticipantReports);
   renderStep("googleSheetsSettings", renderGoogleSheetsSettings);
+  renderStep("googleCalendarSettings", renderGoogleCalendarSettings);
   renderStep("systemsTable", renderTable);
 }
 
@@ -11891,6 +12331,22 @@ googleSheetsForm.addEventListener("submit", (event) => {
 testGoogleSheetsButton.addEventListener("click", testGoogleSheetsConnection);
 pushToGoogleSheetsButton.addEventListener("click", pushGoogleSheetsData);
 pullFromGoogleSheetsButton.addEventListener("click", pullGoogleSheetsData);
+
+if (googleCalendarForm) {
+  googleCalendarForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateGoogleCalendarSettingsFromInput();
+    renderGoogleCalendarSettings();
+  });
+}
+
+if (testGoogleCalendarButton) {
+  testGoogleCalendarButton.addEventListener("click", testGoogleCalendarConnection);
+}
+
+if (syncGoogleCalendarButton) {
+  syncGoogleCalendarButton.addEventListener("click", () => syncGoogleCalendarEvents());
+}
 
 trmsReleasesList.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-trms-release-action]");
