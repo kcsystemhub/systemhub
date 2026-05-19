@@ -2567,10 +2567,11 @@ html[data-theme="light"] .kanban-card strong {
 
 .team-task-tabs {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 4px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -2588,6 +2589,458 @@ html[data-theme="light"] .kanban-card strong {
 .team-task-tabs button.is-active {
   background: linear-gradient(135deg, #ffe08a, var(--gold));
   color: #111623;
+}
+
+.team-development-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.development-note,
+.development-source,
+.development-question,
+.development-result,
+.development-saved-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.development-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  padding: 12px 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.development-note strong {
+  color: var(--air-gold-light);
+}
+
+.development-respondent {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.4fr) minmax(280px, 1fr);
+  gap: 14px;
+  align-items: end;
+}
+
+.development-source {
+  padding: 12px 14px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.development-test-content {
+  display: grid;
+  gap: 16px;
+}
+
+.development-test-form {
+  display: grid;
+  gap: 18px;
+}
+
+.development-test-head {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid rgba(87, 181, 231, 0.26);
+  border-left: 4px solid var(--air-sky);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(87, 181, 231, 0.12), rgba(245, 196, 81, 0.08));
+}
+
+.development-test-head h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.15rem;
+}
+
+.development-test-head p,
+.development-question p,
+.development-result p,
+.development-saved-item p,
+.development-result-list li,
+.development-saved-summary,
+.development-focus-card span {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.development-progress {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.development-progress-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.development-progress-top strong {
+  color: var(--air-gold-light);
+}
+
+.development-progress-track {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.development-progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--air-sky), var(--air-gold-light));
+  transition: width 180ms ease;
+}
+
+.development-question-list {
+  display: grid;
+  gap: 12px;
+}
+
+.development-question {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  overflow: hidden;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.development-question:focus-within,
+.development-question.is-answered {
+  border-color: rgba(245, 196, 81, 0.42);
+  background: rgba(245, 196, 81, 0.07);
+}
+
+.development-question:focus-within {
+  transform: translateY(-1px);
+}
+
+.development-question-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.development-question-index {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(87, 181, 231, 0.14);
+  color: var(--air-gold-light);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.development-question-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.development-question strong {
+  color: #ffffff;
+  line-height: 1.35;
+}
+
+.development-scale {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.development-scale label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-height: 66px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.development-scale label:hover,
+.development-scale label:has(input:checked) {
+  border-color: rgba(245, 196, 81, 0.46);
+  background: rgba(245, 196, 81, 0.12);
+  color: #ffffff;
+}
+
+.development-scale label:has(input:checked) {
+  transform: translateY(-1px);
+}
+
+.development-scale input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--air-gold);
+}
+
+.development-scale-value {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(87, 181, 231, 0.14);
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.development-scale-label {
+  min-width: 0;
+}
+
+.development-form-actions,
+.development-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.development-form-actions .primary-button,
+.development-form-actions .ghost-button,
+.development-result-actions .primary-button,
+.development-result-actions .ghost-button {
+  width: auto;
+}
+
+.development-result {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border-color: rgba(245, 196, 81, 0.34);
+}
+
+.development-result[hidden] {
+  display: none;
+}
+
+.development-result h3,
+.development-saved-item h4,
+.development-saved-title {
+  margin: 0;
+  color: #ffffff;
+}
+
+.development-result-hero {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.development-result-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.development-score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.development-score-card {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.development-score-card.is-primary {
+  border-color: rgba(245, 196, 81, 0.4);
+  background: rgba(245, 196, 81, 0.09);
+}
+
+.development-score-card strong {
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.development-score-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.development-score-bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.development-score-bar div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--air-sky), var(--air-gold-light));
+}
+
+.development-score-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.development-score-meta span,
+.development-score-level {
+  display: inline-flex;
+  min-height: 22px;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.development-score-advice {
+  padding-top: 2px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.development-focus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.development-focus-card {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid rgba(87, 181, 231, 0.24);
+  border-radius: var(--radius);
+  background: rgba(87, 181, 231, 0.07);
+}
+
+.development-focus-card strong {
+  color: #ffffff;
+}
+
+.development-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.development-layout.is-single {
+  grid-template-columns: 1fr;
+}
+
+.development-saved-list {
+  display: grid;
+  gap: 10px;
+}
+
+.development-saved-item {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.development-saved-item {
+  border-left: 4px solid var(--air-sky);
+}
+
+.development-saved-item.is-open {
+  border-color: rgba(245, 196, 81, 0.36);
+  border-left-color: var(--air-gold);
+  background: rgba(245, 196, 81, 0.06);
+}
+
+.development-saved-main {
+  display: grid;
+  width: 100%;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.development-saved-title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-weight: 900;
+}
+
+.development-saved-hint {
+  color: var(--air-gold-light);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.development-saved-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.development-saved-meta span {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.development-saved-detail {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.development-saved-detail .development-result {
+  border: 0;
+  padding: 0;
+  background: transparent;
 }
 
 .team-member-manager {
@@ -3964,6 +4417,14 @@ html[data-theme="light"] .team-task-meta strong,
 html[data-theme="light"] .team-stat-card strong,
 html[data-theme="light"] .team-progress-row strong,
 html[data-theme="light"] .team-mini-task strong,
+html[data-theme="light"] .development-test-head h3,
+html[data-theme="light"] .development-question strong,
+html[data-theme="light"] .development-result h3,
+html[data-theme="light"] .development-score-card strong,
+html[data-theme="light"] .development-score-advice strong,
+html[data-theme="light"] .development-focus-card strong,
+html[data-theme="light"] .development-saved-item h4,
+html[data-theme="light"] .development-saved-title,
 html[data-theme="light"] .team-org-main strong,
 html[data-theme="light"] .employee-profile-summary strong,
 html[data-theme="light"] .release-card-head h2,
@@ -3998,6 +4459,12 @@ html[data-theme="light"] .sheet-badge,
 html[data-theme="light"] .sync-status,
 html[data-theme="light"] .file-drop,
 html[data-theme="light"] .team-task-tabs,
+html[data-theme="light"] .development-note,
+html[data-theme="light"] .development-source,
+html[data-theme="light"] .development-question,
+html[data-theme="light"] .development-test-head,
+html[data-theme="light"] .development-progress,
+html[data-theme="light"] .development-focus-card,
 html[data-theme="light"] .team-member-manager,
 html[data-theme="light"] .ghost-button,
 html[data-theme="light"] .link-actions .icon-button,
@@ -4057,11 +4524,34 @@ html[data-theme="light"] .today-item,
 html[data-theme="light"] .my-task-card,
 html[data-theme="light"] .team-activity-item,
 html[data-theme="light"] .kanban-card,
+html[data-theme="light"] .development-result,
+html[data-theme="light"] .development-scale label,
+html[data-theme="light"] .development-score-card,
+html[data-theme="light"] .development-saved-item,
 html[data-theme="light"] .team-org-card,
 html[data-theme="light"] .employee-profile-head,
 html[data-theme="light"] table,
 html[data-theme="light"] .trainer-name-list {
   background: rgba(255, 255, 255, 0.66);
+}
+
+html[data-theme="light"] .development-test-head,
+html[data-theme="light"] .development-question.is-answered,
+html[data-theme="light"] .development-score-card.is-primary,
+html[data-theme="light"] .development-saved-item.is-open {
+  background: rgba(255, 247, 226, 0.82);
+}
+
+html[data-theme="light"] .development-scale label:hover,
+html[data-theme="light"] .development-scale label:has(input:checked) {
+  color: var(--ink);
+  background: rgba(255, 235, 178, 0.7);
+}
+
+html[data-theme="light"] .development-question-index,
+html[data-theme="light"] .development-scale-value {
+  color: var(--air-blue);
+  background: rgba(0, 103, 177, 0.1);
 }
 
 html[data-theme="light"] .team-task-card.is-overdue {
@@ -4239,7 +4729,8 @@ html[data-theme="light"] .report-pie {
 
   .team-analytics-grid,
   .team-stats-grid,
-  .today-layout {
+  .today-layout,
+  .development-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -4431,6 +4922,10 @@ html[data-theme="light"] .report-pie {
   .notification-controls,
   .password-vault-controls,
   .employee-profile-form,
+  .development-respondent,
+  .development-layout,
+  .development-score-grid,
+  .development-focus-grid,
   .dashboard-grid,
   .dashboard-filters,
   .dashboard-upload,
@@ -4570,6 +5065,10 @@ html[data-theme="light"] .report-pie {
 
   .team-task-tabs button {
     flex: 1;
+  }
+
+  .development-scale {
+    grid-template-columns: 1fr;
   }
 
   .modal-actions {
@@ -4769,6 +5268,17 @@ html[data-theme="light"] .report-pie {
               <path d="M16 3.1a4 4 0 0 1 0 7.8" />
             </svg>
             Команда E-Learning &amp; Systems
+          </a>
+          <a class="nav-link" href="#team-development" data-nav-link="teamDevelopment">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 19V5" />
+              <path d="M4 19h16" />
+              <path d="M8 15l3-4 3 2 5-7" />
+              <circle cx="8" cy="15" r="1" />
+              <circle cx="11" cy="11" r="1" />
+              <circle cx="14" cy="13" r="1" />
+            </svg>
+            Развитие команды
           </a>
           <a class="nav-link" href="#trms-releases" data-nav-link="trmsReleases">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -6022,6 +6532,74 @@ html[data-theme="light"] .report-pie {
               </form>
             </section>
           </div>
+        </section>
+
+        <section class="page-section" id="teamDevelopmentPage" data-page-panel="teamDevelopment" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Team development</p>
+              <h1>Развитие команды</h1>
+            </div>
+            <div class="sheet-badge" title="Итоги сохраняются без индивидуальных ответов">
+              <span class="status-dot"></span>
+              Только финальные итоги
+            </div>
+          </header>
+
+          <section class="entry-panel team-development-panel" aria-labelledby="teamDevelopmentTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Assessment Hub</p>
+                <h2 id="teamDevelopmentTitle">Опросы для укрепления командного духа</h2>
+              </div>
+              <div class="team-task-tabs" id="teamDevelopmentTabs" role="tablist" aria-label="Тесты развития команды">
+                <button class="is-active" type="button" data-development-test="herzberg">Герцберг</button>
+                <button type="button" data-development-test="belbin">Белбин</button>
+                <button type="button" data-development-test="disc">Модель поведения</button>
+                <button type="button" data-development-test="psychSafety">Псих. безопасность</button>
+                <button type="button" data-development-test="trust">Доверие</button>
+                <button type="button" data-development-test="tki">TKI</button>
+                <button type="button" data-development-test="learningAgility">Learning agility</button>
+                <button type="button" data-development-test="energy">Энергия</button>
+                <button type="button" data-development-test="feedback">Обратная связь</button>
+              </div>
+            </div>
+
+            <div class="development-note">
+              <strong>Важно:</strong>
+              <span>SystemHub сохраняет только финальный результат сотрудника: профиль, баллы и рекомендации. Конкретные выбранные ответы не сохраняются.</span>
+            </div>
+
+            <div class="development-respondent">
+              <label class="field">
+                <span>Сотрудник</span>
+                <input id="teamDevelopmentEmployeeInput" type="text" list="teamDevelopmentEmployeeDatalist" placeholder="Выберите или введите имя" />
+                <datalist id="teamDevelopmentEmployeeDatalist"></datalist>
+              </label>
+              <div class="development-source">
+                <span>Основано на публичных описаниях моделей. Для HR-решений используйте сертифицированные инструменты и интервью.</span>
+              </div>
+            </div>
+
+            <div class="development-test-content" id="teamDevelopmentTestContent"></div>
+            <section class="development-result" id="teamDevelopmentResult" aria-live="polite" hidden></section>
+          </section>
+
+          <section class="development-layout is-single">
+            <article class="team-chart-card">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Сохраненные результаты</p>
+                  <h3>Финальные ответы сотрудников</h3>
+                </div>
+                <div class="development-result-actions">
+                  <button class="ghost-button" id="exportTeamDevelopmentResults" type="button">CSV</button>
+                  <button class="ghost-button" id="clearTeamDevelopmentResults" type="button">Очистить</button>
+                </div>
+              </div>
+              <div class="development-saved-list" id="teamDevelopmentSavedResults"></div>
+            </article>
+          </section>
         </section>
 
         <section class="page-section" id="trmsReleasesPage" data-page-panel="trmsReleases" hidden>
@@ -7442,6 +8020,7 @@ const TRMS_RELEASES_STORAGE_KEY = "systemhub.trmsReleases";
 const TEAM_TASKS_STORAGE_KEY = "systemhub.teamTasks";
 const TEAM_TASK_MEMBERS_STORAGE_KEY = "systemhub.teamTaskMembers";
 const ELEARNING_TEAM_PROFILES_STORAGE_KEY = "systemhub.elearningTeamProfiles";
+const TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY = "systemhub.teamDevelopmentResults";
 const REPORT_STORAGE_KEY = "systemhub.reportCsv";
 const GOOGLE_SCRIPT_URL_STORAGE_KEY = "systemhub.supabaseUrl";
 const GOOGLE_SYNC_TOKEN_STORAGE_KEY = "systemhub.supabaseAnonKey";
@@ -7531,6 +8110,273 @@ const DEFAULT_ELEARNING_TEAM = [
     company: "Air Astana",
   },
 ];
+
+const DEVELOPMENT_SCALE_LABELS = ["Не согласен", "Скорее нет", "Нейтрально", "Скорее да", "Полностью"];
+
+const TEAM_DEVELOPMENT_TESTS = {
+  herzberg: {
+    title: "Выбор мотивационных предпочтений по Ф. Герцбергу",
+    subtitle: "Оценивает, что сильнее влияет на вовлеченность: внутренние мотиваторы работы или гигиенические условия.",
+    disclaimer: "Модель Герцберга разделяет факторы удовлетворенности и неудовлетворенности. Это не диагностика личности, а рабочая карта предпочтений.",
+    dimensions: {
+      motivator: {
+        label: "Мотиваторы роста",
+        description: "Достижения, признание, ответственность, развитие и смысл работы.",
+        advice: "Давайте больше автономии, обратной связи по достижениям, сложные задачи и понятную траекторию роста.",
+      },
+      hygiene: {
+        label: "Гигиенические условия",
+        description: "Правила, стабильность, условия, отношения, нагрузка и компенсация.",
+        advice: "Сначала уберите раздражители: неясные правила, перегруз, нехватку ресурсов, конфликтные зоны и непрозрачность ожиданий.",
+      },
+    },
+    questions: [
+      { key: "achievement", dimension: "motivator", label: "Достижения", text: "Мне важно видеть конкретный результат своей работы и понимать, что задача действительно продвинулась." },
+      { key: "recognition", dimension: "motivator", label: "Признание", text: "Меня заметно мотивирует признание вклада от руководителя или команды." },
+      { key: "work_itself", dimension: "motivator", label: "Интересная работа", text: "Я работаю сильнее, когда сама задача интеллектуально интересная и не выглядит рутинной." },
+      { key: "responsibility", dimension: "motivator", label: "Ответственность", text: "Мне важно иметь зону ответственности, где я могу принимать решения без постоянного согласования." },
+      { key: "growth", dimension: "motivator", label: "Рост", text: "Новые навыки, обучение и развитие компетенций для меня являются сильным источником энергии." },
+      { key: "advancement", dimension: "motivator", label: "Продвижение", text: "Мне важно видеть, как хорошая работа может привести к карьерному или проектному росту." },
+      { key: "policy", dimension: "hygiene", label: "Правила и процессы", text: "Четкие правила, понятные процессы и отсутствие хаоса сильно влияют на мое отношение к работе." },
+      { key: "supervision", dimension: "hygiene", label: "Стиль управления", text: "Для меня критично, чтобы постановка задач, контроль и обратная связь были корректными и последовательными." },
+      { key: "relationships", dimension: "hygiene", label: "Отношения", text: "Качество отношений в команде и отсутствие токсичных конфликтов сильно влияют на мою продуктивность." },
+      { key: "conditions", dimension: "hygiene", label: "Условия работы", text: "Мне важно, чтобы были нормальные инструменты, доступы, время и рабочая среда." },
+      { key: "security", dimension: "hygiene", label: "Стабильность", text: "Стабильность, предсказуемость и понятные ожидания для меня важнее постоянных изменений." },
+      { key: "compensation", dimension: "hygiene", label: "Компенсация", text: "Справедливая оплата и прозрачные условия заметно влияют на мое ощущение справедливости." },
+    ],
+  },
+  belbin: {
+    title: "Ориентир по командным ролям Белбина",
+    subtitle: "Помогает увидеть, какие роли сотрудник чаще берет в командной работе: социальные, мыслительные или деятельные.",
+    disclaimer: "Это внутренняя упрощенная самооценка по мотивам 9 ролей Белбина, не официальный Belbin SPI и не сертифицированный отчет.",
+    dimensions: {
+      resource: { label: "Исследователь ресурсов", description: "Ищет возможности, контакты и внешние идеи.", advice: "Давайте задачи на поиск вариантов, партнеров, практик и новых возможностей." },
+      teamworker: { label: "Душа команды", description: "Сглаживает напряжение, слушает, помогает людям договориться.", advice: "Подключайте к фасилитации обсуждений и работе с командной атмосферой." },
+      coordinator: { label: "Координатор", description: "Проясняет цели, распределяет роли и помогает команде сфокусироваться.", advice: "Давайте координацию встреч, распределение ответственности и контроль договоренностей." },
+      plant: { label: "Генератор идей", description: "Предлагает нестандартные решения и новые концепции.", advice: "Используйте на старте проектов и в задачах, где нужен новый подход." },
+      monitor: { label: "Аналитик-оценщик", description: "Взвешивает варианты, проверяет логику и риски.", advice: "Подключайте к выбору решений, оценке рисков и ревью планов." },
+      specialist: { label: "Специалист", description: "Дает глубокую экспертизу в конкретной области.", advice: "Давайте экспертные задачи, обучение коллег и сложные технические вопросы." },
+      shaper: { label: "Формирователь", description: "Двигает команду вперед, давит на препятствия и темп.", advice: "Полезен в срочных проектах, где нужно преодолеть сопротивление и не потерять скорость." },
+      implementer: { label: "Исполнитель", description: "Превращает идеи в понятный план и системно доводит работу.", advice: "Давайте операционное планирование, внедрение процессов и контроль практического выполнения." },
+      completer: { label: "Доводчик", description: "Ищет ошибки, полирует результат и следит за качеством.", advice: "Подключайте к финальной проверке, дедлайнам, документации и качеству релиза." },
+    },
+    questions: [
+      { dimension: "resource", text: "Я легко нахожу внешние идеи, людей или источники, которые могут помочь команде." },
+      { dimension: "resource", text: "Мне нравится узнавать, как похожие задачи решают другие команды или компании." },
+      { dimension: "resource", text: "Я быстро заряжаюсь от новых возможностей, встреч и контактов." },
+      { dimension: "teamworker", text: "Я замечаю напряжение между людьми и стараюсь снизить конфликт." },
+      { dimension: "teamworker", text: "Коллеги часто приходят ко мне, когда нужно спокойно обсудить сложную ситуацию." },
+      { dimension: "teamworker", text: "Мне важно, чтобы решение было принято с учетом людей, которых оно затронет." },
+      { dimension: "coordinator", text: "Мне естественно прояснять цель, роли и следующий шаг для группы." },
+      { dimension: "coordinator", text: "Я умею вовлечь разных людей и распределить работу по сильным сторонам." },
+      { dimension: "coordinator", text: "На встречах я часто возвращаю обсуждение к цели и результату." },
+      { dimension: "plant", text: "Я часто предлагаю нестандартные идеи, которые сначала кажутся непривычными." },
+      { dimension: "plant", text: "Мне нравится решать задачи, где нет готового шаблона." },
+      { dimension: "plant", text: "Я быстро вижу новые концепции, связи и варианты решения." },
+      { dimension: "monitor", text: "Перед выбором решения я стараюсь увидеть риски, факты и слабые места." },
+      { dimension: "monitor", text: "Я предпочитаю не торопиться, пока не сравню варианты объективно." },
+      { dimension: "monitor", text: "Команде полезна моя способность задавать критичные вопросы." },
+      { dimension: "specialist", text: "Я люблю углубляться в свою область и становиться экспертом." },
+      { dimension: "specialist", text: "Мой сильный вклад часто связан с редким знанием или конкретной технической компетенцией." },
+      { dimension: "specialist", text: "Мне важно, чтобы решения были профессионально точными." },
+      { dimension: "shaper", text: "Когда команда теряет темп, я стараюсь вернуть движение и давление на результат." },
+      { dimension: "shaper", text: "Я готов поднимать неудобные вопросы, если это помогает выполнить задачу." },
+      { dimension: "shaper", text: "Сложные сроки и препятствия скорее мобилизуют меня, чем останавливают." },
+      { dimension: "implementer", text: "Я быстро превращаю идею в понятный план действий." },
+      { dimension: "implementer", text: "Мне комфортно выстраивать процесс, правила и последовательность шагов." },
+      { dimension: "implementer", text: "Я ценю практичность и реализуемость больше красивой идеи без плана." },
+      { dimension: "completer", text: "Я замечаю ошибки, пропуски и несоответствия перед финальной сдачей." },
+      { dimension: "completer", text: "Мне важно довести задачу до аккуратного, качественного результата." },
+      { dimension: "completer", text: "Я часто беру на себя финальную проверку деталей и сроков." },
+    ],
+  },
+  disc: {
+    title: "Модель поведения DISC",
+    subtitle: "Оценивает предпочитаемый стиль поведения и коммуникации: результат, влияние, стабильность или точность.",
+    disclaimer: "DISC дает общий язык для коммуникации. Не используйте результат как ярлык или критерий отбора.",
+    dimensions: {
+      d: { label: "D - Dominance", description: "Ориентация на результат, скорость, вызов и решения.", advice: "Говорите кратко, показывайте цель, полномочия, ограничения и ожидаемый результат." },
+      i: { label: "I - Influence", description: "Ориентация на людей, идеи, вовлечение и влияние.", advice: "Давайте пространство для обсуждения, признание, презентации и работу с вовлечением." },
+      s: { label: "S - Steadiness", description: "Ориентация на стабильность, поддержку, надежность и сотрудничество.", advice: "Давайте предсказуемость, время на адаптацию, понятный темп и командную поддержку." },
+      c: { label: "C - Conscientiousness", description: "Ориентация на точность, качество, правила и анализ.", advice: "Давайте факты, критерии качества, документацию, время на проверку и логичное обоснование." },
+    },
+    questions: [
+      { dimension: "d", text: "Я быстро беру инициативу, когда нужно принять решение." },
+      { dimension: "d", text: "Мне комфортно спорить за результат, если вижу риск для цели." },
+      { dimension: "d", text: "Я предпочитаю краткие обсуждения и четкий следующий шаг." },
+      { dimension: "d", text: "Сложные вызовы скорее добавляют мне энергии." },
+      { dimension: "i", text: "Я легко вовлекаю людей в обсуждение и поддерживаю энергию группы." },
+      { dimension: "i", text: "Мне важно, чтобы в работе было место для идей и живой коммуникации." },
+      { dimension: "i", text: "Я часто помогаю команде увидеть позитивный сценарий и возможности." },
+      { dimension: "i", text: "Мне легче работать, когда есть признание и контакт с людьми." },
+      { dimension: "s", text: "Я предпочитаю стабильный темп, понятные ожидания и уважительное взаимодействие." },
+      { dimension: "s", text: "Я стараюсь поддерживать команду и помогать людям спокойно двигаться вперед." },
+      { dimension: "s", text: "Резкие изменения без объяснения снижают мою эффективность." },
+      { dimension: "s", text: "Я обычно надежно довожу регулярные задачи и поддерживаю процесс." },
+      { dimension: "c", text: "Я обращаю внимание на точность, детали и качество результата." },
+      { dimension: "c", text: "Перед выводом мне нужны факты, критерии и логика." },
+      { dimension: "c", text: "Я предпочитаю ясные правила и хорошо оформленную информацию." },
+      { dimension: "c", text: "Мне важно проверить решение, прежде чем показывать его как готовое." },
+    ],
+  },
+};
+
+Object.assign(TEAM_DEVELOPMENT_TESTS, {
+  psychSafety: {
+    title: "Пульс психологической безопасности",
+    subtitle: "Показывает, насколько сотруднику безопасно задавать вопросы, признавать ошибки, спорить по делу и просить помощь.",
+    disclaimer: "Это короткий командный пульс, а не индивидуальная оценка лояльности. Низкий результат лучше обсуждать через условия работы, а не через личные качества.",
+    dimensions: {
+      voice: { label: "Голос и вопросы", description: "Можно открыто задавать вопросы и высказывать сомнения.", advice: "На встречах явно приглашайте вопросы, фиксируйте спорные темы и благодарите за раннее поднятие рисков." },
+      mistakes: { label: "Ошибки и обучение", description: "Ошибки рассматриваются как источник улучшений, а не повод для наказания.", advice: "Разделяйте ошибку и человека, проводите короткие разборы без обвинений и превращайте выводы в улучшения процесса." },
+      respect: { label: "Уважение", description: "Взаимодействие остается корректным даже при несогласии.", advice: "Договоритесь о правилах дискуссии: критиковать идею, не человека; не перебивать; подтверждать услышанное." },
+      help: { label: "Помощь", description: "Можно попросить поддержку без ощущения слабости.", advice: "Сделайте просьбу о помощи нормой: парная работа, быстрые консультации, видимый список экспертов и доступов." },
+    },
+    questions: [
+      { dimension: "voice", text: "Я могу задать вопрос, даже если он кажется простым или неудобным." },
+      { dimension: "voice", text: "Я могу открыто сказать, что не согласен с решением, если вижу риск." },
+      { dimension: "voice", text: "На встречах есть пространство для разных мнений, а не только для быстрого согласия." },
+      { dimension: "mistakes", text: "Если я ошибаюсь, команда помогает понять причину, а не ищет виноватого." },
+      { dimension: "mistakes", text: "У нас можно признавать проблему на ранней стадии без страха наказания." },
+      { dimension: "mistakes", text: "После сложных ситуаций мы обсуждаем, как улучшить процесс." },
+      { dimension: "respect", text: "Даже в споре коллеги сохраняют уважительный тон." },
+      { dimension: "respect", text: "Мой вклад воспринимается серьезно независимо от должности или стажа." },
+      { dimension: "respect", text: "Я редко сталкиваюсь с сарказмом, игнорированием или обесцениванием в рабочих обсуждениях." },
+      { dimension: "help", text: "Мне легко попросить коллег о помощи, когда задача застряла." },
+      { dimension: "help", text: "Команда быстро подключается, если у кого-то возникает блокер." },
+      { dimension: "help", text: "Я знаю, к кому обратиться по основным рабочим вопросам." },
+    ],
+  },
+  trust: {
+    title: "Опрос доверия и взаимодействия",
+    subtitle: "Оценивает надежность договоренностей, ясность ожиданий, обмен информацией и качество совместной работы.",
+    disclaimer: "Результат полезен для улучшения командных договоренностей и не должен использоваться как персональный рейтинг.",
+    dimensions: {
+      reliability: { label: "Надежность", description: "Обещания выполняются, сроки и договоренности не теряются.", advice: "Фиксируйте владельца, срок и критерий готовности для каждой договоренности." },
+      clarity: { label: "Ясность", description: "Понятны приоритеты, роли, ожидания и следующий шаг.", advice: "Используйте короткие письменные брифы: цель, контекст, результат, срок, ответственный." },
+      communication: { label: "Коммуникация", description: "Информация доходит вовремя и в нужном объеме.", advice: "Согласуйте каналы для срочного, планового и справочного общения." },
+      cooperation: { label: "Взаимодействие", description: "Коллеги помогают друг другу и не создают искусственных барьеров.", advice: "Регулярно снимайте блокеры и подсвечивайте зависимости между задачами." },
+    },
+    questions: [
+      { dimension: "reliability", text: "Коллеги обычно выполняют то, о чем договорились." },
+      { dimension: "reliability", text: "Если срок меняется, об этом предупреждают заранее." },
+      { dimension: "reliability", text: "Я могу рассчитывать на качество работы, которую передают другие." },
+      { dimension: "clarity", text: "Мне понятно, какие задачи сейчас являются приоритетными." },
+      { dimension: "clarity", text: "В задачах обычно ясно, какой результат считается готовым." },
+      { dimension: "clarity", text: "Я понимаю свою роль и роль коллег в совместных задачах." },
+      { dimension: "communication", text: "Важная информация доходит до меня вовремя." },
+      { dimension: "communication", text: "Команда не перегружает лишними сообщениями, но передает нужный контекст." },
+      { dimension: "communication", text: "После встреч понятны решения и следующие шаги." },
+      { dimension: "cooperation", text: "Коллеги готовы помочь, если задача зависит от их участия." },
+      { dimension: "cooperation", text: "В команде принято предупреждать о рисках, а не скрывать их." },
+      { dimension: "cooperation", text: "При совместной работе мы ищем общее решение, а не защищаем только свою часть." },
+    ],
+  },
+  tki: {
+    title: "Карта конфликтных стилей TKI",
+    subtitle: "Упрощенная карта пяти способов поведения в конфликте: конкуренция, сотрудничество, компромисс, избегание и приспособление.",
+    disclaimer: "Это не официальный TKI. Используйте как повод обсудить привычный стиль и ситуации, где нужен другой подход.",
+    dimensions: {
+      competing: { label: "Конкуренция", description: "Быстро отстаивает позицию и результат.", advice: "Полезно в срочных решениях, но проверяйте, не подавляет ли стиль альтернативные мнения." },
+      collaborating: { label: "Сотрудничество", description: "Ищет win-win и глубоко разбирает интересы сторон.", advice: "Используйте для важных тем, где нужно качество решения и согласие сторон." },
+      compromising: { label: "Компромисс", description: "Ищет приемлемую середину и быстрый баланс.", advice: "Подходит для ограниченного времени, но не заменяет полноценное решение стратегических проблем." },
+      avoiding: { label: "Избегание", description: "Откладывает конфликт или выходит из него.", advice: "Полезно для паузы и снижения эмоций, но опасно при накоплении нерешенных вопросов." },
+      accommodating: { label: "Приспособление", description: "Сохраняет отношения и уступает ради другого.", advice: "Хорошо для поддержки отношений, но важно не терять собственные интересы и границы." },
+    },
+    questions: [
+      { dimension: "competing", text: "В конфликте я быстро обозначаю свою позицию и стараюсь продавить нужное решение." },
+      { dimension: "competing", text: "Если вопрос важный, я готов спорить жестко, чтобы защитить результат." },
+      { dimension: "competing", text: "Мне легче принять непопулярное решение, чем долго оставлять проблему открытой." },
+      { dimension: "collaborating", text: "Я стараюсь понять интересы всех сторон и найти решение, которое учитывает главное для каждого." },
+      { dimension: "collaborating", text: "В сложном споре мне важно не просто договориться, а разобраться в причине разногласий." },
+      { dimension: "collaborating", text: "Я готов потратить больше времени, если это даст качественное общее решение." },
+      { dimension: "compromising", text: "Я часто предлагаю вариант посередине, чтобы команда могла двигаться дальше." },
+      { dimension: "compromising", text: "Мне комфортно договариваться через взаимные уступки." },
+      { dimension: "compromising", text: "Когда времени мало, я выбираю практичное решение, с которым все могут жить." },
+      { dimension: "avoiding", text: "Если конфликт не критичен, я предпочитаю не тратить на него энергию." },
+      { dimension: "avoiding", text: "Я могу отложить обсуждение, если эмоции мешают говорить конструктивно." },
+      { dimension: "avoiding", text: "Иногда мне проще обойти напряженную тему, чем открывать спор." },
+      { dimension: "accommodating", text: "Я могу уступить, если для другого человека вопрос важнее." },
+      { dimension: "accommodating", text: "Сохранение рабочих отношений для меня часто важнее победы в споре." },
+      { dimension: "accommodating", text: "Я стараюсь поддержать коллегу, даже если мое решение было бы другим." },
+    ],
+  },
+  learningAgility: {
+    title: "Learning agility",
+    subtitle: "Показывает готовность учиться, адаптироваться, экспериментировать и извлекать выводы из обратной связи.",
+    disclaimer: "Опрос помогает подобрать формат развития и уровень поддержки при изменениях.",
+    dimensions: {
+      curiosity: { label: "Любопытство", description: "Интерес к новым темам, вопросам и подходам.", advice: "Давайте исследовательские задачи, доступ к материалам и возможность делиться находками." },
+      adaptability: { label: "Адаптивность", description: "Готовность перестраиваться при изменении условий.", advice: "Объясняйте причину изменений, давайте короткие циклы адаптации и промежуточные проверки." },
+      experimentation: { label: "Эксперименты", description: "Готовность пробовать и тестировать гипотезы.", advice: "Запускайте небольшие пилоты с ясными критериями успеха и безопасным масштабом ошибки." },
+      feedback: { label: "Обратная связь", description: "Способность принимать обратную связь и менять действия.", advice: "Давайте конкретную обратную связь по поведению и договаривайтесь о следующем эксперименте." },
+    },
+    questions: [
+      { dimension: "curiosity", text: "Мне интересно разбираться в новых темах, даже если они не входят напрямую в мои текущие задачи." },
+      { dimension: "curiosity", text: "Я часто задаю вопросы, чтобы понять не только что делать, но и почему." },
+      { dimension: "curiosity", text: "Мне нравится искать новые подходы и сравнивать разные практики." },
+      { dimension: "adaptability", text: "Я быстро перестраиваюсь, если приоритеты или условия меняются." },
+      { dimension: "adaptability", text: "Новые инструменты и процессы скорее включают меня, чем раздражают." },
+      { dimension: "adaptability", text: "Мне комфортно работать в ситуации, где часть ответов появляется по ходу." },
+      { dimension: "experimentation", text: "Я готов пробовать пилотные решения, даже если результат не гарантирован." },
+      { dimension: "experimentation", text: "Мне проще начать с небольшого теста, чем долго ждать идеального плана." },
+      { dimension: "experimentation", text: "После неудачной попытки я стараюсь быстро выделить урок и попробовать иначе." },
+      { dimension: "feedback", text: "Я спокойно воспринимаю корректирующую обратную связь, если она конкретная." },
+      { dimension: "feedback", text: "Я меняю подход, когда вижу, что текущий способ не дает результата." },
+      { dimension: "feedback", text: "Мне полезны регулярные короткие ревью по тому, что улучшить." },
+    ],
+  },
+  energy: {
+    title: "Энергия и риск выгорания",
+    subtitle: "Мини-пульс по нагрузке, восстановлению, ясности приоритетов и контролю над работой.",
+    disclaimer: "Это рабочий индикатор риска, не медицинская диагностика. При сильном истощении нужна индивидуальная поддержка и корректировка нагрузки.",
+    dimensions: {
+      workload: { label: "Нагрузка", description: "Объем задач, срочность и ощущение перегруза.", advice: "Проверьте приоритеты, дедлайны, количество параллельных задач и возможность перераспределения." },
+      recovery: { label: "Восстановление", description: "Энергия, паузы и возможность восстановиться после напряжения.", advice: "Добавьте реалистичные паузы, ограничьте срочные переброски и отслеживайте переработки." },
+      clarity: { label: "Ясность приоритетов", description: "Понимание, что важнее и где можно сказать нет.", advice: "Сократите список приоритетов, явно обозначьте, что можно отложить." },
+      control: { label: "Контроль", description: "Возможность влиять на способ выполнения и планирование.", advice: "Дайте сотруднику больше выбора в способе работы, очередности задач и планировании фокуса." },
+    },
+    questions: [
+      { dimension: "workload", text: "Мой текущий объем задач выглядит реалистичным для нормального выполнения." },
+      { dimension: "workload", text: "У меня редко возникает ощущение, что все задачи срочные одновременно." },
+      { dimension: "workload", text: "Я могу качественно завершать задачи без постоянной спешки." },
+      { dimension: "recovery", text: "После напряженных периодов у меня есть возможность восстановиться." },
+      { dimension: "recovery", text: "В конце рабочего дня у меня обычно остается нормальный уровень энергии." },
+      { dimension: "recovery", text: "Я могу делать паузы или переключаться, когда это необходимо для качества работы." },
+      { dimension: "clarity", text: "Мне понятно, какие задачи важнее, если времени на все не хватает." },
+      { dimension: "clarity", text: "Руководитель помогает снять конфликт приоритетов, когда он возникает." },
+      { dimension: "clarity", text: "Я понимаю, какие задачи можно отложить без ущерба для результата." },
+      { dimension: "control", text: "У меня есть влияние на то, как организовать свою работу." },
+      { dimension: "control", text: "Я могу заранее планировать фокусное время для сложных задач." },
+      { dimension: "control", text: "Я могу обсудить нагрузку до того, как она станет критичной." },
+    ],
+  },
+  feedback: {
+    title: "Предпочтения обратной связи",
+    subtitle: "Помогает понять, как сотруднику удобнее получать признание, корректирующую обратную связь и поддержку.",
+    disclaimer: "Результат нужен для настройки коммуникации менеджера и команды, а не для оценки эффективности.",
+    dimensions: {
+      recognition: { label: "Признание", description: "Потребность видеть, что вклад замечен.", advice: "Давайте конкретное признание: что именно сработало, где был вклад и почему это важно." },
+      directness: { label: "Прямота", description: "Предпочтение ясной и быстрой корректирующей обратной связи.", advice: "Говорите прямо, но уважительно: факт, влияние, ожидаемое поведение, поддержка." },
+      coaching: { label: "Развитие", description: "Запрос на развивающие вопросы, разбор и совместный поиск решения.", advice: "Используйте коучинговый формат: вопрос, гипотеза, следующий шаг, короткая проверка результата." },
+      privacy: { label: "Приватность", description: "Важность безопасного формата и отсутствия публичного давления.", advice: "Критичную обратную связь давайте один на один; публично отмечайте только согласованные позитивные вещи." },
+    },
+    questions: [
+      { dimension: "recognition", text: "Мне важно регулярно слышать, какой мой вклад был полезен команде." },
+      { dimension: "recognition", text: "Признание мотивирует меня сильнее, когда оно конкретное, а не общее." },
+      { dimension: "recognition", text: "Мне важно, чтобы хорошие результаты были заметны не только мне." },
+      { dimension: "directness", text: "Если что-то нужно исправить, мне лучше сказать об этом прямо и быстро." },
+      { dimension: "directness", text: "Я ценю честную обратную связь больше, чем мягкие намеки." },
+      { dimension: "directness", text: "Мне легче улучшить работу, когда ожидание сформулировано ясно." },
+      { dimension: "coaching", text: "Мне полезно обсуждать не только ошибку, но и варианты развития." },
+      { dimension: "coaching", text: "Я лучше воспринимаю обратную связь, когда вместе ищем следующий шаг." },
+      { dimension: "coaching", text: "Вопросы и разбор помогают мне глубже понять, как улучшиться." },
+      { dimension: "privacy", text: "Корректирующую обратную связь мне комфортнее получать один на один." },
+      { dimension: "privacy", text: "Публичное обсуждение ошибок снижает мою открытость." },
+      { dimension: "privacy", text: "Мне важно заранее понимать формат и цель обратной связи." },
+    ],
+  },
+});
 
 const authShell = document.querySelector("#authShell");
 const appShell = document.querySelector(".app-shell");
@@ -7691,6 +8537,14 @@ const employeeWorkLocationInput = document.querySelector("#employeeWorkLocationI
 const employeeCompanyInput = document.querySelector("#employeeCompanyInput");
 const employeeJobTitleInput = document.querySelector("#employeeJobTitleInput");
 const employeeDepartmentInput = document.querySelector("#employeeDepartmentInput");
+const teamDevelopmentTabs = document.querySelector("#teamDevelopmentTabs");
+const teamDevelopmentEmployeeInput = document.querySelector("#teamDevelopmentEmployeeInput");
+const teamDevelopmentEmployeeDatalist = document.querySelector("#teamDevelopmentEmployeeDatalist");
+const teamDevelopmentTestContent = document.querySelector("#teamDevelopmentTestContent");
+const teamDevelopmentResult = document.querySelector("#teamDevelopmentResult");
+const teamDevelopmentSavedResults = document.querySelector("#teamDevelopmentSavedResults");
+const exportTeamDevelopmentResultsButton = document.querySelector("#exportTeamDevelopmentResults");
+const clearTeamDevelopmentResultsButton = document.querySelector("#clearTeamDevelopmentResults");
 const trmsReleaseForm = document.querySelector("#trmsReleaseForm");
 const trmsReleaseTaskIdInput = document.querySelector("#trmsReleaseTaskId");
 const trmsReleaseNameInput = document.querySelector("#trmsReleaseName");
@@ -7857,6 +8711,7 @@ let promoPurchasePositions = loadPromoPurchasePositions();
 let teamTaskMembers = loadTeamTaskMembers();
 let teamTasks = normalizeTeamTasks(loadTeamTasks());
 let elearningTeamProfiles = loadElearningTeamProfiles();
+let teamDevelopmentResults = loadTeamDevelopmentResults();
 let trmsReleaseTasks = loadTrmsReleaseTasks();
 let reportRows = loadReportRows();
 let googleScriptUrl = loadGoogleScriptUrl();
@@ -7949,6 +8804,9 @@ const teamTaskFilters = TEAM_TASK_DIRECTIONS.reduce((acc, direction) => {
 let activeTeamTaskView = "tasks";
 let activeEmployeeId = "";
 let pendingEmployeePhoto = "";
+let activeTeamDevelopmentTest = "herzberg";
+let pendingTeamDevelopmentResult = null;
+let activeTeamDevelopmentSavedResultId = "";
 
 function getSavedTheme() {
   try {
@@ -8717,6 +9575,47 @@ function loadElearningTeamProfiles() {
 
 function saveElearningTeamProfiles() {
   setStorageValue(ELEARNING_TEAM_PROFILES_STORAGE_KEY, JSON.stringify(elearningTeamProfiles));
+}
+
+function normalizeTeamDevelopmentResults(values) {
+  return (Array.isArray(values) ? values : [])
+    .map((item) => ({
+      id: item?.id || createId(),
+      employeeName: String(item?.employeeName || "").trim(),
+      testKey: String(item?.testKey || "").trim(),
+      testTitle: String(item?.testTitle || "").trim(),
+      primaryResult: String(item?.primaryResult || "").trim(),
+      summary: String(item?.summary || "").trim(),
+      scores: Array.isArray(item?.scores)
+        ? item.scores.map((score) => ({
+          key: String(score?.key || "").trim(),
+          label: String(score?.label || "").trim(),
+          description: String(score?.description || "").trim(),
+          advice: String(score?.advice || "").trim(),
+          score: Number(score?.score) || 0,
+          max: Number(score?.max) || 0,
+          percent: Number(score?.percent) || 0,
+        })).filter((score) => score.key || score.label)
+        : [],
+      selectedFactors: Array.isArray(item?.selectedFactors) ? item.selectedFactors.map(String).filter(Boolean) : [],
+      recommendations: Array.isArray(item?.recommendations) ? item.recommendations.map(String).filter(Boolean) : [],
+      createdBy: String(item?.createdBy || "").trim(),
+      createdAt: item?.createdAt || new Date().toISOString(),
+    }))
+    .filter((item) => item.employeeName && item.testKey && item.primaryResult);
+}
+
+function loadTeamDevelopmentResults() {
+  try {
+    return normalizeTeamDevelopmentResults(JSON.parse(localStorage.getItem(TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY)) || []);
+  } catch {
+    return [];
+  }
+}
+
+function saveTeamDevelopmentResults() {
+  teamDevelopmentResults = normalizeTeamDevelopmentResults(teamDevelopmentResults);
+  setStorageValue(TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY, JSON.stringify(teamDevelopmentResults));
 }
 
 function loadTrmsReleaseTasks() {
@@ -11007,6 +11906,7 @@ function getPageFromHash() {
   if (window.location.hash === "#purchase-analytics") return "purchaseAnalytics";
   if (window.location.hash === "#team-tasks") return "teamTasks";
   if (window.location.hash === "#elearning-team") return "elearningTeam";
+  if (window.location.hash === "#team-development") return "teamDevelopment";
   if (window.location.hash === "#trms-releases") return "trmsReleases";
   if (window.location.hash === "#dashboards") return "dashboards";
   if (window.location.hash === "#training-report") return "trainingReport";
@@ -11021,6 +11921,7 @@ function getHashForPage(page) {
   if (page === "purchaseAnalytics") return "#purchase-analytics";
   if (page === "teamTasks") return "#team-tasks";
   if (page === "elearningTeam") return "#elearning-team";
+  if (page === "teamDevelopment") return "#team-development";
   if (page === "trmsReleases") return "#trms-releases";
   if (page === "trainingReport") return "#training-report";
   if (page === "participantReports") return "#participant-reports";
@@ -11060,6 +11961,7 @@ function showPage(page) {
     purchaseAnalytics: "Аналитика покупок",
     teamTasks: "Задачи команды",
     elearningTeam: "Команда E-Learning & Systems",
+    teamDevelopment: "Развитие команды",
     trmsReleases: "ТРМС Релизы",
     dashboards: "Дэшборды",
     trainingReport: "Отчеты",
@@ -11747,6 +12649,464 @@ function readEmployeePhoto(file) {
     reader.addEventListener("error", () => reject(reader.error || new Error("Не удалось прочитать файл.")));
     reader.readAsDataURL(file);
   });
+}
+
+function getTeamDevelopmentEmployeeOptions() {
+  const names = [
+    currentUser?.displayName,
+    currentUser?.login,
+    ...DEFAULT_ELEARNING_TEAM.map((employee) => employee.name),
+    ...teamTaskMembers,
+  ];
+
+  return [...new Set(names.map((name) => String(name || "").trim()).filter(Boolean))];
+}
+
+function getTeamDevelopmentEmployeeName() {
+  return String(teamDevelopmentEmployeeInput?.value || "").trim() || getCurrentUserDisplayName();
+}
+
+function getTeamDevelopmentTest(key = activeTeamDevelopmentTest) {
+  return TEAM_DEVELOPMENT_TESTS[key] || TEAM_DEVELOPMENT_TESTS.herzberg;
+}
+
+function renderTeamDevelopmentDatalist() {
+  if (!teamDevelopmentEmployeeDatalist) return;
+
+  teamDevelopmentEmployeeDatalist.innerHTML = getTeamDevelopmentEmployeeOptions()
+    .map((name) => `<option value="${escapeHtml(name)}"></option>`)
+    .join("");
+
+  if (teamDevelopmentEmployeeInput && !teamDevelopmentEmployeeInput.value) {
+    teamDevelopmentEmployeeInput.value = getCurrentUserDisplayName();
+  }
+}
+
+function renderDevelopmentScale(question, index) {
+  return `
+    <div class="development-scale" role="radiogroup" aria-label="${escapeHtml(question.text)}">
+      ${DEVELOPMENT_SCALE_LABELS.map((label, valueIndex) => {
+        const value = valueIndex + 1;
+        return `
+          <label>
+            <input type="radio" name="developmentQuestion${index}" value="${value}" required />
+            <span class="development-scale-value">${value}</span>
+            <span class="development-scale-label">${escapeHtml(label)}</span>
+          </label>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderTeamDevelopmentTest() {
+  if (!teamDevelopmentTestContent) return;
+
+  const test = getTeamDevelopmentTest();
+  pendingTeamDevelopmentResult = null;
+  if (teamDevelopmentResult) {
+    teamDevelopmentResult.hidden = true;
+    teamDevelopmentResult.innerHTML = "";
+  }
+
+  teamDevelopmentTestContent.innerHTML = `
+    <form class="development-test-form" id="teamDevelopmentTestForm" data-test-key="${escapeHtml(activeTeamDevelopmentTest)}" data-total-questions="${test.questions.length}">
+      <div class="development-test-head">
+        <p class="eyebrow">Текущий тест</p>
+        <h3>${escapeHtml(test.title)}</h3>
+        <p>${escapeHtml(test.subtitle)}</p>
+        <p>${escapeHtml(test.disclaimer)}</p>
+      </div>
+
+      <div class="development-progress" aria-live="polite">
+        <div class="development-progress-top">
+          <span>Прогресс заполнения</span>
+          <strong data-development-progress-text>0 / ${test.questions.length}</strong>
+        </div>
+        <div class="development-progress-track" aria-hidden="true">
+          <div class="development-progress-fill" data-development-progress-fill></div>
+        </div>
+      </div>
+
+      <div class="development-question-list">
+        ${test.questions.map((question, index) => `
+          <article class="development-question" data-development-question-index="${index}">
+            <div class="development-question-head">
+              <span class="development-question-index">${index + 1}</span>
+              <div class="development-question-copy">
+                <strong>${escapeHtml(question.text)}</strong>
+                ${question.label ? `<p>${escapeHtml(question.label)}</p>` : ""}
+              </div>
+            </div>
+            ${renderDevelopmentScale(question, index)}
+          </article>
+        `).join("")}
+      </div>
+
+      <div class="development-form-actions">
+        <button class="primary-button" type="submit">Рассчитать результат</button>
+        <button class="ghost-button" type="reset">Сбросить выбор</button>
+      </div>
+    </form>
+  `;
+
+  updateTeamDevelopmentProgress(teamDevelopmentTestContent.querySelector("#teamDevelopmentTestForm"));
+}
+
+function updateTeamDevelopmentProgress(form = teamDevelopmentTestContent?.querySelector("#teamDevelopmentTestForm")) {
+  if (!form) return;
+
+  const total = Number(form.dataset.totalQuestions) || form.querySelectorAll(".development-question").length;
+  const answeredNames = new Set([...form.querySelectorAll('input[type="radio"]:checked')].map((input) => input.name));
+  const answered = answeredNames.size;
+  const percent = total > 0 ? Math.round((answered / total) * 100) : 0;
+  const progressText = form.querySelector("[data-development-progress-text]");
+  const progressFill = form.querySelector("[data-development-progress-fill]");
+
+  if (progressText) progressText.textContent = `${answered} / ${total}`;
+  if (progressFill) progressFill.style.width = `${percent}%`;
+
+  form.querySelectorAll(".development-question").forEach((question) => {
+    const index = question.dataset.developmentQuestionIndex;
+    const checked = form.querySelector(`input[name="developmentQuestion${index}"]:checked`);
+    question.classList.toggle("is-answered", Boolean(checked));
+  });
+}
+
+function setActiveTeamDevelopmentTest(testKey) {
+  if (!TEAM_DEVELOPMENT_TESTS[testKey]) return;
+
+  activeTeamDevelopmentTest = testKey;
+  if (teamDevelopmentTabs) {
+    teamDevelopmentTabs.querySelectorAll("[data-development-test]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.developmentTest === testKey);
+    });
+  }
+  renderTeamDevelopmentTest();
+}
+
+function collectTeamDevelopmentAnswers(form, test) {
+  return test.questions.map((question, index) => {
+    const checked = form.querySelector(`input[name="developmentQuestion${index}"]:checked`);
+    return {
+      ...question,
+      value: checked ? Number(checked.value) : 0,
+    };
+  });
+}
+
+function calculateTeamDevelopmentResult(testKey, answers) {
+  const test = getTeamDevelopmentTest(testKey);
+  const dimensionScores = Object.keys(test.dimensions).reduce((scores, key) => {
+    scores[key] = {
+      key,
+      label: test.dimensions[key].label,
+      description: test.dimensions[key].description,
+      advice: test.dimensions[key].advice,
+      score: 0,
+      max: 0,
+    };
+    return scores;
+  }, {});
+
+  answers.forEach((answer) => {
+    if (!dimensionScores[answer.dimension]) return;
+    dimensionScores[answer.dimension].score += answer.value;
+    dimensionScores[answer.dimension].max += 5;
+  });
+
+  const scores = Object.values(dimensionScores)
+    .map((item) => ({
+      ...item,
+      percent: item.max > 0 ? Math.round((item.score / item.max) * 100) : 0,
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const top = scores[0];
+  const selectedFactors = answers
+    .filter((answer) => answer.value >= 4)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 5)
+    .map((answer) => {
+      const label = answer.label || test.dimensions[answer.dimension]?.label || "";
+      return label ? `${label}: ${answer.text}` : answer.text;
+    })
+    .filter((value, index, values) => values.indexOf(value) === index);
+
+  let summary = `Ведущий профиль: ${top.label}. ${top.description}`;
+  if (testKey === "herzberg") {
+    const motivator = scores.find((item) => item.key === "motivator");
+    const hygiene = scores.find((item) => item.key === "hygiene");
+    const difference = (motivator?.score || 0) - (hygiene?.score || 0);
+    if (Math.abs(difference) <= 4) {
+      summary = "Профиль сбалансирован: сотруднику важны и содержательные мотиваторы, и качество рабочих условий.";
+    } else if (difference > 0) {
+      summary = "Преобладают мотиваторы роста: сотрудника сильнее включают достижения, признание, ответственность и развитие.";
+    } else {
+      summary = "Преобладают гигиенические условия: сначала важно обеспечить понятные правила, стабильность, ресурсы и здоровую среду.";
+    }
+  }
+
+  return {
+    testKey,
+    testTitle: test.title,
+    primaryResult: top.label,
+    summary,
+    scores,
+    selectedFactors,
+    recommendations: scores.slice(0, 3).map((item) => item.advice),
+  };
+}
+
+function getDevelopmentScoreLevel(percent) {
+  if (percent >= 80) return "Сильный сигнал";
+  if (percent >= 60) return "Выражено умеренно";
+  if (percent >= 45) return "Зона внимания";
+  return "Нужна поддержка";
+}
+
+function hydrateTeamDevelopmentResult(result) {
+  const test = getTeamDevelopmentTest(result?.testKey);
+  const scores = (Array.isArray(result?.scores) ? result.scores : []).map((score) => {
+    const dimension = test.dimensions?.[score.key] || {};
+    const max = Number(score.max) || 0;
+    const rawScore = Number(score.score) || 0;
+    const percent = Number(score.percent) || (max > 0 ? Math.round((rawScore / max) * 100) : 0);
+    return {
+      key: score.key || "",
+      label: score.label || dimension.label || score.key || "Показатель",
+      description: score.description || dimension.description || "",
+      advice: score.advice || dimension.advice || "",
+      score: rawScore,
+      max,
+      percent,
+    };
+  });
+
+  return {
+    testKey: result?.testKey || activeTeamDevelopmentTest,
+    testTitle: result?.testTitle || test.title,
+    primaryResult: result?.primaryResult || scores[0]?.label || test.title,
+    summary: result?.summary || "",
+    scores,
+    selectedFactors: Array.isArray(result?.selectedFactors) ? result.selectedFactors : [],
+    recommendations: Array.isArray(result?.recommendations) && result.recommendations.length > 0
+      ? result.recommendations
+      : scores.slice(0, 3).map((score) => score.advice).filter(Boolean),
+  };
+}
+
+function renderTeamDevelopmentResultBody(result, eyebrow = "Финальный результат") {
+  const hydrated = hydrateTeamDevelopmentResult(result);
+  const focusAreas = [...hydrated.scores]
+    .sort((a, b) => a.percent - b.percent)
+    .slice(0, 2)
+    .filter((score) => score.description || score.advice);
+
+  return `
+    <div class="development-result-hero">
+      <p class="eyebrow">${escapeHtml(eyebrow)}</p>
+      <h3>${escapeHtml(hydrated.primaryResult)}</h3>
+      <p>${escapeHtml(hydrated.summary)}</p>
+    </div>
+
+    <div class="development-score-grid">
+      ${hydrated.scores.map((score, index) => `
+        <article class="development-score-card ${index === 0 ? "is-primary" : ""}">
+          <strong>${escapeHtml(score.label)}</strong>
+          <div class="development-score-meta">
+            <span>${formatQuantity(score.score)} баллов</span>
+            <span>${score.percent}%</span>
+            <span class="development-score-level">${escapeHtml(getDevelopmentScoreLevel(score.percent))}</span>
+          </div>
+          <div class="development-score-bar"><div style="width:${Math.max(0, Math.min(100, score.percent))}%"></div></div>
+          ${score.description ? `<span>${escapeHtml(score.description)}</span>` : ""}
+          ${score.advice ? `<div class="development-score-advice"><strong>Как использовать:</strong> ${escapeHtml(score.advice)}</div>` : ""}
+        </article>
+      `).join("")}
+    </div>
+
+    ${hydrated.selectedFactors.length ? `
+      <div>
+        <p class="eyebrow">Сильные сигналы</p>
+        <ul class="development-result-list">
+          ${hydrated.selectedFactors.map((factor) => `<li>${escapeHtml(factor)}</li>`).join("")}
+        </ul>
+      </div>
+    ` : ""}
+
+    ${focusAreas.length ? `
+      <div>
+        <p class="eyebrow">Зоны внимания</p>
+        <div class="development-focus-grid">
+          ${focusAreas.map((score) => `
+            <article class="development-focus-card">
+              <strong>${escapeHtml(score.label)} · ${score.percent}%</strong>
+              ${score.description ? `<span>${escapeHtml(score.description)}</span>` : ""}
+              ${score.advice ? `<span>${escapeHtml(score.advice)}</span>` : ""}
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    ` : ""}
+
+    ${hydrated.recommendations.length ? `
+      <div>
+        <p class="eyebrow">Рекомендации</p>
+        <ul class="development-result-list">
+          ${hydrated.recommendations.map((recommendation) => `<li>${escapeHtml(recommendation)}</li>`).join("")}
+        </ul>
+      </div>
+    ` : ""}
+  `;
+}
+
+function renderTeamDevelopmentResult(result) {
+  if (!teamDevelopmentResult) return;
+
+  teamDevelopmentResult.hidden = false;
+  teamDevelopmentResult.innerHTML = `
+    ${renderTeamDevelopmentResultBody(result)}
+
+    <div class="development-form-actions">
+      <button class="primary-button" type="button" data-development-action="save-result">Сохранить финальный ответ</button>
+    </div>
+  `;
+}
+
+function saveTeamDevelopmentFinalResult() {
+  if (!pendingTeamDevelopmentResult) return;
+
+  const record = {
+    id: createId(),
+    employeeName: getTeamDevelopmentEmployeeName(),
+    testKey: pendingTeamDevelopmentResult.testKey,
+    testTitle: pendingTeamDevelopmentResult.testTitle,
+    primaryResult: pendingTeamDevelopmentResult.primaryResult,
+    summary: pendingTeamDevelopmentResult.summary,
+    scores: pendingTeamDevelopmentResult.scores.map((score) => ({
+      key: score.key,
+      label: score.label,
+      description: score.description,
+      advice: score.advice,
+      score: score.score,
+      max: score.max,
+      percent: score.percent,
+    })),
+    selectedFactors: pendingTeamDevelopmentResult.selectedFactors,
+    recommendations: pendingTeamDevelopmentResult.recommendations,
+    createdBy: getCurrentUserDisplayName(),
+    createdAt: new Date().toISOString(),
+  };
+
+  teamDevelopmentResults.unshift(record);
+  activeTeamDevelopmentSavedResultId = record.id;
+  saveTeamDevelopmentResults();
+  renderTeamDevelopmentSavedResults();
+  renderGlobalSearchResults();
+  pendingTeamDevelopmentResult = null;
+
+  const saveButton = teamDevelopmentResult?.querySelector('[data-development-action="save-result"]');
+  if (saveButton) {
+    saveButton.disabled = true;
+    saveButton.textContent = "Финальный ответ сохранен";
+  }
+}
+
+function renderTeamDevelopmentSavedResults() {
+  if (!teamDevelopmentSavedResults) return;
+
+  teamDevelopmentSavedResults.innerHTML = teamDevelopmentResults.length > 0
+    ? teamDevelopmentResults.slice(0, 30).map((item) => {
+      const hydrated = hydrateTeamDevelopmentResult(item);
+      const isOpen = activeTeamDevelopmentSavedResultId === item.id;
+      return `
+      <article class="development-saved-item ${isOpen ? "is-open" : ""}">
+        <div class="team-task-card-head">
+          <button class="development-saved-main" type="button" data-development-result-view="${escapeHtml(item.id)}" aria-expanded="${isOpen ? "true" : "false"}">
+            <span class="development-saved-title">
+              ${escapeHtml(item.employeeName)}
+              <span class="development-saved-hint">${isOpen ? "Свернуть" : "Открыть полный ответ"}</span>
+            </span>
+            <span class="development-saved-summary">${escapeHtml(hydrated.summary)}</span>
+          </button>
+          <button class="icon-button delete-button" type="button" data-development-result-delete="${escapeHtml(item.id)}" aria-label="Удалить результат" title="Удалить">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 6h18"></path>
+              <path d="M8 6V4h8v2"></path>
+              <path d="M19 6l-1 14H6L5 6"></path>
+              <path d="M10 11v5M14 11v5"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="development-saved-meta">
+          <span>${escapeHtml(hydrated.testTitle)}</span>
+          <span>${escapeHtml(hydrated.primaryResult)}</span>
+          <span>${escapeHtml(formatAcknowledgementDate(item.createdAt))}</span>
+        </div>
+        ${isOpen ? `
+          <div class="development-saved-detail">
+            <section class="development-result">
+              ${renderTeamDevelopmentResultBody(hydrated, "Сохраненный финальный ответ")}
+            </section>
+          </div>
+        ` : ""}
+      </article>
+    `;
+    }).join("")
+    : '<div class="team-task-empty">Финальные ответы пока не сохранены.</div>';
+}
+
+function renderTeamDevelopment() {
+  renderTeamDevelopmentDatalist();
+  renderTeamDevelopmentSavedResults();
+
+  if (teamDevelopmentTestContent && !teamDevelopmentTestContent.innerHTML.trim()) {
+    renderTeamDevelopmentTest();
+  }
+}
+
+function deleteTeamDevelopmentResult(id) {
+  teamDevelopmentResults = teamDevelopmentResults.filter((item) => item.id !== id);
+  if (activeTeamDevelopmentSavedResultId === id) {
+    activeTeamDevelopmentSavedResultId = "";
+  }
+  saveTeamDevelopmentResults();
+  renderTeamDevelopmentSavedResults();
+  renderGlobalSearchResults();
+}
+
+function exportTeamDevelopmentResultsCsv() {
+  if (teamDevelopmentResults.length === 0) {
+    window.alert("Сохраненных финальных ответов пока нет.");
+    return;
+  }
+
+  const rows = [
+    ["employeeName", "testTitle", "primaryResult", "summary", "scores", "strongSignals", "recommendations", "createdBy", "createdAt"],
+    ...teamDevelopmentResults.map((item) => {
+      const hydrated = hydrateTeamDevelopmentResult(item);
+      return [
+        item.employeeName,
+        hydrated.testTitle,
+        hydrated.primaryResult,
+        hydrated.summary,
+        hydrated.scores.map((score) => `${score.label}: ${score.score}/${score.percent}% - ${score.description} ${score.advice}`.trim()).join("; "),
+        hydrated.selectedFactors.join("; "),
+        hydrated.recommendations.join(" "),
+        item.createdBy,
+        item.createdAt,
+      ];
+    }),
+  ];
+  const csv = rows.map((row) => row.map((cell) => `"${String(cell || "").replaceAll('"', '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `team-development-results-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
 }
 
 function getAttachmentLabelFromUrl(url) {
@@ -12674,6 +14034,15 @@ function buildGlobalSearchItems() {
     );
   });
   trmsReleaseTasks.forEach((task) => pushItem("TRMS релиз", task.taskName || task.title || task.releaseName, task.releaseName || "", "#trms-releases", task.link || ""));
+  teamDevelopmentResults.forEach((result) => {
+    pushItem(
+      "Развитие команды",
+      result.employeeName,
+      `${result.testTitle} · ${result.primaryResult}`,
+      "#team-development",
+      [result.summary, ...(result.recommendations || [])].join(" "),
+    );
+  });
 
   return items;
 }
@@ -14091,6 +15460,7 @@ function render() {
   renderStep("assignmentBell", renderAssignmentBell);
   renderStep("globalSearch", renderGlobalSearchResults);
   renderStep("elearningTeam", renderElearningTeam);
+  renderStep("teamDevelopment", renderTeamDevelopment);
   renderStep("trmsReleases", renderTrmsReleases);
   renderStep("dashboardFilters", populateDashboardFilters);
   renderStep("trainingReportFilters", populateTrainingReportFilters);
@@ -15065,6 +16435,84 @@ document.addEventListener("keydown", (event) => {
     closeEmployeeModal();
   }
 });
+
+if (teamDevelopmentTabs) {
+  teamDevelopmentTabs.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-development-test]");
+    if (!button) return;
+
+    setActiveTeamDevelopmentTest(button.dataset.developmentTest);
+  });
+}
+
+if (teamDevelopmentTestContent) {
+  teamDevelopmentTestContent.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formElement = event.target.closest("#teamDevelopmentTestForm");
+    if (!formElement || !formElement.reportValidity()) return;
+
+    const testKey = formElement.dataset.testKey || activeTeamDevelopmentTest;
+    const test = getTeamDevelopmentTest(testKey);
+    const answers = collectTeamDevelopmentAnswers(formElement, test);
+    pendingTeamDevelopmentResult = calculateTeamDevelopmentResult(testKey, answers);
+    renderTeamDevelopmentResult(pendingTeamDevelopmentResult);
+  });
+
+  teamDevelopmentTestContent.addEventListener("change", (event) => {
+    if (!event.target.matches('input[type="radio"][name^="developmentQuestion"]')) return;
+    updateTeamDevelopmentProgress(event.target.closest("#teamDevelopmentTestForm"));
+  });
+
+  teamDevelopmentTestContent.addEventListener("reset", (event) => {
+    window.setTimeout(() => updateTeamDevelopmentProgress(event.target.closest("#teamDevelopmentTestForm")), 0);
+  });
+}
+
+if (teamDevelopmentResult) {
+  teamDevelopmentResult.addEventListener("click", (event) => {
+    const button = event.target.closest('[data-development-action="save-result"]');
+    if (!button) return;
+
+    saveTeamDevelopmentFinalResult();
+  });
+}
+
+if (teamDevelopmentSavedResults) {
+  teamDevelopmentSavedResults.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest("[data-development-result-delete]");
+    if (deleteButton) {
+      deleteTeamDevelopmentResult(deleteButton.dataset.developmentResultDelete);
+      return;
+    }
+
+    const viewButton = event.target.closest("[data-development-result-view]");
+    if (!viewButton) return;
+
+    const resultId = viewButton.dataset.developmentResultView;
+    activeTeamDevelopmentSavedResultId = activeTeamDevelopmentSavedResultId === resultId ? "" : resultId;
+    renderTeamDevelopmentSavedResults();
+  });
+}
+
+if (exportTeamDevelopmentResultsButton) {
+  exportTeamDevelopmentResultsButton.addEventListener("click", exportTeamDevelopmentResultsCsv);
+}
+
+if (clearTeamDevelopmentResultsButton) {
+  clearTeamDevelopmentResultsButton.addEventListener("click", () => {
+    if (teamDevelopmentResults.length === 0) return;
+
+    const confirmed = window.confirm("Очистить все сохраненные финальные ответы сотрудников?");
+    if (!confirmed) return;
+
+    teamDevelopmentResults = [];
+    activeTeamDevelopmentSavedResultId = "";
+    saveTeamDevelopmentResults();
+    renderTeamDevelopmentSavedResults();
+    renderGlobalSearchResults();
+  });
+}
 
 trmsReleaseForm.addEventListener("submit", (event) => {
   event.preventDefault();
