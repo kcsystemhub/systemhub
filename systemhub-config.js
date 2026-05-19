@@ -1,0 +1,9 @@
+window.SYSTEMHUB_SUPABASE_URL = "https://galxkuzqgdnwpxscrbje.supabase.co";
+window.SYSTEMHUB_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhbHhrdXpxZ2Rud3B4c2NyYmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3OTUzOTIsImV4cCI6MjA5NDM3MTM5Mn0.gqL5eppxOjvZLH4i24rAJKk9pjOTXmfqp8BeHL2L4TA";
+window.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQhD4QmZsTOs7KWhtvjZk34yuMLuV1qhWwKRtBgxYGFdkOHp637iiR422ucta3LB5c/exec";
+window.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN = "ae0af63531644b6eaac16b2c19935536dee058e99b154a52927571f2851c8743";
+window.SYSTEMHUB_GOOGLE_CALENDAR_ID = "a51581256de51cda77f4611103f1b12d8d6aaede7775cf4c607c6610f368686c@group.calendar.google.com";
+window.SYSTEMHUB_GOOGLE_CALENDAR_SCRIPT_URL_2 = "https://script.google.com/macros/s/AKfycbwz783v1jlzkfkRWMI9yOqwF4IiDoeLC8wdxZVivCg5cmI2zU5wF2HJLoEVzHRmYEvl/exec";
+window.SYSTEMHUB_GOOGLE_CALENDAR_TOKEN_2 = "3b8667b6d7a043c0a9fd68f2848ea365a9f65ac59c644a029f4c7a6cc1a941d1";
+window.SYSTEMHUB_GOOGLE_CALENDAR_ID_2 = "598865eb3a14a509d9058a62cabe3ecbd97f05628a0a7ff34942aee791c21590@group.calendar.google.com";
+window.SYSTEMHUB_BUILD = "multi-google-calendar-sync-2026-05-18";
