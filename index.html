@@ -1864,6 +1864,194 @@ html[data-theme="light"] .kanban-card strong {
   color: var(--ink);
 }
 
+.messenger-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.34fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.messenger-side,
+.messenger-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.messenger-thread-list,
+.messenger-contact-list,
+.messenger-message-list,
+.messenger-attachment-list,
+.messenger-poll-options {
+  display: grid;
+  gap: 10px;
+}
+
+.messenger-thread-button,
+.messenger-contact-button {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  text-align: left;
+}
+
+.messenger-thread-button.is-active,
+.messenger-contact-button:hover {
+  border-color: rgba(245, 196, 81, 0.42);
+  background: rgba(245, 196, 81, 0.1);
+}
+
+.messenger-thread-button strong,
+.messenger-contact-button strong,
+.messenger-message-author {
+  color: #ffffff;
+}
+
+.messenger-thread-button span,
+.messenger-contact-button span,
+.messenger-message-meta,
+.messenger-message-text,
+.messenger-empty,
+.messenger-help {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.messenger-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.messenger-message-list {
+  max-height: min(62vh, 720px);
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.messenger-message {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.messenger-message.is-own {
+  border-color: rgba(47, 183, 229, 0.36);
+  background: rgba(47, 183, 229, 0.08);
+}
+
+.messenger-message.is-mentioned {
+  border-color: rgba(245, 196, 81, 0.44);
+  background: rgba(245, 196, 81, 0.08);
+}
+
+.messenger-message-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.messenger-message-text {
+  white-space: pre-wrap;
+}
+
+.messenger-attachment-list {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.messenger-attachment {
+  display: grid;
+  gap: 4px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.messenger-poll {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(47, 183, 229, 0.28);
+  border-radius: var(--radius);
+  background: rgba(47, 183, 229, 0.07);
+}
+
+.messenger-poll-option {
+  display: grid;
+  gap: 5px;
+}
+
+.messenger-poll-option button {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.messenger-poll-track {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.messenger-poll-track div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--air-sky), var(--air-gold-light));
+}
+
+.messenger-form {
+  display: grid;
+  gap: 12px;
+}
+
+.messenger-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.5fr);
+  gap: 12px;
+}
+
+.messenger-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.messenger-empty {
+  padding: 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+html[data-theme="light"] .messenger-thread-button,
+html[data-theme="light"] .messenger-contact-button,
+html[data-theme="light"] .messenger-message,
+html[data-theme="light"] .messenger-attachment,
+html[data-theme="light"] .messenger-poll {
+  background: rgba(255, 255, 255, 0.68);
+}
+
+html[data-theme="light"] .messenger-thread-button strong,
+html[data-theme="light"] .messenger-contact-button strong,
+html[data-theme="light"] .messenger-message-author {
+  color: var(--ink);
+}
+
 .report-layout {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
@@ -4967,6 +5155,8 @@ html[data-theme="light"] .report-pie {
   .development-layout,
   .development-score-grid,
   .development-focus-grid,
+  .messenger-layout,
+  .messenger-form-grid,
   .dashboard-grid,
   .dashboard-filters,
   .dashboard-upload,
@@ -5327,6 +5517,13 @@ html[data-theme="light"] .report-pie {
               <circle cx="14" cy="13" r="1" />
             </svg>
             Развитие команды
+          </a>
+          <a class="nav-link" href="#messenger" data-nav-link="messenger">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" />
+              <path d="M8 9h8M8 13h5" />
+            </svg>
+            Мессенджер
           </a>
           <a class="nav-link" href="#trms-releases" data-nav-link="trmsReleases">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -6651,6 +6848,70 @@ html[data-theme="light"] .report-pie {
               </div>
               <div class="development-saved-list" id="teamDevelopmentSavedResults"></div>
             </article>
+          </section>
+        </section>
+
+        <section class="page-section" id="messengerPage" data-page-panel="messenger" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Team messenger</p>
+              <h1>Мессенджер</h1>
+            </div>
+            <div class="sheet-badge" title="Сообщения синхронизируются через Supabase app_settings">
+              <span class="status-dot"></span>
+              Чат команды
+            </div>
+          </header>
+
+          <section class="messenger-layout">
+            <aside class="team-chart-card messenger-side">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Чаты</p>
+                  <h3>Группа и личные диалоги</h3>
+                </div>
+                <button class="ghost-button" id="refreshMessengerButton" type="button">Обновить</button>
+              </div>
+              <div class="messenger-thread-list" id="messengerThreadList"></div>
+              <div class="field">
+                <span>Начать личный чат</span>
+                <select id="messengerDirectSelect"></select>
+              </div>
+              <button class="primary-button" id="startDirectMessengerButton" type="button">Открыть диалог</button>
+              <p class="messenger-help">Для упоминания используйте @Имя или @логин. Уведомление появится в верхнем колокольчике.</p>
+            </aside>
+
+            <section class="entry-panel messenger-panel" aria-labelledby="messengerTitle">
+              <div class="messenger-toolbar">
+                <div>
+                  <p class="eyebrow" id="messengerModeLabel">Group chat</p>
+                  <h2 id="messengerTitle">Общий чат команды</h2>
+                </div>
+                <div class="sheet-badge" id="messengerSyncStatus">
+                  <span class="status-dot"></span>
+                  Локально
+                </div>
+              </div>
+
+              <div class="messenger-message-list" id="messengerMessageList"></div>
+
+              <form class="messenger-form" id="messengerForm">
+                <label class="field">
+                  <span>Сообщение</span>
+                  <textarea id="messengerMessageInput" rows="4" placeholder="Напишите сообщение, используйте @Темирлан для тега"></textarea>
+                </label>
+
+                <label class="field">
+                  <span>Ссылки на файлы</span>
+                  <textarea id="messengerAttachmentLinksInput" rows="3" placeholder="Название | https://..."></textarea>
+                </label>
+
+                <div class="messenger-form-actions">
+                  <button class="ghost-button" id="clearMessengerFormButton" type="button">Очистить</button>
+                  <button class="primary-button" type="submit">Отправить</button>
+                </div>
+              </form>
+            </section>
           </section>
         </section>
 
@@ -8054,7 +8315,11 @@ using (true);
 create policy "systemhub app settings write"
 on public.app_settings for all
 using (true)
-with check (true);</code></pre>
+with check (true);
+
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on public.app_settings to anon, authenticated;
+notify pgrst, 'reload schema';</code></pre>
 
             <p class="settings-note">
               Supabase теперь используется как основной источник данных. Изменения сохраняются по разделам и
@@ -8091,6 +8356,7 @@ const TEAM_TASKS_STORAGE_KEY = "systemhub.teamTasks";
 const TEAM_TASK_MEMBERS_STORAGE_KEY = "systemhub.teamTaskMembers";
 const ELEARNING_TEAM_PROFILES_STORAGE_KEY = "systemhub.elearningTeamProfiles";
 const TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY = "systemhub.teamDevelopmentResults";
+const MESSENGER_STORAGE_KEY = "systemhub.messengerState";
 const REPORT_STORAGE_KEY = "systemhub.reportCsv";
 const GOOGLE_SCRIPT_URL_STORAGE_KEY = "systemhub.supabaseUrl";
 const GOOGLE_SYNC_TOKEN_STORAGE_KEY = "systemhub.supabaseAnonKey";
@@ -8122,6 +8388,8 @@ const AUTH_SESSION_STORAGE_KEY = "systemhub.authSession";
 const AUTH_USERS_TABLE = "app_users";
 const APP_SETTINGS_TABLE = "app_settings";
 const TELEGRAM_SETTINGS_KEY = "telegramBot";
+const MESSENGER_SETTINGS_KEY = "messenger";
+const MESSENGER_GENERAL_CONVERSATION_ID = "group:team";
 const AUTH_PASSWORD_DERIVE_ITERATIONS = 150000;
 const DEFAULT_ADMIN_USERS = [
   { login: "16643", password: "AirAstana2026!", role: "admin", displayName: "Admin 16643" },
@@ -8148,6 +8416,7 @@ const INTERFACE_TEXT = {
     teamTasks: { ru: "Задачи команды", en: "Team Tasks" },
     elearningTeam: { ru: "Команда E-Learning & Systems", en: "E-Learning & Systems Team" },
     teamDevelopment: { ru: "Развитие команды", en: "Team Development" },
+    messenger: { ru: "Мессенджер", en: "Messenger" },
     trmsReleases: { ru: "ТРМС Релизы", en: "TRMS Releases" },
     notifications: { ru: "Уведомления", en: "Notifications" },
     calendar: { ru: "Календарь", en: "Calendar" },
@@ -8186,6 +8455,19 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Задачи команды", "Team Tasks"],
   ["Команда E-Learning & Systems", "E-Learning & Systems Team"],
   ["Развитие команды", "Team Development"],
+  ["Мессенджер", "Messenger"],
+  ["Чаты", "Chats"],
+  ["Группа и личные диалоги", "Group and direct chats"],
+  ["Общий чат команды", "Team group chat"],
+  ["Начать личный чат", "Start direct chat"],
+  ["Открыть диалог", "Open chat"],
+  ["Сообщение", "Message"],
+  ["Файлы", "Files"],
+  ["Ссылки на файлы", "File links"],
+  ["Варианты", "Options"],
+  ["Отправить", "Send"],
+  ["Обновить", "Refresh"],
+  ["Чат команды", "Team chat"],
   ["ТРМС Релизы", "TRMS Releases"],
   ["Уведомления", "Notifications"],
   ["Календарь", "Calendar"],
@@ -8807,6 +9089,18 @@ const teamDevelopmentResult = document.querySelector("#teamDevelopmentResult");
 const teamDevelopmentSavedResults = document.querySelector("#teamDevelopmentSavedResults");
 const exportTeamDevelopmentResultsButton = document.querySelector("#exportTeamDevelopmentResults");
 const clearTeamDevelopmentResultsButton = document.querySelector("#clearTeamDevelopmentResults");
+const messengerThreadList = document.querySelector("#messengerThreadList");
+const messengerDirectSelect = document.querySelector("#messengerDirectSelect");
+const startDirectMessengerButton = document.querySelector("#startDirectMessengerButton");
+const refreshMessengerButton = document.querySelector("#refreshMessengerButton");
+const messengerModeLabel = document.querySelector("#messengerModeLabel");
+const messengerTitle = document.querySelector("#messengerTitle");
+const messengerSyncStatus = document.querySelector("#messengerSyncStatus");
+const messengerMessageList = document.querySelector("#messengerMessageList");
+const messengerForm = document.querySelector("#messengerForm");
+const messengerMessageInput = document.querySelector("#messengerMessageInput");
+const messengerAttachmentLinksInput = document.querySelector("#messengerAttachmentLinksInput");
+const clearMessengerFormButton = document.querySelector("#clearMessengerFormButton");
 const trmsReleaseForm = document.querySelector("#trmsReleaseForm");
 const trmsReleaseTaskIdInput = document.querySelector("#trmsReleaseTaskId");
 const trmsReleaseNameInput = document.querySelector("#trmsReleaseName");
@@ -8975,6 +9269,7 @@ let teamTaskMembers = loadTeamTaskMembers();
 let teamTasks = normalizeTeamTasks(loadTeamTasks());
 let elearningTeamProfiles = loadElearningTeamProfiles();
 let teamDevelopmentResults = loadTeamDevelopmentResults();
+let messengerState = loadMessengerState();
 let trmsReleaseTasks = loadTrmsReleaseTasks();
 let reportRows = loadReportRows();
 let googleScriptUrl = loadGoogleScriptUrl();
@@ -8991,6 +9286,9 @@ let telegramBotEnabled = loadTelegramBotEnabled();
 let telegramSharedSettingsChecked = false;
 let telegramSharedSettingsLoaded = false;
 let telegramSharedSettingsRequest = null;
+let messengerSharedSettingsLoaded = false;
+let messengerSharedSettingsRequest = null;
+let messengerSaveTimer = null;
 let googleAutoSyncTimer = null;
 let googleAutoSyncQueued = false;
 let googleAutoSyncInFlight = false;
@@ -9074,6 +9372,7 @@ let pendingEmployeePhoto = "";
 let activeTeamDevelopmentTest = "herzberg";
 let pendingTeamDevelopmentResult = null;
 let activeTeamDevelopmentSavedResultId = "";
+let activeMessengerConversationId = MESSENGER_GENERAL_CONVERSATION_ID;
 
 function getSavedLanguage() {
   try {
@@ -10022,6 +10321,100 @@ function saveTeamDevelopmentResults() {
   setStorageValue(TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY, JSON.stringify(teamDevelopmentResults));
 }
 
+function normalizeMessengerConversation(value) {
+  return {
+    id: String(value?.id || "").trim(),
+    type: value?.type === "direct" ? "direct" : "group",
+    title: String(value?.title || "").trim(),
+    participants: normalizeTeamTaskMemberList(value?.participants || []),
+    updatedAt: value?.updatedAt || new Date().toISOString(),
+  };
+}
+
+function normalizeMessengerMessage(value) {
+  const pollOptions = Array.isArray(value?.poll?.options) ? value.poll.options : [];
+  const pollVotes = value?.poll?.votes && typeof value.poll.votes === "object" ? value.poll.votes : {};
+
+  return {
+    id: value?.id || createId(),
+    conversationId: String(value?.conversationId || MESSENGER_GENERAL_CONVERSATION_ID),
+    type: value?.type === "poll" ? "poll" : "message",
+    authorKey: String(value?.authorKey || "").trim(),
+    authorName: String(value?.authorName || "").trim(),
+    text: String(value?.text || "").trim(),
+    mentions: Array.isArray(value?.mentions) ? value.mentions.map(String).filter(Boolean) : [],
+    readBy: Array.isArray(value?.readBy) ? value.readBy.map(String).filter(Boolean) : [],
+    attachments: Array.isArray(value?.attachments)
+      ? value.attachments.map((attachment) => ({
+        id: attachment?.id || createId(),
+        name: String(attachment?.name || "Файл").trim(),
+        url: String(attachment?.url || "").trim(),
+        type: String(attachment?.type || "").trim(),
+        size: Number(attachment?.size) || 0,
+      })).filter((attachment) => attachment.url)
+      : [],
+    poll: value?.poll ? {
+      question: String(value.poll.question || "").trim(),
+      options: pollOptions.map((option) => ({
+        id: option?.id || createId(),
+        text: String(option?.text || "").trim(),
+      })).filter((option) => option.text),
+      votes: Object.fromEntries(Object.entries(pollVotes).map(([optionId, voters]) => [
+        optionId,
+        Array.isArray(voters) ? voters.map(String).filter(Boolean) : [],
+      ])),
+    } : null,
+    createdAt: value?.createdAt || new Date().toISOString(),
+    updatedAt: value?.updatedAt || value?.createdAt || new Date().toISOString(),
+  };
+}
+
+function normalizeMessengerState(value) {
+  const conversations = (Array.isArray(value?.conversations) ? value.conversations : [])
+    .map(normalizeMessengerConversation)
+    .filter((conversation) => conversation.id);
+  const hasGeneral = conversations.some((conversation) => conversation.id === MESSENGER_GENERAL_CONVERSATION_ID);
+
+  if (!hasGeneral) {
+    conversations.unshift({
+      id: MESSENGER_GENERAL_CONVERSATION_ID,
+      type: "group",
+      title: "Общий чат команды",
+      participants: [],
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  return {
+    conversations,
+    messages: (Array.isArray(value?.messages) ? value.messages : [])
+      .map(normalizeMessengerMessage)
+      .filter((message) => message.conversationId)
+      .sort((a, b) => String(a.createdAt || "").localeCompare(String(b.createdAt || ""))),
+    updatedAt: value?.updatedAt || new Date().toISOString(),
+  };
+}
+
+function loadMessengerState() {
+  try {
+    return normalizeMessengerState(JSON.parse(localStorage.getItem(MESSENGER_STORAGE_KEY)) || {});
+  } catch {
+    return normalizeMessengerState({});
+  }
+}
+
+function saveMessengerState(options = {}) {
+  messengerState = normalizeMessengerState({
+    ...messengerState,
+    updatedAt: new Date().toISOString(),
+  });
+  setStorageValue(MESSENGER_STORAGE_KEY, JSON.stringify(messengerState));
+
+  if (!options.skipShared) {
+    scheduleMessengerSharedSave();
+  }
+}
+
 function loadTrmsReleaseTasks() {
   try {
     return JSON.parse(localStorage.getItem(TRMS_RELEASES_STORAGE_KEY)) || [];
@@ -10219,7 +10612,7 @@ function applyTelegramSettingsSnapshot(settings, options = {}) {
 function getSharedTelegramSettingsError(error) {
   const message = error?.message || String(error || "");
   if (/app_settings|schema cache|does not exist|relation/i.test(message)) {
-    return "Создайте таблицу app_settings в Supabase. SQL добавлен в раздел Настройки.";
+    return "Таблица app_settings не видна Supabase API. Проверьте public.app_settings и выполните notify pgrst, 'reload schema'; SQL добавлен в раздел Настройки.";
   }
   return message || "Не удалось загрузить общие настройки Telegram.";
 }
@@ -10303,6 +10696,94 @@ async function initializeTelegramSettings() {
   }
 
   renderTelegramBotSettings();
+}
+
+function getMessengerSharedError(error) {
+  const message = error?.message || String(error || "");
+  if (/app_settings|schema cache|does not exist|relation/i.test(message)) {
+    return "Мессенджер работает локально: таблица app_settings не видна Supabase API.";
+  }
+  return message || "Не удалось синхронизировать мессенджер.";
+}
+
+async function loadSharedMessengerState(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) return false;
+  if (messengerSharedSettingsRequest) return messengerSharedSettingsRequest;
+
+  messengerSharedSettingsRequest = (async () => {
+    try {
+      const client = getSupabaseClient();
+      const { data, error } = await client
+        .from(APP_SETTINGS_TABLE)
+        .select("value")
+        .eq("key", MESSENGER_SETTINGS_KEY)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data?.value) {
+        messengerState = normalizeMessengerState(data.value);
+        saveMessengerState({ skipShared: true });
+        messengerSharedSettingsLoaded = true;
+        renderMessenger();
+        renderAssignmentBell();
+        renderGlobalSearchResults();
+      }
+
+      updateMessengerSyncStatus();
+      return Boolean(data?.value);
+    } catch (error) {
+      messengerSharedSettingsLoaded = false;
+      if (!options.silent) updateMessengerSyncStatus(getMessengerSharedError(error), "warning");
+      return false;
+    } finally {
+      messengerSharedSettingsRequest = null;
+    }
+  })();
+
+  return messengerSharedSettingsRequest;
+}
+
+async function saveSharedMessengerState(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) {
+    if (!options.silent) updateMessengerSyncStatus("Мессенджер сохранен локально. Supabase не настроен.", "warning");
+    return false;
+  }
+
+  try {
+    const client = getSupabaseClient();
+    const { error } = await client.from(APP_SETTINGS_TABLE).upsert(
+      {
+        key: MESSENGER_SETTINGS_KEY,
+        value: normalizeMessengerState(messengerState),
+        updatedAt: new Date().toISOString(),
+        updatedBy: currentUser?.displayName || currentUser?.login || "",
+      },
+      { onConflict: "key" },
+    );
+
+    if (error) throw error;
+    messengerSharedSettingsLoaded = true;
+    updateMessengerSyncStatus("Синхронизировано", "success");
+    return true;
+  } catch (error) {
+    messengerSharedSettingsLoaded = false;
+    if (!options.silent) updateMessengerSyncStatus(getMessengerSharedError(error), "warning");
+    return false;
+  }
+}
+
+function scheduleMessengerSharedSave() {
+  if (messengerSaveTimer) clearTimeout(messengerSaveTimer);
+  messengerSaveTimer = setTimeout(() => {
+    messengerSaveTimer = null;
+    saveSharedMessengerState({ silent: true }).catch(() => {});
+  }, 600);
+}
+
+async function initializeMessenger() {
+  await loadSharedMessengerState({ silent: true });
+  renderMessenger();
 }
 
 function saveLocalSyncData() {
@@ -11270,6 +11751,7 @@ function showAuthenticatedApp(user) {
   render();
   renderAdminUsersPanel();
   initializeTelegramSettings().catch(() => {});
+  initializeMessenger().catch(() => {});
 
   if (!appBootstrapped) {
     appBootstrapped = true;
@@ -12448,6 +12930,7 @@ function getPageFromHash() {
   if (window.location.hash === "#team-tasks") return "teamTasks";
   if (window.location.hash === "#elearning-team") return "elearningTeam";
   if (window.location.hash === "#team-development") return "teamDevelopment";
+  if (window.location.hash === "#messenger") return "messenger";
   if (window.location.hash === "#trms-releases") return "trmsReleases";
   if (window.location.hash === "#dashboards") return "dashboards";
   if (window.location.hash === "#training-report") return "trainingReport";
@@ -12463,6 +12946,7 @@ function getHashForPage(page) {
   if (page === "teamTasks") return "#team-tasks";
   if (page === "elearningTeam") return "#elearning-team";
   if (page === "teamDevelopment") return "#team-development";
+  if (page === "messenger") return "#messenger";
   if (page === "trmsReleases") return "#trms-releases";
   if (page === "trainingReport") return "#training-report";
   if (page === "participantReports") return "#participant-reports";
@@ -12490,6 +12974,10 @@ function showPage(page) {
 
   if (page === "today") renderTodayDashboard();
   if (page === "myTasks") renderMyTasks();
+  if (page === "messenger") {
+    loadSharedMessengerState({ silent: true }).catch(() => {});
+    renderMessenger();
+  }
 
   document.title = getPageTitle(page);
   applyLanguage(currentInterfaceLanguage);
@@ -13814,6 +14302,354 @@ function getCurrentUserAssigneeAliases() {
   return aliases;
 }
 
+function getMessengerParticipants() {
+  const names = [
+    currentUser?.displayName,
+    currentUser?.login,
+    ...authUsers.map((user) => user.displayName || user.login),
+    ...authUsers.map((user) => user.login),
+    ...DEFAULT_ELEARNING_TEAM.map((employee) => employee.name),
+    ...teamTaskMembers,
+  ];
+
+  return [...new Set(names.map((name) => String(name || "").trim()).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, "ru"));
+}
+
+function getMessengerConversation(id = activeMessengerConversationId) {
+  return messengerState.conversations.find((conversation) => conversation.id === id)
+    || messengerState.conversations.find((conversation) => conversation.id === MESSENGER_GENERAL_CONVERSATION_ID)
+    || normalizeMessengerConversation({ id: MESSENGER_GENERAL_CONVERSATION_ID, title: "Общий чат команды" });
+}
+
+function getDirectConversationId(participantName) {
+  const currentKey = normalizeNotificationIdentity(currentUser?.login || currentUser?.displayName || "me");
+  const participantKey = normalizeNotificationIdentity(participantName);
+  return `dm:${[currentKey, participantKey].sort().join("|")}`;
+}
+
+function ensureMessengerConversation(conversation) {
+  const normalized = normalizeMessengerConversation(conversation);
+  const existingIndex = messengerState.conversations.findIndex((item) => item.id === normalized.id);
+  if (existingIndex >= 0) {
+    messengerState.conversations[existingIndex] = {
+      ...messengerState.conversations[existingIndex],
+      ...normalized,
+      updatedAt: new Date().toISOString(),
+    };
+  } else {
+    messengerState.conversations.push(normalized);
+  }
+  saveMessengerState();
+}
+
+function getMessengerConversationTitle(conversation) {
+  if (conversation.id === MESSENGER_GENERAL_CONVERSATION_ID) return "Общий чат команды";
+  if (conversation.type !== "direct") return conversation.title || "Групповой чат";
+
+  const currentAliases = getCurrentUserAssigneeAliases();
+  const other = normalizeTeamTaskMemberList(conversation.participants)
+    .find((participant) => !currentAliases.has(normalizeNotificationIdentity(participant)));
+  return other || conversation.title || "Личный чат";
+}
+
+function getMessengerMessages(conversationId = activeMessengerConversationId) {
+  return messengerState.messages
+    .filter((message) => message.conversationId === conversationId)
+    .sort((a, b) => String(a.createdAt || "").localeCompare(String(b.createdAt || "")));
+}
+
+function getMessengerMentionKeys(text) {
+  const source = normalizeNotificationIdentity(text);
+  if (!source.includes("@")) return [];
+
+  const options = getMessengerParticipants();
+  const mentions = new Set();
+  options.forEach((name) => {
+    const normalizedName = normalizeNotificationIdentity(name);
+    const firstName = normalizedName.split(" ")[0];
+    [normalizedName, firstName].filter(Boolean).forEach((alias) => {
+      if (source.includes(`@${alias}`)) mentions.add(alias);
+    });
+  });
+
+  return [...mentions];
+}
+
+function isMessengerMessageMentioningCurrentUser(message) {
+  if (!currentUser || message.authorKey === getCurrentUserNotificationKey()) return false;
+  const aliases = getCurrentUserAssigneeAliases();
+  return (message.mentions || []).some((mention) => aliases.has(normalizeNotificationIdentity(mention)));
+}
+
+function isMessengerMessageReadByCurrentUser(message) {
+  const userKey = getCurrentUserNotificationKey();
+  return !userKey || (message.readBy || []).map(normalizeNotificationIdentity).includes(userKey);
+}
+
+function getCurrentMessengerMentionNotifications() {
+  return messengerState.messages
+    .filter(isMessengerMessageMentioningCurrentUser)
+    .filter((message) => !isMessengerMessageReadByCurrentUser(message))
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+}
+
+function markMessengerMessageRead(messageId) {
+  const userKey = getCurrentUserNotificationKey();
+  if (!userKey || !messageId) return;
+
+  messengerState.messages = messengerState.messages.map((message) => {
+    if (message.id !== messageId) return message;
+    const readBy = new Set([...(message.readBy || []).map(normalizeNotificationIdentity), userKey]);
+    return {
+      ...message,
+      readBy: [...readBy],
+      updatedAt: new Date().toISOString(),
+    };
+  });
+
+  saveMessengerState();
+  renderMessenger();
+  renderAssignmentBell();
+}
+
+function updateMessengerSyncStatus(message = "", type = "") {
+  if (!messengerSyncStatus) return;
+  const text = message || (messengerSharedSettingsLoaded ? "Синхронизировано" : "Локально");
+  const statusDot = messengerSyncStatus.querySelector(".status-dot");
+  messengerSyncStatus.textContent = ` ${text}`;
+  if (statusDot) messengerSyncStatus.prepend(statusDot);
+  messengerSyncStatus.title = text;
+  messengerSyncStatus.className = `sheet-badge${type ? ` is-${type}` : ""}`;
+}
+
+function renderMessengerThreads() {
+  if (!messengerThreadList) return;
+
+  messengerThreadList.innerHTML = messengerState.conversations.map((conversation) => {
+    const messages = getMessengerMessages(conversation.id);
+    const lastMessage = messages[messages.length - 1];
+    const unreadCount = messengerState.messages.filter((message) => (
+      message.conversationId === conversation.id
+      && isMessengerMessageMentioningCurrentUser(message)
+      && !isMessengerMessageReadByCurrentUser(message)
+    )).length;
+
+    return `
+      <button class="messenger-thread-button ${conversation.id === activeMessengerConversationId ? "is-active" : ""}" type="button" data-messenger-thread="${escapeHtml(conversation.id)}">
+        <strong>${escapeHtml(getMessengerConversationTitle(conversation))}${unreadCount ? ` · ${unreadCount}` : ""}</strong>
+        <span>${lastMessage ? escapeHtml(lastMessage.text || lastMessage.poll?.question || "Вложение") : "Сообщений пока нет"}</span>
+      </button>
+    `;
+  }).join("");
+}
+
+function renderMessengerDirectOptions() {
+  if (!messengerDirectSelect) return;
+  const currentAliases = getCurrentUserAssigneeAliases();
+  const options = getMessengerParticipants()
+    .filter((name) => !currentAliases.has(normalizeNotificationIdentity(name)));
+
+  messengerDirectSelect.innerHTML = options.length > 0
+    ? options.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("")
+    : '<option value="">Нет участников</option>';
+}
+
+function renderMessengerAttachments(attachments = []) {
+  if (!attachments.length) return "";
+  return `
+    <div class="messenger-attachment-list">
+      ${attachments.map((attachment) => `
+        <a class="messenger-attachment" href="${escapeHtml(attachment.url)}" target="_blank" rel="noopener noreferrer" download="${attachment.url.startsWith("data:") ? escapeHtml(attachment.name) : ""}">
+          <strong>${escapeHtml(attachment.name)}</strong>
+          <span>${attachment.size ? `${formatQuantity(Math.round(attachment.size / 1024))} KB` : "Ссылка"}</span>
+        </a>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderMessengerPoll(message) {
+  if (!message.poll?.question) return "";
+  const userKey = getCurrentUserNotificationKey();
+  const totalVotes = Object.values(message.poll.votes || {}).reduce((sum, voters) => sum + (Array.isArray(voters) ? voters.length : 0), 0);
+
+  return `
+    <div class="messenger-poll">
+      <strong>${escapeHtml(message.poll.question)}</strong>
+      <div class="messenger-poll-options">
+        ${message.poll.options.map((option) => {
+          const voters = message.poll.votes?.[option.id] || [];
+          const voted = voters.map(normalizeNotificationIdentity).includes(userKey);
+          const percent = totalVotes > 0 ? Math.round((voters.length / totalVotes) * 100) : 0;
+          return `
+            <div class="messenger-poll-option">
+              <button class="ghost-button" type="button" data-messenger-poll-vote="${escapeHtml(message.id)}" data-option-id="${escapeHtml(option.id)}">
+                <span>${escapeHtml(option.text)}${voted ? " · ваш голос" : ""}</span>
+                <strong>${percent}%</strong>
+              </button>
+              <div class="messenger-poll-track"><div style="width:${percent}%"></div></div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderMessengerMessages() {
+  if (!messengerMessageList) return;
+  const messages = getMessengerMessages();
+  messengerMessageList.innerHTML = messages.length > 0
+    ? messages.map((message) => {
+      const isOwn = message.authorKey === getCurrentUserNotificationKey();
+      const isMentioned = isMessengerMessageMentioningCurrentUser(message) && !isMessengerMessageReadByCurrentUser(message);
+      return `
+        <article class="messenger-message ${isOwn ? "is-own" : ""} ${isMentioned ? "is-mentioned" : ""}">
+          <div class="messenger-message-head">
+            <strong class="messenger-message-author">${escapeHtml(message.authorName || "SystemHub")}</strong>
+            <span class="messenger-message-meta">${escapeHtml(formatAcknowledgementDate(message.createdAt))}</span>
+          </div>
+          ${message.text ? `<div class="messenger-message-text">${escapeHtml(message.text)}</div>` : ""}
+          ${renderMessengerAttachments(message.attachments)}
+          ${renderMessengerPoll(message)}
+          ${isMentioned ? `<div class="assignment-bell-actions"><button class="primary-button" type="button" data-messenger-read="${escapeHtml(message.id)}">Прочитано</button></div>` : ""}
+        </article>
+      `;
+    }).join("")
+    : '<div class="messenger-empty">В этом чате пока нет сообщений.</div>';
+  messengerMessageList.scrollTop = messengerMessageList.scrollHeight;
+}
+
+function renderMessenger() {
+  if (!messengerThreadList || !messengerMessageList) return;
+  if (!messengerState.conversations.some((item) => item.id === activeMessengerConversationId)) {
+    activeMessengerConversationId = MESSENGER_GENERAL_CONVERSATION_ID;
+  }
+  const conversation = getMessengerConversation();
+
+  if (messengerTitle) messengerTitle.textContent = getMessengerConversationTitle(conversation);
+  if (messengerModeLabel) messengerModeLabel.textContent = conversation.type === "direct" ? "Личный чат" : "Group chat";
+  renderMessengerThreads();
+  renderMessengerDirectOptions();
+  renderMessengerMessages();
+  updateMessengerSyncStatus();
+}
+
+function startDirectMessengerConversation(participantName) {
+  const name = String(participantName || "").trim();
+  if (!name || !currentUser) return;
+
+  const currentName = getCurrentUserDisplayName();
+  const conversationId = getDirectConversationId(name);
+  ensureMessengerConversation({
+    id: conversationId,
+    type: "direct",
+    title: name,
+    participants: [currentName, name],
+    updatedAt: new Date().toISOString(),
+  });
+  activeMessengerConversationId = conversationId;
+  renderMessenger();
+}
+
+function parseMessengerLinkAttachments(value) {
+  return String(value || "")
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [rawName, rawUrl] = line.includes("|") ? line.split("|").map((part) => part.trim()) : ["Файл", line];
+      return {
+        id: createId(),
+        name: rawName || "Файл",
+        url: normalizeLinkUrl(rawUrl || rawName),
+        type: "link",
+        size: 0,
+      };
+    })
+    .filter((attachment) => isHttpUrl(attachment.url));
+}
+
+function resetMessengerForm() {
+  messengerForm?.reset();
+  updateMessengerSyncStatus();
+}
+
+async function sendMessengerMessage() {
+  if (!currentUser || !messengerForm) return;
+  const targetConversationId = activeMessengerConversationId;
+  const targetConversation = getMessengerConversation(targetConversationId);
+  await loadSharedMessengerState({ silent: true });
+  if (targetConversation.id === targetConversationId && !messengerState.conversations.some((conversation) => conversation.id === targetConversationId)) {
+    messengerState.conversations.push(targetConversation);
+  }
+  activeMessengerConversationId = messengerState.conversations.some((conversation) => conversation.id === targetConversationId)
+    ? targetConversationId
+    : MESSENGER_GENERAL_CONVERSATION_ID;
+
+  const text = messengerMessageInput?.value.trim() || "";
+  const attachments = parseMessengerLinkAttachments(messengerAttachmentLinksInput?.value || "");
+
+  if (!text && attachments.length === 0) {
+    window.alert("Напишите сообщение или добавьте ссылку на файл.");
+    return;
+  }
+
+  const conversation = getMessengerConversation();
+  const now = new Date().toISOString();
+  const message = normalizeMessengerMessage({
+    id: createId(),
+    conversationId: conversation.id,
+    type: "message",
+    authorKey: getCurrentUserNotificationKey(),
+    authorName: getCurrentUserDisplayName(),
+    text,
+    mentions: getMessengerMentionKeys(text),
+    readBy: [getCurrentUserNotificationKey()],
+    attachments,
+    poll: null,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  messengerState.messages.push(message);
+  messengerState.conversations = messengerState.conversations.map((item) => (
+    item.id === conversation.id ? { ...item, updatedAt: now } : item
+  ));
+  saveMessengerState();
+  resetMessengerForm();
+  renderMessenger();
+  renderAssignmentBell();
+  renderGlobalSearchResults();
+}
+
+function voteMessengerPoll(messageId, optionId) {
+  const userKey = getCurrentUserNotificationKey();
+  if (!userKey) return;
+
+  messengerState.messages = messengerState.messages.map((message) => {
+    if (message.id !== messageId || !message.poll) return message;
+
+    const votes = { ...(message.poll.votes || {}) };
+    message.poll.options.forEach((option) => {
+      votes[option.id] = (votes[option.id] || []).filter((key) => normalizeNotificationIdentity(key) !== userKey);
+    });
+    votes[optionId] = [...(votes[optionId] || []), userKey];
+
+    return {
+      ...message,
+      poll: { ...message.poll, votes },
+      updatedAt: new Date().toISOString(),
+    };
+  });
+
+  saveMessengerState();
+  renderMessenger();
+  renderAssignmentBell();
+  renderGlobalSearchResults();
+}
+
 function isTaskAssignedToCurrentUser(task) {
   if (!currentUser) return false;
 
@@ -13943,16 +14779,18 @@ function renderAssignmentBell() {
     return;
   }
 
-  const notifications = getCurrentAssignmentNotifications();
+  const taskNotifications = getCurrentAssignmentNotifications();
+  const messengerMentions = getCurrentMessengerMentionNotifications();
+  const notificationCount = taskNotifications.length + messengerMentions.length;
   const acknowledgedTasks = getMyTeamTasks({ includeDone: true })
     .filter((task) => hasTaskAcknowledgementByCurrentUser(task))
     .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")))
     .slice(0, 5);
-  assignmentBellCount.textContent = String(notifications.length);
-  assignmentBellCount.hidden = notifications.length === 0;
+  assignmentBellCount.textContent = String(notificationCount);
+  assignmentBellCount.hidden = notificationCount === 0;
 
-  const pendingHtml = notifications.length > 0
-    ? notifications.map((task) => {
+  const taskNotificationsHtml = taskNotifications.length > 0
+    ? taskNotifications.map((task) => {
       const direction = getTeamDirectionMeta(task.direction);
       const priority = getTeamTaskPriorityMeta(task.priority);
 
@@ -13972,7 +14810,30 @@ function renderAssignmentBell() {
         </article>
       `;
     }).join("")
-    : '<div class="assignment-bell-empty">Новых назначений для вас нет.</div>';
+    : "";
+
+  const messengerMentionsHtml = messengerMentions.length > 0
+    ? messengerMentions.map((message) => {
+      const conversation = getMessengerConversation(message.conversationId);
+      return `
+        <article class="assignment-bell-item">
+          <strong>${escapeHtml(message.authorName || "Мессенджер")}: упомянул(а) вас</strong>
+          <p>${escapeHtml(message.text || message.poll?.question || "Новое сообщение в мессенджере.")}</p>
+          <div class="assignment-bell-meta">
+            <span>${escapeHtml(getMessengerConversationTitle(conversation))}</span>
+            <span>${escapeHtml(formatAcknowledgementDate(message.createdAt))}</span>
+          </div>
+          <div class="assignment-bell-actions">
+            <button class="primary-button" type="button" data-messenger-mention-read="${escapeHtml(message.id)}">Прочитано</button>
+            <a class="ghost-button" href="#messenger" data-messenger-open="${escapeHtml(message.conversationId)}" data-messenger-message-id="${escapeHtml(message.id)}">Открыть</a>
+          </div>
+        </article>
+      `;
+    }).join("")
+    : "";
+
+  const pendingHtml = [taskNotificationsHtml, messengerMentionsHtml].filter(Boolean).join("")
+    || '<div class="assignment-bell-empty">Новых назначений и упоминаний нет.</div>';
 
   const archiveHtml = acknowledgedTasks.length > 0
     ? `
@@ -14544,6 +15405,20 @@ function buildGlobalSearchItems() {
       `${getTeamTaskStatusMeta(task.status).label} · ${task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Без срока"}`,
       "#team-tasks",
       [task.description, getTeamTaskVisibleNotes(task), ...(task.assignees || [])].join(" "),
+    );
+  });
+  messengerState.messages.forEach((message) => {
+    const conversation = getMessengerConversation(message.conversationId);
+    pushItem(
+      "Мессенджер",
+      message.text || message.poll?.question || "Сообщение",
+      `${getMessengerConversationTitle(conversation)} · ${message.authorName || "SystemHub"}`,
+      "#messenger",
+      [
+        message.text,
+        message.poll?.question,
+        ...(message.attachments || []).map((attachment) => attachment.name),
+      ].join(" "),
     );
   });
   DEFAULT_ELEARNING_TEAM.forEach((employee) => {
@@ -15980,6 +16855,7 @@ function render() {
   renderStep("teamTasks", renderTeamTasks);
   renderStep("todayDashboard", renderTodayDashboard);
   renderStep("myTasks", renderMyTasks);
+  renderStep("messenger", renderMessenger);
   renderStep("assignmentBell", renderAssignmentBell);
   renderStep("globalSearch", renderGlobalSearchResults);
   renderStep("elearningTeam", renderElearningTeam);
@@ -16836,13 +17712,81 @@ if (assignmentBellPanel) {
   assignmentBellPanel.addEventListener("click", (event) => {
     const acknowledgeButton = event.target.closest('[data-assignment-action="acknowledge"]');
     const openLink = event.target.closest('[data-assignment-action="open"]');
+    const messengerReadButton = event.target.closest("[data-messenger-mention-read]");
+    const messengerOpenLink = event.target.closest("[data-messenger-open]");
 
     if (acknowledgeButton) {
       acknowledgeTeamTaskAssignment(acknowledgeButton.dataset.id);
     }
 
+    if (messengerReadButton) {
+      markMessengerMessageRead(messengerReadButton.dataset.messengerMentionRead);
+    }
+
+    if (messengerOpenLink) {
+      activeMessengerConversationId = messengerOpenLink.dataset.messengerOpen || MESSENGER_GENERAL_CONVERSATION_ID;
+      markMessengerMessageRead(messengerOpenLink.dataset.messengerMessageId || "");
+      renderMessenger();
+      setAssignmentBellOpen(false);
+    }
+
     if (openLink) {
       setAssignmentBellOpen(false);
+    }
+  });
+}
+
+if (messengerThreadList) {
+  messengerThreadList.addEventListener("click", (event) => {
+    const threadButton = event.target.closest("[data-messenger-thread]");
+    if (!threadButton) return;
+
+    activeMessengerConversationId = threadButton.dataset.messengerThread || MESSENGER_GENERAL_CONVERSATION_ID;
+    renderMessenger();
+  });
+}
+
+if (startDirectMessengerButton) {
+  startDirectMessengerButton.addEventListener("click", () => {
+    startDirectMessengerConversation(messengerDirectSelect?.value || "");
+  });
+}
+
+if (refreshMessengerButton) {
+  refreshMessengerButton.addEventListener("click", async () => {
+    updateMessengerSyncStatus("Обновление...");
+    await loadSharedMessengerState({ silent: false });
+    renderMessenger();
+  });
+}
+
+if (messengerForm) {
+  messengerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    try {
+      await sendMessengerMessage();
+    } catch (error) {
+      window.alert(error?.message || "Не удалось отправить сообщение.");
+    }
+  });
+}
+
+if (clearMessengerFormButton) {
+  clearMessengerFormButton.addEventListener("click", resetMessengerForm);
+}
+
+if (messengerMessageList) {
+  messengerMessageList.addEventListener("click", (event) => {
+    const readButton = event.target.closest("[data-messenger-read]");
+    const voteButton = event.target.closest("[data-messenger-poll-vote]");
+
+    if (readButton) {
+      markMessengerMessageRead(readButton.dataset.messengerRead);
+    }
+
+    if (voteButton) {
+      voteMessengerPoll(voteButton.dataset.messengerPollVote, voteButton.dataset.optionId);
     }
   });
 }
