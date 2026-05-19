@@ -7,9 +7,13 @@
     <script>
       try {
         var theme = localStorage.getItem("systemhub.theme");
+        var language = localStorage.getItem("systemhub.language");
         document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
+        document.documentElement.dataset.language = language === "en" ? "en" : "ru";
+        document.documentElement.lang = language === "en" ? "en" : "ru";
       } catch (error) {
         document.documentElement.dataset.theme = "dark";
+        document.documentElement.dataset.language = "ru";
       }
     </script>
     <style>
@@ -172,6 +176,12 @@ svg {
   display: grid;
   gap: 8px;
   margin-bottom: 22px;
+}
+
+.auth-language-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: -10px 0 18px;
 }
 
 .auth-brand strong {
@@ -367,6 +377,36 @@ svg {
 .sidebar-actions {
   display: grid;
   gap: 8px;
+}
+
+.language-switch {
+  display: inline-flex;
+  width: 100%;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.auth-language-actions .language-switch {
+  width: auto;
+  min-width: 134px;
+}
+
+.language-switch button {
+  flex: 1;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: calc(var(--radius) - 3px);
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.language-switch button.is-active {
+  background: linear-gradient(135deg, #ffe08a, var(--gold));
+  color: #111623;
 }
 
 .theme-toggle {
@@ -4453,6 +4493,7 @@ html[data-theme="light"] .nav-link.is-active {
 html[data-theme="light"] .sidebar-note,
 html[data-theme="light"] .sidebar-user,
 html[data-theme="light"] .theme-toggle,
+html[data-theme="light"] .language-switch,
 html[data-theme="light"] .mobile-menu-toggle,
 html[data-theme="light"] .mobile-menu-close,
 html[data-theme="light"] .sheet-badge,
@@ -5136,6 +5177,13 @@ html[data-theme="light"] .report-pie {
           <strong id="authTitle">Вход в систему</strong>
         </div>
 
+        <div class="auth-language-actions" aria-label="Язык интерфейса">
+          <div class="language-switch" role="group">
+            <button class="is-active" type="button" data-language-choice="ru" aria-pressed="true">RU</button>
+            <button type="button" data-language-choice="en" aria-pressed="false">EN</button>
+          </div>
+        </div>
+
         <form class="auth-form" id="loginForm" autocomplete="off">
           <label class="field">
             <span>Логин</span>
@@ -5376,6 +5424,10 @@ html[data-theme="light"] .report-pie {
             </svg>
             <span>Выйти</span>
           </button>
+          <div class="language-switch" role="group" aria-label="Язык интерфейса">
+            <button class="is-active" type="button" data-language-choice="ru" aria-pressed="true">RU</button>
+            <button type="button" data-language-choice="en" aria-pressed="false">EN</button>
+          </div>
         </div>
       </aside>
 
@@ -7984,6 +8036,24 @@ using (true);
 create policy "systemhub app users write"
 on public.app_users for all
 using (true)
+with check (true);
+
+create table if not exists public.app_settings (
+  key text primary key,
+  value jsonb not null default '{}'::jsonb,
+  "updatedAt" timestamptz not null default now(),
+  "updatedBy" text
+);
+
+alter table public.app_settings enable row level security;
+
+create policy "systemhub app settings read"
+on public.app_settings for select
+using (true);
+
+create policy "systemhub app settings write"
+on public.app_settings for all
+using (true)
 with check (true);</code></pre>
 
             <p class="settings-note">
@@ -8037,6 +8107,7 @@ const TEAM_TASK_META_PREFIX = "[[systemhub-task-meta:";
 const TEAM_TASK_META_SUFFIX = "]]";
 const GOOGLE_CALENDAR_SYNC_DEBOUNCE_MS = 1200;
 const THEME_STORAGE_KEY = "systemhub.theme";
+const LANGUAGE_STORAGE_KEY = "systemhub.language";
 const MASTER_PASSWORD_VERIFIER_KEY = "systemhub.masterPasswordVerifier";
 const DEFAULT_TEAM_TASK_MEMBERS = ["Фатима", "Темирлан", "Аружан", "Шерхан", "Алина"];
 const EXPIRING_SOON_DAYS = 30;
@@ -8049,11 +8120,202 @@ const PASSWORD_REVEAL_MS = 8000;
 const PASSWORD_DERIVE_ITERATIONS = 150000;
 const AUTH_SESSION_STORAGE_KEY = "systemhub.authSession";
 const AUTH_USERS_TABLE = "app_users";
+const APP_SETTINGS_TABLE = "app_settings";
+const TELEGRAM_SETTINGS_KEY = "telegramBot";
 const AUTH_PASSWORD_DERIVE_ITERATIONS = 150000;
 const DEFAULT_ADMIN_USERS = [
   { login: "16643", password: "AirAstana2026!", role: "admin", displayName: "Admin 16643" },
   { login: "14524", password: "AirAstana2026!", role: "admin", displayName: "Admin 14524" },
 ];
+
+const INTERFACE_TEXT = {
+  themeLight: { ru: "Светлая тема", en: "Light theme" },
+  themeDark: { ru: "Темная тема", en: "Dark theme" },
+  logoutSuccess: { ru: "Сессия завершена. Войдите снова.", en: "Session ended. Sign in again." },
+  loginRequired: { ru: "Заполните логин и пароль.", en: "Enter login and password." },
+  loginChecking: { ru: "Проверяю учетную запись...", en: "Checking account..." },
+  loginConnecting: { ru: "Подключаюсь к базе пользователей...", en: "Connecting to user database..." },
+  invalidLogin: { ru: "Неверный логин или пароль.", en: "Invalid login or password." },
+  pageTitles: {
+    today: { ru: "Сегодня", en: "Today" },
+    myTasks: { ru: "Мои задачи", en: "My Tasks" },
+    systems: { ru: "Данные систем", en: "System Data" },
+    links: { ru: "Полезные ссылки", en: "Useful Links" },
+    survey: { ru: "Ссылки на опрос формы", en: "Survey Form Links" },
+    promo: { ru: "Промо продукция", en: "Promo Products" },
+    promoPurchases: { ru: "Покупки промо", en: "Promo Purchases" },
+    purchaseAnalytics: { ru: "Аналитика покупок", en: "Purchase Analytics" },
+    teamTasks: { ru: "Задачи команды", en: "Team Tasks" },
+    elearningTeam: { ru: "Команда E-Learning & Systems", en: "E-Learning & Systems Team" },
+    teamDevelopment: { ru: "Развитие команды", en: "Team Development" },
+    trmsReleases: { ru: "ТРМС Релизы", en: "TRMS Releases" },
+    notifications: { ru: "Уведомления", en: "Notifications" },
+    calendar: { ru: "Календарь", en: "Calendar" },
+    lms: { ru: "LMS", en: "LMS" },
+    dashboards: { ru: "Дэшборды", en: "Dashboards" },
+    trainingReport: { ru: "Отчеты", en: "Reports" },
+    participantReports: { ru: "Отчеты по участникам", en: "Participant Reports" },
+    settings: { ru: "Настройки", en: "Settings" },
+  },
+};
+
+const INTERFACE_TRANSLATION_PAIRS = [
+  ["Вход в систему", "Sign in"],
+  ["Логин", "Login"],
+  ["Пароль", "Password"],
+  ["Войти", "Sign in"],
+  ["Пользователь", "User"],
+  ["Текущий пользователь", "Current user"],
+  ["Хранилище", "Storage"],
+  ["Браузер", "Browser"],
+  ["Выйти", "Log out"],
+  ["Язык интерфейса", "Interface language"],
+  ["Светлая тема", "Light theme"],
+  ["Темная тема", "Dark theme"],
+  ["Мобильная навигация", "Mobile navigation"],
+  ["Открыть меню", "Open menu"],
+  ["Закрыть меню", "Close menu"],
+  ["Сегодня", "Today"],
+  ["Мои задачи", "My Tasks"],
+  ["Данные систем", "System Data"],
+  ["Полезные ссылки", "Useful Links"],
+  ["Ссылки на опрос формы", "Survey Form Links"],
+  ["Промо продукция", "Promo Products"],
+  ["Покупки промо", "Promo Purchases"],
+  ["Аналитика покупок", "Purchase Analytics"],
+  ["Задачи команды", "Team Tasks"],
+  ["Команда E-Learning & Systems", "E-Learning & Systems Team"],
+  ["Развитие команды", "Team Development"],
+  ["ТРМС Релизы", "TRMS Releases"],
+  ["Уведомления", "Notifications"],
+  ["Календарь", "Calendar"],
+  ["Дэшборды", "Dashboards"],
+  ["Отчеты", "Reports"],
+  ["Отчеты по участникам", "Participant Reports"],
+  ["Настройки", "Settings"],
+  ["Главная панель", "Home"],
+  ["Задачи на сегодня", "Tasks for today"],
+  ["Назначенные мне", "Assigned to me"],
+  ["Системы", "Systems"],
+  ["Добавить запись", "Add Record"],
+  ["Редактировать запись", "Edit Record"],
+  ["Сохранить запись", "Save Record"],
+  ["Обновить запись", "Update Record"],
+  ["Название системы", "System name"],
+  ["Дата покупки", "Purchase date"],
+  ["Дата окончания лицензии", "License end date"],
+  ["Статус", "Status"],
+  ["Действия", "Actions"],
+  ["Активные", "Active"],
+  ["Скоро истекают", "Expiring soon"],
+  ["Истекли", "Expired"],
+  ["Всего", "Total"],
+  ["Поиск", "Search"],
+  ["Все статусы", "All statuses"],
+  ["Скопировать", "Copy"],
+  ["Скопировать пароль", "Copy password"],
+  ["Показать пароль", "Show password"],
+  ["Скрыть пароль", "Hide password"],
+  ["Редактировать", "Edit"],
+  ["Удалить", "Delete"],
+  ["Отмена", "Cancel"],
+  ["Сохранить", "Save"],
+  ["Сбросить", "Reset"],
+  ["Очистить", "Clear"],
+  ["Экспорт", "Export"],
+  ["Импорт", "Import"],
+  ["CSV", "CSV"],
+  ["Добавить ссылку", "Add Link"],
+  ["Добавить форму", "Add Form"],
+  ["Описание", "Description"],
+  ["Ссылка", "Link"],
+  ["Название", "Name"],
+  ["Цена", "Price"],
+  ["Количество", "Quantity"],
+  ["Сумма", "Amount"],
+  ["Категория", "Category"],
+  ["Поставщик", "Supplier"],
+  ["Дата", "Date"],
+  ["Приоритет", "Priority"],
+  ["Ответственный", "Owner"],
+  ["Исполнитель", "Assignee"],
+  ["Задача", "Task"],
+  ["Новая задача", "New Task"],
+  ["Добавить задачу", "Add Task"],
+  ["Создать задачу", "Create Task"],
+  ["Сохранить задачу", "Save Task"],
+  ["Комментарии", "Comments"],
+  ["Ознакомлен", "Acknowledged"],
+  ["Открыть", "Open"],
+  ["Открыть полный ответ", "Open full answer"],
+  ["Свернуть", "Collapse"],
+  ["Финальный результат", "Final result"],
+  ["Сохраненный финальный ответ", "Saved final answer"],
+  ["Сильные сигналы", "Strong signals"],
+  ["Зоны внимания", "Focus areas"],
+  ["Рекомендации", "Recommendations"],
+  ["Как использовать:", "How to use:"],
+  ["Текущий тест", "Current test"],
+  ["Прогресс заполнения", "Completion progress"],
+  ["Сотрудник", "Employee"],
+  ["Сохраненные результаты", "Saved results"],
+  ["Финальные ответы сотрудников", "Employee final answers"],
+  ["Только финальные итоги", "Final results only"],
+  ["Опросы для укрепления командного духа", "Assessments for stronger teamwork"],
+  ["Выберите или введите имя", "Select or enter a name"],
+  ["Рассчитать результат", "Calculate result"],
+  ["Сбросить выбор", "Reset answers"],
+  ["Сохранить финальный ответ", "Save final answer"],
+  ["Финальный ответ сохранен", "Final answer saved"],
+  ["Финальные ответы пока не сохранены.", "No final answers saved yet."],
+  ["Псих. безопасность", "Psych. safety"],
+  ["Доверие", "Trust"],
+  ["Энергия", "Energy"],
+  ["Обратная связь", "Feedback"],
+  ["Модель поведения", "Behavior model"],
+  ["Герцберг", "Herzberg"],
+  ["Белбин", "Belbin"],
+  ["Пользователи", "Users"],
+  ["Администраторы", "Administrators"],
+  ["Роль", "Role"],
+  ["Активен", "Active"],
+  ["Неактивен", "Inactive"],
+  ["Добавить пользователя", "Add User"],
+  ["Сохранить пользователя", "Save User"],
+  ["Проверить подключение", "Test Connection"],
+  ["Синхронизировать", "Sync"],
+  ["Разблокировать", "Unlock"],
+  ["Заблокировано", "Locked"],
+  ["Разблокировано", "Unlocked"],
+  ["Введите мастер-пароль", "Enter master password"],
+  ["Мастер-пароль и локальное шифрование", "Master password and local encryption"],
+  ["Подключаюсь к базе пользователей...", "Connecting to user database..."],
+  ["Проверяю учетную запись...", "Checking account..."],
+  ["Заполните логин и пароль.", "Enter login and password."],
+  ["Неверный логин или пароль.", "Invalid login or password."],
+  ["Сессия завершена. Войдите снова.", "Session ended. Sign in again."],
+  ["Пользователь сохранен.", "User saved."],
+  ["Пользователь удален.", "User deleted."],
+  ["Нет данных", "No data"],
+  ["Нет данных для отображения.", "No data to display."],
+  ["Загрузите отчет CSV/XLSX или измените фильтры.", "Upload a CSV/XLSX report or change filters."],
+  ["Нет данных для итоговой таблицы.", "No data for the summary table."],
+  ["Итого", "Total"],
+  ["Фильтры", "Filters"],
+  ["Параметры выборки", "Filter Parameters"],
+  ["Год", "Year"],
+  ["Месяц", "Month"],
+  ["День", "Day"],
+  ["Тренингов", "Trainings"],
+  ["Участников всего", "Total participants"],
+  ["Уникальных участников", "Unique participants"],
+  ["Категорий", "Categories"],
+  ["Детализация", "Details"],
+  ["Тренинги и участники", "Trainings and Participants"],
+  ["Открыть в новой вкладке", "Open in new tab"],
+  ["Развернуть", "Fullscreen"],
+];
+
 const DEFAULT_ELEARNING_TEAM = [
   {
     id: "igor-chiplikov",
@@ -8660,6 +8922,7 @@ const pagePanels = document.querySelectorAll("[data-page-panel]");
 const themeToggleButton = document.querySelector("#themeToggle");
 const themeToggleText = document.querySelector("#themeToggleText");
 const logoutButton = document.querySelector("#logoutButton");
+const languageButtons = document.querySelectorAll("[data-language-choice]");
 const sidebarUserName = document.querySelector("#sidebarUserName");
 const adminUsersPanel = document.querySelector("#adminUsersPanel");
 const adminUserForm = document.querySelector("#adminUserForm");
@@ -8725,6 +8988,9 @@ let telegramBotUrl = loadTelegramBotUrl();
 let telegramBotToken = loadTelegramBotToken();
 let telegramBotChatId = loadTelegramBotChatId();
 let telegramBotEnabled = loadTelegramBotEnabled();
+let telegramSharedSettingsChecked = false;
+let telegramSharedSettingsLoaded = false;
+let telegramSharedSettingsRequest = null;
 let googleAutoSyncTimer = null;
 let googleAutoSyncQueued = false;
 let googleAutoSyncInFlight = false;
@@ -8741,6 +9007,7 @@ let passwordVaultMaster = "";
 let decryptedPasswordCache = new Map();
 let passwordRevealTimers = new Map();
 let currentUser = null;
+let currentInterfaceLanguage = getSavedLanguage();
 let authUsers = [];
 let appBootstrapped = false;
 const GOOGLE_SYNC_DATASET_KEYS = [
@@ -8808,6 +9075,143 @@ let activeTeamDevelopmentTest = "herzberg";
 let pendingTeamDevelopmentResult = null;
 let activeTeamDevelopmentSavedResultId = "";
 
+function getSavedLanguage() {
+  try {
+    return localStorage.getItem(LANGUAGE_STORAGE_KEY) === "en" ? "en" : "ru";
+  } catch {
+    return "ru";
+  }
+}
+
+function getInterfaceText(key, fallback = "") {
+  const value = INTERFACE_TEXT[key];
+  if (!value) return fallback || key;
+  return value[currentInterfaceLanguage] || value.ru || fallback || key;
+}
+
+function getPageTitle(page) {
+  const titles = INTERFACE_TEXT.pageTitles || {};
+  const title = titles[page] || titles.systems;
+  return title?.[currentInterfaceLanguage] || title?.ru || "SystemHub";
+}
+
+function getInterfaceTranslationLookup() {
+  if (getInterfaceTranslationLookup.cache) return getInterfaceTranslationLookup.cache;
+
+  const map = new Map();
+  INTERFACE_TRANSLATION_PAIRS.forEach(([ru, en]) => {
+    const entry = { ru, en };
+    map.set(ru, entry);
+    map.set(en, entry);
+  });
+
+  Object.values(INTERFACE_TEXT).forEach((value) => {
+    if (!value || typeof value !== "object" || !value.ru || !value.en) return;
+    const entry = { ru: value.ru, en: value.en };
+    map.set(entry.ru, entry);
+    map.set(entry.en, entry);
+  });
+
+  Object.values(INTERFACE_TEXT.pageTitles || {}).forEach((value) => {
+    const entry = { ru: value.ru, en: value.en };
+    map.set(entry.ru, entry);
+    map.set(entry.en, entry);
+  });
+
+  getInterfaceTranslationLookup.cache = map;
+  return map;
+}
+
+function translateInterfaceValue(value, language = currentInterfaceLanguage) {
+  const source = String(value || "");
+  const trimmed = source.trim();
+  if (!trimmed) return source;
+
+  const entry = getInterfaceTranslationLookup().get(trimmed);
+  if (!entry) return source;
+
+  const leading = source.match(/^\s*/)?.[0] || "";
+  const trailing = source.match(/\s*$/)?.[0] || "";
+  return `${leading}${entry[language] || entry.ru}${trailing}`;
+}
+
+function translateTextNodes(root) {
+  if (!root || !window.NodeFilter) return;
+
+  const walker = document.createTreeWalker(root, window.NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!node.nodeValue.trim()) return window.NodeFilter.FILTER_REJECT;
+      if (node.parentElement?.closest("script, style, textarea")) return window.NodeFilter.FILTER_REJECT;
+      return window.NodeFilter.FILTER_ACCEPT;
+    },
+  });
+
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => {
+    const translated = translateInterfaceValue(node.nodeValue);
+    if (translated !== node.nodeValue) node.nodeValue = translated;
+  });
+}
+
+function translateAttributes(root) {
+  if (!root) return;
+  root.querySelectorAll("[placeholder], [title], [aria-label]").forEach((element) => {
+    ["placeholder", "title", "aria-label"].forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) return;
+      const currentValue = element.getAttribute(attribute);
+      const translated = translateInterfaceValue(currentValue);
+      if (translated !== currentValue) element.setAttribute(attribute, translated);
+    });
+  });
+}
+
+function updateLanguageButtons() {
+  languageButtons.forEach((button) => {
+    const isActive = button.dataset.languageChoice === currentInterfaceLanguage;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function applyLanguage(language = currentInterfaceLanguage) {
+  currentInterfaceLanguage = language === "en" ? "en" : "ru";
+  document.documentElement.lang = currentInterfaceLanguage;
+  document.documentElement.dataset.language = currentInterfaceLanguage;
+  updateLanguageButtons();
+
+  [authShell, appShell].forEach((root) => {
+    translateTextNodes(root);
+    translateAttributes(root);
+  });
+
+  if (themeToggleText) {
+    const theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+    themeToggleText.textContent = getInterfaceText(theme === "light" ? "themeDark" : "themeLight");
+  }
+
+  const page = getPageFromHash();
+  document.title = getPageTitle(page);
+}
+
+function setInterfaceLanguage(language) {
+  const resolvedLanguage = language === "en" ? "en" : "ru";
+  currentInterfaceLanguage = resolvedLanguage;
+
+  try {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, resolvedLanguage);
+  } catch {
+    // Language preference is optional; the UI can still switch for the current session.
+  }
+
+  if (currentUser) {
+    render();
+    renderAdminUsersPanel();
+  }
+
+  applyLanguage(resolvedLanguage);
+}
+
 function getSavedTheme() {
   try {
     return localStorage.getItem(THEME_STORAGE_KEY) === "light" ? "light" : "dark";
@@ -8825,7 +9229,7 @@ function applyTheme(theme) {
   }
 
   if (themeToggleText) {
-    themeToggleText.textContent = resolvedTheme === "light" ? "Темная тема" : "Светлая тема";
+    themeToggleText.textContent = getInterfaceText(resolvedTheme === "light" ? "themeDark" : "themeLight");
   }
 }
 
@@ -9779,6 +10183,128 @@ function saveTelegramBotEnabled() {
   setStorageValue(TELEGRAM_BOT_ENABLED_STORAGE_KEY, telegramBotEnabled ? "true" : "false");
 }
 
+function saveTelegramBotSettingsLocally() {
+  saveTelegramBotUrl();
+  saveTelegramBotToken();
+  saveTelegramBotChatId();
+  saveTelegramBotEnabled();
+}
+
+function getTelegramSettingsSnapshot() {
+  return {
+    url: telegramBotUrl || "",
+    token: telegramBotToken || "",
+    chatId: telegramBotChatId || "",
+    enabled: Boolean(telegramBotEnabled),
+    updatedAt: new Date().toISOString(),
+    updatedBy: currentUser?.displayName || currentUser?.login || "",
+  };
+}
+
+function applyTelegramSettingsSnapshot(settings, options = {}) {
+  if (!settings || typeof settings !== "object") return false;
+
+  telegramBotUrl = String(settings.url || settings.telegramBotUrl || "").trim();
+  telegramBotToken = String(settings.token || settings.telegramBotToken || "").trim();
+  telegramBotChatId = String(settings.chatId || settings.telegramBotChatId || "").trim();
+  telegramBotEnabled = Boolean(settings.enabled ?? settings.telegramBotEnabled);
+
+  if (options.persistLocal) {
+    saveTelegramBotSettingsLocally();
+  }
+
+  return true;
+}
+
+function getSharedTelegramSettingsError(error) {
+  const message = error?.message || String(error || "");
+  if (/app_settings|schema cache|does not exist|relation/i.test(message)) {
+    return "Создайте таблицу app_settings в Supabase. SQL добавлен в раздел Настройки.";
+  }
+  return message || "Не удалось загрузить общие настройки Telegram.";
+}
+
+async function loadSharedTelegramSettings(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) return false;
+  if (telegramSharedSettingsRequest) return telegramSharedSettingsRequest;
+
+  telegramSharedSettingsRequest = (async () => {
+    try {
+      const client = getSupabaseClient();
+      const { data, error } = await client
+        .from(APP_SETTINGS_TABLE)
+        .select("value")
+        .eq("key", TELEGRAM_SETTINGS_KEY)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      telegramSharedSettingsChecked = true;
+      const settings = data?.value;
+      if (!settings) return false;
+
+      const applied = applyTelegramSettingsSnapshot(settings, { persistLocal: true });
+      telegramSharedSettingsLoaded = applied;
+      if (applied) renderTelegramBotSettings();
+      return applied;
+    } catch (error) {
+      telegramSharedSettingsChecked = true;
+      telegramSharedSettingsLoaded = false;
+      if (!options.silent) {
+        setTelegramBotStatus(getSharedTelegramSettingsError(error), "error");
+      }
+      return false;
+    } finally {
+      telegramSharedSettingsRequest = null;
+    }
+  })();
+
+  return telegramSharedSettingsRequest;
+}
+
+async function saveSharedTelegramSettings(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) {
+    if (!options.silent) {
+      setTelegramBotStatus("Укажите Supabase URL и anon key, чтобы сохранить общие Telegram-настройки.", "warning");
+    }
+    return false;
+  }
+
+  try {
+    const client = getSupabaseClient();
+    const { error } = await client.from(APP_SETTINGS_TABLE).upsert(
+      {
+        key: TELEGRAM_SETTINGS_KEY,
+        value: getTelegramSettingsSnapshot(),
+        updatedAt: new Date().toISOString(),
+        updatedBy: currentUser?.displayName || currentUser?.login || "",
+      },
+      { onConflict: "key" },
+    );
+
+    if (error) throw error;
+    telegramSharedSettingsChecked = true;
+    telegramSharedSettingsLoaded = true;
+    return true;
+  } catch (error) {
+    if (!options.silent) {
+      setTelegramBotStatus(getSharedTelegramSettingsError(error), "error");
+    }
+    return false;
+  }
+}
+
+async function initializeTelegramSettings() {
+  const localSettingsAvailable = Boolean(telegramBotUrl || telegramBotToken || telegramBotChatId || telegramBotEnabled);
+  const loadedSharedSettings = await loadSharedTelegramSettings({ silent: true });
+
+  if (!loadedSharedSettings && localSettingsAvailable && hasTelegramBotTarget()) {
+    await saveSharedTelegramSettings({ silent: true });
+  }
+
+  renderTelegramBotSettings();
+}
+
 function saveLocalSyncData() {
   GOOGLE_SYNC_DATASET_KEYS.forEach(persistDatasetLocally);
 }
@@ -10307,9 +10833,10 @@ function getSupabaseClient() {
 
 function setLoginStatus(message, type = "") {
   if (!loginStatus) return;
-  const hasMessage = Boolean(String(message || "").trim());
+  const translatedMessage = translateInterfaceValue(message);
+  const hasMessage = Boolean(String(translatedMessage || "").trim());
   loginStatus.hidden = !hasMessage;
-  loginStatus.textContent = hasMessage ? message : "";
+  loginStatus.textContent = hasMessage ? translatedMessage : "";
   loginStatus.className = `auth-status${type ? ` is-${type}` : ""}`;
 }
 
@@ -10742,6 +11269,7 @@ function showAuthenticatedApp(user) {
   showPage(getPageFromHash());
   render();
   renderAdminUsersPanel();
+  initializeTelegramSettings().catch(() => {});
 
   if (!appBootstrapped) {
     appBootstrapped = true;
@@ -10755,6 +11283,7 @@ function showLoginScreen(message = "", type = "") {
   if (appShell) appShell.hidden = true;
   if (authShell) authShell.hidden = false;
   setLoginStatus(message, type);
+  applyLanguage(currentInterfaceLanguage);
   window.setTimeout(() => loginUserInput?.focus(), 0);
 }
 
@@ -10765,24 +11294,24 @@ async function handleLoginSubmit(event) {
   const password = loginPasswordInput.value;
 
   if (!login || !password) {
-    setLoginStatus("Заполните логин и пароль.", "error");
+    setLoginStatus(getInterfaceText("loginRequired"), "error");
     return;
   }
 
   setLoginLoading(true);
-  setLoginStatus("Проверяю учетную запись...");
+  setLoginStatus(getInterfaceText("loginChecking"));
 
   try {
     await bootstrapDefaultAdminUsers();
     const user = await getAuthUserByLogin(login);
 
     if (!user || !user.isActive) {
-      throw new Error("Неверный логин или пароль.");
+      throw new Error(getInterfaceText("invalidLogin"));
     }
 
     const passwordMatches = await verifyAuthPassword(password, user.passwordSalt, user.passwordHash);
     if (!passwordMatches) {
-      throw new Error("Неверный логин или пароль.");
+      throw new Error(getInterfaceText("invalidLogin"));
     }
 
     loginPasswordInput.value = "";
@@ -10798,7 +11327,7 @@ async function initializeAuth() {
   if (appShell) appShell.hidden = true;
   if (authShell) authShell.hidden = false;
   setLoginLoading(true);
-  setLoginStatus("Подключаюсь к базе пользователей...");
+  setLoginStatus(getInterfaceText("loginConnecting"));
 
   try {
     await bootstrapDefaultAdminUsers();
@@ -10840,7 +11369,7 @@ function logoutCurrentUser() {
   }
 
   clearQueuedGoogleSheetsSync();
-  showLoginScreen("Сессия завершена. Войдите снова.", "success");
+  showLoginScreen(getInterfaceText("logoutSuccess"), "success");
 }
 
 function clearQueuedGoogleSheetsSync() {
@@ -11145,10 +11674,7 @@ function updateTelegramBotSettingsFromInput() {
   telegramBotToken = telegramBotTokenInput?.value.trim() || globalThis.SYSTEMHUB_TELEGRAM_BOT_TOKEN || "";
   telegramBotChatId = telegramBotChatIdInput?.value.trim() || globalThis.SYSTEMHUB_TELEGRAM_CHAT_ID || "";
   telegramBotEnabled = Boolean(telegramBotEnabledInput?.checked);
-  saveTelegramBotUrl();
-  saveTelegramBotToken();
-  saveTelegramBotChatId();
-  saveTelegramBotEnabled();
+  saveTelegramBotSettingsLocally();
 }
 
 function renderTelegramBotSettings() {
@@ -11171,9 +11697,14 @@ function renderTelegramBotSettings() {
   if (!telegramBotStatus) return;
 
   if (hasTelegramBotTarget()) {
-    setTelegramBotStatus("Telegram-бот включен. Новые назначения задач будут отправляться на webhook.", "success");
+    setTelegramBotStatus(
+      telegramSharedSettingsLoaded
+        ? "Telegram-бот включен. Общие настройки подтянуты, новые назначения будут отправляться на webhook."
+        : "Telegram-бот включен. Новые назначения задач будут отправляться на webhook.",
+      "success",
+    );
   } else {
-    setTelegramBotStatus("Укажите webhook URL и включите отправку сообщений при назначении задачи.");
+    setTelegramBotStatus("Укажите webhook URL, включите отправку и сохраните общие настройки Telegram.");
   }
 }
 
@@ -11532,24 +12063,34 @@ async function testTelegramBotConnection() {
 
 function notifyTeamTaskAssignmentInTelegram(task, previousTask) {
   const newAssignees = getNewTeamTaskAssignees(task, previousTask);
-  if (newAssignees.length === 0 || !telegramBotEnabled) return;
+  if (newAssignees.length === 0) return;
 
-  if (!telegramBotUrl) {
-    setTelegramBotStatus("Задача назначена, но webhook Telegram-бота не настроен.", "warning");
-    return;
-  }
+  (async () => {
+    if (!hasTelegramBotTarget()) {
+      await loadSharedTelegramSettings({ silent: true });
+    }
 
-  const payload = buildTeamTaskTelegramPayload(task, newAssignees);
+    if (!telegramBotEnabled) {
+      setTelegramBotStatus("Задача назначена, но отправка Telegram выключена в общих настройках.", "warning");
+      return;
+    }
 
-  setTelegramBotStatus(`Отправляю сообщение в Telegram: ${newAssignees.join(", ")}...`);
+    if (!telegramBotUrl) {
+      setTelegramBotStatus("Задача назначена, но webhook Telegram-бота не настроен.", "warning");
+      return;
+    }
 
-  sendTelegramBotPayload(payload, { allowOpaqueFallback: true })
-    .then(() => {
+    const payload = buildTeamTaskTelegramPayload(task, newAssignees);
+
+    setTelegramBotStatus(`Отправляю сообщение в Telegram: ${newAssignees.join(", ")}...`);
+
+    try {
+      await sendTelegramBotPayload(payload, { allowOpaqueFallback: true });
       setTelegramBotStatus(`Сообщение отправлено в Telegram: ${newAssignees.join(", ")}.`, "success");
-    })
-    .catch((error) => {
+    } catch (error) {
       setTelegramBotStatus(error.message || "Не удалось отправить сообщение в Telegram.", "error");
-    });
+    }
+  })();
 }
 
 function getGoogleSyncPayload() {
@@ -11950,26 +12491,8 @@ function showPage(page) {
   if (page === "today") renderTodayDashboard();
   if (page === "myTasks") renderMyTasks();
 
-  const pageTitles = {
-    today: "Сегодня",
-    myTasks: "Мои задачи",
-    systems: "Данные систем",
-    links: "Полезные ссылки",
-    survey: "Ссылки на опрос формы",
-    promo: "Промо продукция",
-    promoPurchases: "Покупки промо",
-    purchaseAnalytics: "Аналитика покупок",
-    teamTasks: "Задачи команды",
-    elearningTeam: "Команда E-Learning & Systems",
-    teamDevelopment: "Развитие команды",
-    trmsReleases: "ТРМС Релизы",
-    dashboards: "Дэшборды",
-    trainingReport: "Отчеты",
-    participantReports: "Отчеты по участникам",
-    settings: "Настройки",
-  };
-
-  document.title = pageTitles[page] || pageTitles.systems;
+  document.title = getPageTitle(page);
+  applyLanguage(currentInterfaceLanguage);
 }
 
 function getFilteredRecords() {
@@ -15472,6 +15995,7 @@ function render() {
   renderStep("googleCalendarSettings", renderGoogleCalendarSettings);
   renderStep("telegramBotSettings", renderTelegramBotSettings);
   renderStep("systemsTable", renderTable);
+  renderStep("language", () => applyLanguage(currentInterfaceLanguage));
 }
 
 function resetForm({ focus = true } = {}) {
@@ -16566,10 +17090,15 @@ if (syncGoogleCalendarButton) {
 }
 
 if (telegramBotForm) {
-  telegramBotForm.addEventListener("submit", (event) => {
+  telegramBotForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     updateTelegramBotSettingsFromInput();
-    renderTelegramBotSettings();
+    setTelegramBotStatus("Сохраняю общие Telegram-настройки...");
+    const savedSharedSettings = await saveSharedTelegramSettings();
+    if (savedSharedSettings) {
+      renderTelegramBotSettings();
+      setTelegramBotStatus("Telegram-настройки сохранены и будут доступны другим пользователям.", "success");
+    }
   });
 }
 
@@ -16867,6 +17396,12 @@ if (themeToggleButton) {
   themeToggleButton.addEventListener("click", toggleTheme);
 }
 
+languageButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setInterfaceLanguage(button.dataset.languageChoice);
+  });
+});
+
 window.addEventListener("hashchange", () => {
   showPage(getPageFromHash());
 });
@@ -16880,6 +17415,7 @@ document.addEventListener("visibilitychange", () => {
 });
 
 applyTheme(getSavedTheme());
+applyLanguage(currentInterfaceLanguage);
 initializeAuth();
 </script>
 <script>
