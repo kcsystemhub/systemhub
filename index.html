@@ -673,6 +673,152 @@ svg {
   padding: 7px 10px;
 }
 
+.elearning-team-panel {
+  overflow: visible;
+}
+
+.team-org-chart {
+  overflow-x: auto;
+  padding: 4px 0 10px;
+}
+
+.team-org-list {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  min-width: min-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.team-org-list.is-children {
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(250px, 1fr);
+  align-items: start;
+  padding-top: 22px;
+}
+
+.team-org-node {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.team-org-card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 12px;
+  width: 270px;
+  min-height: 126px;
+  padding: 14px;
+  border: 1px solid rgba(47, 183, 229, 0.35);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(0, 47, 95, 0.8), rgba(4, 16, 38, 0.94)),
+    var(--panel);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.2);
+}
+
+.team-org-card:hover {
+  border-color: rgba(255, 200, 90, 0.52);
+  transform: translateY(-1px);
+}
+
+.team-org-avatar,
+.employee-profile-photo {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(47, 183, 229, 0.24), rgba(255, 200, 90, 0.18)),
+    rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.team-org-avatar {
+  width: 58px;
+  height: 58px;
+  font-size: 1rem;
+}
+
+.team-org-avatar img,
+.employee-profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-org-main {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.team-org-main strong {
+  color: #ffffff;
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.team-org-main span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.32;
+}
+
+.employee-modal {
+  width: min(100%, 780px);
+}
+
+.employee-profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.employee-profile-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  grid-column: 1 / -1;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.employee-profile-photo {
+  width: 96px;
+  height: 96px;
+  font-size: 1.35rem;
+}
+
+.employee-profile-summary {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.employee-profile-summary strong {
+  color: #ffffff;
+  font-size: 1.18rem;
+  line-height: 1.2;
+}
+
+.employee-profile-summary span {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .topbar,
 .panel-heading,
 .table-toolbar {
@@ -1407,12 +1553,275 @@ html[data-theme="light"] .calendar-period-label {
   text-align: center;
 }
 
+.assignment-bell {
+  position: fixed;
+  top: 18px;
+  right: 30px;
+  z-index: 45;
+}
+
+.assignment-bell[hidden] {
+  display: none;
+}
+
+.assignment-bell-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(18, 39, 77, 0.92), rgba(5, 13, 30, 0.96)),
+    var(--panel);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.assignment-bell-button:hover,
+.assignment-bell-button[aria-expanded="true"] {
+  border-color: rgba(255, 200, 90, 0.42);
+  color: var(--gold);
+}
+
+.assignment-bell-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 22px;
+  min-height: 22px;
+  padding: 2px 6px;
+  border: 2px solid var(--bg-deep);
+  border-radius: 999px;
+  background: var(--red);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.assignment-bell-count[hidden],
+.assignment-bell-panel[hidden] {
+  display: none;
+}
+
+.assignment-bell-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  display: grid;
+  gap: 12px;
+  width: min(360px, calc(100vw - 36px));
+  max-height: min(520px, calc(100vh - 92px));
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid rgba(47, 183, 229, 0.34);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(0, 47, 95, 0.94), rgba(5, 13, 30, 0.98)),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.assignment-bell-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.assignment-bell-head strong {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.assignment-bell-list {
+  display: grid;
+  gap: 10px;
+}
+
+.assignment-bell-item {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.assignment-bell-item strong {
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.assignment-bell-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.assignment-bell-meta,
+.team-task-ack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.assignment-bell-meta span,
+.team-task-ack-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.assignment-bell-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.assignment-bell-actions .ghost-button,
+.assignment-bell-actions .primary-button {
+  width: auto;
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 0.82rem;
+}
+
+.assignment-bell-empty {
+  padding: 16px 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.global-search {
+  position: fixed;
+  top: 18px;
+  right: 88px;
+  z-index: 44;
+  width: min(430px, calc(100vw - 430px));
+}
+
+.global-search[hidden] {
+  display: none;
+}
+
+.global-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(18, 39, 77, 0.92), rgba(5, 13, 30, 0.96)),
+    var(--panel);
+  color: var(--muted);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.global-search-box input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.global-search-results {
+  display: grid;
+  gap: 8px;
+  max-height: min(520px, calc(100vh - 92px));
+  margin-top: 10px;
+  overflow: auto;
+  padding: 10px;
+  border: 1px solid rgba(47, 183, 229, 0.34);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(0, 47, 95, 0.94), rgba(5, 13, 30, 0.98)),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.global-search-results[hidden] {
+  display: none;
+}
+
+.global-search-result {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.global-search-result:hover {
+  border-color: rgba(255, 200, 90, 0.42);
+  background: rgba(255, 200, 90, 0.1);
+}
+
+.global-search-result strong {
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.global-search-result span,
+.global-search-empty {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.global-search-empty {
+  padding: 12px;
+  text-align: center;
+}
+
 html[data-theme="light"] .notification-content strong {
   color: var(--ink);
 }
 
 html[data-theme="light"] .notification-card {
   background: rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme="light"] .assignment-bell-button,
+html[data-theme="light"] .assignment-bell-panel,
+html[data-theme="light"] .assignment-bell-item,
+html[data-theme="light"] .global-search-box,
+html[data-theme="light"] .global-search-results,
+html[data-theme="light"] .global-search-result {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+html[data-theme="light"] .assignment-bell-head strong,
+html[data-theme="light"] .assignment-bell-item strong,
+html[data-theme="light"] .global-search-result strong,
+html[data-theme="light"] .today-item strong,
+html[data-theme="light"] .my-task-card strong,
+html[data-theme="light"] .team-activity-item strong,
+html[data-theme="light"] .kanban-column-head h3,
+html[data-theme="light"] .kanban-card strong {
+  color: var(--ink);
 }
 
 .report-layout {
@@ -2475,16 +2884,24 @@ html[data-theme="light"] .notification-card {
   padding: 10px;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.05);
+  white-space: pre-line;
 }
 
 .team-task-actions {
   align-items: center;
 }
 
-.team-task-actions .ghost-button {
+.team-task-actions .ghost-button,
+.team-task-actions .primary-button {
+  width: auto;
   min-height: 34px;
   padding: 7px 10px;
   font-size: 0.78rem;
+}
+
+.today-item,
+.my-task-card {
+  text-decoration: none;
 }
 
 .team-task-empty {
@@ -2494,6 +2911,256 @@ html[data-theme="light"] .notification-card {
   color: var(--muted);
   text-align: center;
   font-size: 0.9rem;
+}
+
+.today-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.today-panel {
+  min-height: 260px;
+}
+
+.today-list,
+.my-task-list,
+.team-task-activity-list,
+.team-task-checklist,
+.team-attachments {
+  display: grid;
+  gap: 10px;
+}
+
+.today-item,
+.my-task-card,
+.team-activity-item {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.today-item strong,
+.my-task-card strong,
+.team-activity-item strong {
+  color: #ffffff;
+}
+
+.today-item span,
+.my-task-card span,
+.team-activity-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.my-task-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 180px 180px;
+  gap: 10px;
+  width: min(100%, 720px);
+}
+
+.my-task-card {
+  border-left: 4px solid var(--air-sky);
+}
+
+.my-task-card.is-overdue {
+  border-color: rgba(255, 116, 106, 0.38);
+  border-left-color: var(--red);
+  background: rgba(68, 17, 28, 0.34);
+}
+
+.team-assignee-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.team-assignee-button,
+.team-assignee-static {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  max-width: 100%;
+  padding: 4px 9px 4px 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(47, 183, 229, 0.12);
+  color: var(--air-sky);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.team-assignee-button {
+  cursor: pointer;
+}
+
+.team-assignee-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.team-assignee-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-task-progress {
+  display: grid;
+  gap: 6px;
+}
+
+.team-task-progress-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.team-check-item {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+  text-align: left;
+}
+
+.team-check-item.is-done {
+  color: var(--muted);
+}
+
+.team-check-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.team-attachment {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--air-gold-light);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.team-attachment:hover {
+  border-color: rgba(255, 200, 90, 0.42);
+  background: rgba(255, 200, 90, 0.1);
+}
+
+.team-task-activity {
+  display: grid;
+  gap: 8px;
+}
+
+.team-task-activity h4 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.team-activity-item {
+  padding: 9px;
+}
+
+.team-task-kanban {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(210px, 1fr));
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.kanban-column {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 220px;
+  padding: 12px;
+  border: 1px solid rgba(47, 183, 229, 0.34);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(0, 47, 95, 0.72), rgba(5, 13, 30, 0.9)),
+    var(--panel);
+}
+
+.kanban-column.is-drag-over {
+  border-color: rgba(255, 200, 90, 0.62);
+  background: rgba(255, 200, 90, 0.08);
+}
+
+.kanban-column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.kanban-column-head h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.kanban-card {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--air-sky);
+  border-radius: var(--radius);
+  background: rgba(4, 10, 24, 0.54);
+  cursor: grab;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+.kanban-card strong {
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.kanban-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .team-stats-grid {
@@ -3297,6 +3964,8 @@ html[data-theme="light"] .team-task-meta strong,
 html[data-theme="light"] .team-stat-card strong,
 html[data-theme="light"] .team-progress-row strong,
 html[data-theme="light"] .team-mini-task strong,
+html[data-theme="light"] .team-org-main strong,
+html[data-theme="light"] .employee-profile-summary strong,
 html[data-theme="light"] .release-card-head h2,
 html[data-theme="light"] .participant-total-stack strong,
 html[data-theme="light"] .system-cell strong,
@@ -3357,6 +4026,7 @@ html[data-theme="light"] .table-panel,
 html[data-theme="light"] .report-kpi,
 html[data-theme="light"] .report-card,
 html[data-theme="light"] .team-task-column,
+html[data-theme="light"] .kanban-column,
 html[data-theme="light"] .team-chart-card,
 html[data-theme="light"] .team-stat-card,
 html[data-theme="light"] .release-card,
@@ -3383,6 +4053,12 @@ html[data-theme="light"] #purchaseAnalyticsPage .table-panel:nth-of-type(2n) {
 html[data-theme="light"] .link-card,
 html[data-theme="light"] .team-task-card,
 html[data-theme="light"] .team-mini-task,
+html[data-theme="light"] .today-item,
+html[data-theme="light"] .my-task-card,
+html[data-theme="light"] .team-activity-item,
+html[data-theme="light"] .kanban-card,
+html[data-theme="light"] .team-org-card,
+html[data-theme="light"] .employee-profile-head,
 html[data-theme="light"] table,
 html[data-theme="light"] .trainer-name-list {
   background: rgba(255, 255, 255, 0.66);
@@ -3562,7 +4238,8 @@ html[data-theme="light"] .report-pie {
   }
 
   .team-analytics-grid,
-  .team-stats-grid {
+  .team-stats-grid,
+  .today-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -3631,6 +4308,22 @@ html[data-theme="light"] .report-pie {
 
   .workspace {
     padding: 18px;
+  }
+
+  .assignment-bell {
+    top: 14px;
+    right: 72px;
+  }
+
+  .assignment-bell-panel {
+    right: -54px;
+  }
+
+  .global-search {
+    top: 66px;
+    right: 18px;
+    left: 18px;
+    width: auto;
   }
 
   .sidebar {
@@ -3737,11 +4430,13 @@ html[data-theme="light"] .report-pie {
   .calendar-layout,
   .notification-controls,
   .password-vault-controls,
+  .employee-profile-form,
   .dashboard-grid,
   .dashboard-filters,
   .dashboard-upload,
   .team-analytics-grid,
   .team-stats-grid,
+  .today-layout,
   .team-task-board,
   .team-task-form,
   .team-member-manager,
@@ -3858,8 +4553,10 @@ html[data-theme="light"] .report-pie {
   }
 
   .team-task-filters,
+  .my-task-controls,
   .team-task-card-head,
   .team-task-column-head,
+  .kanban-column-head,
   .team-chart-head,
   .task-modal-head {
     grid-template-columns: 1fr;
@@ -3882,6 +4579,26 @@ html[data-theme="light"] .report-pie {
   .modal-actions .primary-button,
   .modal-actions .ghost-button {
     width: 100%;
+  }
+
+  .team-org-chart {
+    overflow-x: visible;
+  }
+
+  .team-org-list.is-children {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    width: 100%;
+  }
+
+  .team-org-card {
+    width: min(100%, 320px);
+  }
+
+  .employee-profile-head {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
   }
 
   .team-member-add {
@@ -3974,6 +4691,22 @@ html[data-theme="light"] .report-pie {
         </div>
 
         <nav class="nav-menu">
+          <a class="nav-link" href="#today" data-nav-link="today">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 2v4M16 2v4" />
+              <path d="M3 9h18" />
+              <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+              <path d="M8 14h4M8 18h8" />
+            </svg>
+            Сегодня
+          </a>
+          <a class="nav-link" href="#my-tasks" data-nav-link="myTasks">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 11l3 3L22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            </svg>
+            Мои задачи
+          </a>
           <a class="nav-link is-active" href="#systems" data-nav-link="systems" aria-current="page">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18.5v-13Zm4 2h8M8 12h8M8 16.5h5" />
@@ -4028,6 +4761,15 @@ html[data-theme="light"] .report-pie {
             </svg>
             Задачи команды
           </a>
+          <a class="nav-link" href="#elearning-team" data-nav-link="elearningTeam">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.9" />
+              <path d="M16 3.1a4 4 0 0 1 0 7.8" />
+            </svg>
+            Команда E-Learning &amp; Systems
+          </a>
           <a class="nav-link" href="#trms-releases" data-nav-link="trmsReleases">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 5h10l3 3v11H4V5Z" />
@@ -4059,13 +4801,6 @@ html[data-theme="light"] .report-pie {
               <path d="M8 7h6M8 11h8M8 15h5" />
             </svg>
             LMS
-          </a>
-          <a class="nav-link" href="#trms" data-nav-link="trms">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 6h16M4 12h16M4 18h16" />
-              <path d="M8 6v12M14 6v12" />
-            </svg>
-            TRMS
           </a>
           <a class="nav-link" href="#dashboards" data-nav-link="dashboards">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -4134,7 +4869,155 @@ html[data-theme="light"] .report-pie {
         </div>
       </aside>
 
+      <div class="assignment-bell" id="assignmentBell" hidden>
+        <button class="assignment-bell-button" id="assignmentBellButton" type="button" aria-expanded="false" aria-controls="assignmentBellPanel" aria-label="Уведомления по задачам">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+            <path d="M10 21h4" />
+          </svg>
+          <span class="assignment-bell-count" id="assignmentBellCount" hidden>0</span>
+        </button>
+
+        <section class="assignment-bell-panel" id="assignmentBellPanel" aria-label="Уведомления по задачам" hidden>
+          <div class="assignment-bell-head">
+            <div>
+              <p class="eyebrow">Task alerts</p>
+              <strong>Назначенные задачи</strong>
+            </div>
+          </div>
+          <div class="assignment-bell-list" id="assignmentBellList"></div>
+        </section>
+      </div>
+
+      <div class="global-search" id="globalSearch" hidden>
+        <label class="global-search-box">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <input id="globalSearchInput" type="search" placeholder="Поиск по SystemHub" autocomplete="off" aria-label="Глобальный поиск по SystemHub" />
+        </label>
+        <div class="global-search-results" id="globalSearchResults" hidden></div>
+      </div>
+
       <main class="workspace">
+        <section class="page-section" id="todayPage" data-page-panel="today" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Daily workspace</p>
+              <h1>Сегодня</h1>
+            </div>
+            <div class="sheet-badge" title="Сводка по задачам, срокам и рискам">
+              <span class="status-dot"></span>
+              Live summary
+            </div>
+          </header>
+
+          <section class="stats-grid today-stats-grid" aria-label="Сводка на сегодня">
+            <article class="stat-card">
+              <span>Мои активные задачи</span>
+              <strong id="todayMyActiveCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Новые назначения</span>
+              <strong id="todayNewAssignmentCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Просрочено</span>
+              <strong id="todayOverdueCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Срок в 7 дней</span>
+              <strong id="todayWeekCount">0</strong>
+            </article>
+          </section>
+
+          <section class="today-layout" aria-label="Рабочая сводка">
+            <article class="team-chart-card today-panel">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">My queue</p>
+                  <h3>Мои задачи</h3>
+                </div>
+                <a class="ghost-button" href="#my-tasks">Открыть</a>
+              </div>
+              <div class="today-list" id="todayMyAssignments"></div>
+            </article>
+
+            <article class="team-chart-card today-panel">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Deadlines</p>
+                  <h3>Ближайшие сроки</h3>
+                </div>
+              </div>
+              <div class="today-list" id="todayUpcomingList"></div>
+            </article>
+
+            <article class="team-chart-card today-panel">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Risks</p>
+                  <h3>Риски и остатки</h3>
+                </div>
+              </div>
+              <div class="today-list" id="todayRisksList"></div>
+            </article>
+
+            <article class="team-chart-card today-panel">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Activity</p>
+                  <h3>Последняя активность</h3>
+                </div>
+              </div>
+              <div class="today-list" id="todayActivityList"></div>
+            </article>
+          </section>
+        </section>
+
+        <section class="page-section" id="myTasksPage" data-page-panel="myTasks" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Personal workflow</p>
+              <h1>Мои задачи</h1>
+            </div>
+            <div class="sheet-badge" title="Задачи, где вы указаны ответственным">
+              <span class="status-dot"></span>
+              Assigned to me
+            </div>
+          </header>
+
+          <section class="entry-panel my-tasks-panel" aria-labelledby="myTasksTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Personal Board</p>
+                <h2 id="myTasksTitle">Назначенные мне задачи</h2>
+              </div>
+              <div class="my-task-controls">
+                <label class="search-box">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg>
+                  <input id="myTasksSearchInput" type="search" placeholder="Найти задачу" />
+                </label>
+                <select id="myTasksStatusFilter" aria-label="Фильтр статуса моих задач">
+                  <option value="">Все статусы</option>
+                </select>
+                <select id="myTasksDeadlineFilter" aria-label="Фильтр срока моих задач">
+                  <option value="">Все сроки</option>
+                  <option value="overdue">Просроченные</option>
+                  <option value="today">Сегодня</option>
+                  <option value="week">7 дней</option>
+                  <option value="none">Без срока</option>
+                </select>
+              </div>
+            </div>
+            <div class="my-task-list" id="myTasksList"></div>
+          </section>
+        </section>
+
         <section class="page-section is-active" id="systemsPage" data-page-panel="systems">
         <header class="topbar">
           <div>
@@ -4918,6 +5801,7 @@ html[data-theme="light"] .report-pie {
               </div>
               <div class="team-task-tabs" id="teamTaskTabs" role="tablist" aria-label="Разделы задач команды">
                 <button class="is-active" type="button" data-team-task-view="tasks">Задачи</button>
+                <button type="button" data-team-task-view="kanban">Kanban</button>
                 <button type="button" data-team-task-view="stats">Статистика</button>
               </div>
             </div>
@@ -4941,6 +5825,10 @@ html[data-theme="light"] .report-pie {
 
             <section class="team-task-view" id="teamTaskStatsView" data-team-task-view-panel="stats" hidden>
               <div id="teamTaskStatsContent"></div>
+            </section>
+
+            <section class="team-task-view" id="teamTaskKanbanView" data-team-task-view-panel="kanban" hidden>
+              <div class="team-task-kanban" id="teamTaskKanbanBoard"></div>
             </section>
           </section>
 
@@ -5008,6 +5896,21 @@ html[data-theme="light"] .report-pie {
                   <textarea id="teamTaskNotesInput" rows="3" placeholder="Дополнительные детали, риски, договоренности"></textarea>
                 </label>
 
+                <label class="field field-wide">
+                  <span>Чеклист</span>
+                  <textarea id="teamTaskChecklistInput" rows="4" placeholder="Один пункт на строку"></textarea>
+                </label>
+
+                <label class="field field-wide">
+                  <span>Файлы / ссылки</span>
+                  <textarea id="teamTaskAttachmentsInput" rows="3" placeholder="Одна ссылка на строку или Название | https://..."></textarea>
+                </label>
+
+                <label class="field field-wide">
+                  <span>Новый комментарий</span>
+                  <textarea id="teamTaskCommentInput" rows="3" placeholder="Добавить комментарий в историю задачи"></textarea>
+                </label>
+
                 <div class="modal-actions">
                   <button class="ghost-button" id="cancelTeamTaskForm" type="button">Отмена</button>
                   <button class="primary-button" type="submit">
@@ -5016,6 +5919,105 @@ html[data-theme="light"] .report-pie {
                     </svg>
                     <span id="teamTaskSubmitText">Создать задачу</span>
                   </button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="page-section" id="elearningTeamPage" data-page-panel="elearningTeam" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Team structure</p>
+              <h1>Команда E-Learning &amp; Systems</h1>
+            </div>
+            <div class="sheet-badge" title="Customer Service Training: Training Academy">
+              <span class="status-dot"></span>
+              Training Academy
+            </div>
+          </header>
+
+          <section class="table-panel elearning-team-panel" aria-labelledby="elearningTeamTitle">
+            <div class="table-toolbar">
+              <div>
+                <p class="eyebrow">Hierarchy</p>
+                <h2 id="elearningTeamTitle">Организационная структура</h2>
+              </div>
+            </div>
+
+            <div class="team-org-chart" id="elearningTeamTree"></div>
+          </section>
+
+          <div class="modal-backdrop" id="employeeModal" hidden>
+            <section class="task-modal employee-modal" role="dialog" aria-modal="true" aria-labelledby="employeeModalTitle">
+              <div class="task-modal-head">
+                <div>
+                  <p class="eyebrow">Employee card</p>
+                  <h2 id="employeeModalTitle">Карточка сотрудника</h2>
+                </div>
+                <button class="icon-button" id="closeEmployeeModal" type="button" aria-label="Закрыть">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6 6 18" />
+                  </svg>
+                </button>
+              </div>
+
+              <form class="employee-profile-form" id="employeeProfileForm" autocomplete="off">
+                <input type="hidden" id="employeeProfileId" />
+
+                <div class="employee-profile-head">
+                  <div class="employee-profile-photo" id="employeePhotoPreview"></div>
+                  <div class="employee-profile-summary">
+                    <strong id="employeeProfileName">-</strong>
+                    <span id="employeeProfileRole">-</span>
+                    <span id="employeeProfileOrg">-</span>
+                  </div>
+                </div>
+
+                <label class="field field-wide">
+                  <span>Фото</span>
+                  <input id="employeePhotoInput" type="file" accept="image/*" />
+                </label>
+
+                <label class="field">
+                  <span>Email</span>
+                  <input id="employeeEmailInput" type="email" placeholder="name@company.com" />
+                </label>
+
+                <label class="field">
+                  <span>Mobile</span>
+                  <input id="employeeMobileInput" type="tel" placeholder="+7 ..." />
+                </label>
+
+                <label class="field">
+                  <span>Work Phone</span>
+                  <input id="employeeWorkPhoneInput" type="tel" />
+                </label>
+
+                <label class="field">
+                  <span>Work Location</span>
+                  <input id="employeeWorkLocationInput" type="text" />
+                </label>
+
+                <label class="field">
+                  <span>Company</span>
+                  <input id="employeeCompanyInput" type="text" />
+                </label>
+
+                <label class="field">
+                  <span>JobTitle</span>
+                  <input id="employeeJobTitleInput" type="text" />
+                </label>
+
+                <label class="field field-wide">
+                  <span>Department</span>
+                  <input id="employeeDepartmentInput" type="text" />
+                </label>
+
+                <div class="modal-actions">
+                  <button class="ghost-button" id="removeEmployeePhoto" type="button">Удалить фото</button>
+                  <button class="ghost-button" id="cancelEmployeeProfile" type="button">Отмена</button>
+                  <button class="primary-button" type="submit">Сохранить</button>
                 </div>
               </form>
             </section>
@@ -5953,6 +6955,56 @@ html[data-theme="light"] .report-pie {
           </section>
         </section>
 
+        <section class="page-section webview-page" id="chatgptPage" data-page-panel="chatgpt" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Web view</p>
+              <h1>ChatGPT</h1>
+            </div>
+            <div class="sheet-badge" title="https://chatgpt.com/">
+              <span class="status-dot"></span>
+              chatgpt.com
+            </div>
+          </header>
+
+          <section class="table-panel webview-panel" data-webview-shell="chatgpt">
+            <div class="webview-toolbar">
+              <div class="webview-title">
+                <strong>ChatGPT</strong>
+                <span>https://chatgpt.com/</span>
+              </div>
+              <div class="webview-actions">
+                <button class="ghost-button" type="button" data-webview-fullscreen="chatgpt">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5" />
+                  </svg>
+                  Развернуть
+                </button>
+                <button class="ghost-button" type="button" data-webview-exit-fullscreen="chatgpt">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 3v5H3M16 3v5h5M21 16h-5v5M3 16h5v5" />
+                  </svg>
+                  Свернуть
+                </button>
+                <a class="primary-button" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14 21 3" />
+                    <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+                  </svg>
+                  Открыть в новой вкладке
+                </a>
+              </div>
+            </div>
+            <div class="webview-frame-wrap">
+              <iframe class="webview-frame" title="ChatGPT" src="https://chatgpt.com/" data-webview-frame="chatgpt"></iframe>
+              <div class="webview-fallback" data-webview-fallback="chatgpt">
+                ChatGPT может ограничивать просмотр внутри iframe. Используйте кнопку "Открыть в новой вкладке".
+              </div>
+            </div>
+          </section>
+        </section>
+
         <section class="page-section webview-page" id="lmsPage" data-page-panel="lms" hidden>
           <header class="topbar">
             <div>
@@ -6389,6 +7441,7 @@ const PROMO_PURCHASE_POSITIONS_STORAGE_KEY = "systemhub.promoPurchasePositions";
 const TRMS_RELEASES_STORAGE_KEY = "systemhub.trmsReleases";
 const TEAM_TASKS_STORAGE_KEY = "systemhub.teamTasks";
 const TEAM_TASK_MEMBERS_STORAGE_KEY = "systemhub.teamTaskMembers";
+const ELEARNING_TEAM_PROFILES_STORAGE_KEY = "systemhub.elearningTeamProfiles";
 const REPORT_STORAGE_KEY = "systemhub.reportCsv";
 const GOOGLE_SCRIPT_URL_STORAGE_KEY = "systemhub.supabaseUrl";
 const GOOGLE_SYNC_TOKEN_STORAGE_KEY = "systemhub.supabaseAnonKey";
@@ -6401,11 +7454,14 @@ const TELEGRAM_BOT_URL_STORAGE_KEY = "systemhub.telegramBotUrl";
 const TELEGRAM_BOT_TOKEN_STORAGE_KEY = "systemhub.telegramBotToken";
 const TELEGRAM_BOT_CHAT_ID_STORAGE_KEY = "systemhub.telegramBotChatId";
 const TELEGRAM_BOT_ENABLED_STORAGE_KEY = "systemhub.telegramBotEnabled";
+const TEAM_TASK_META_PREFIX = "[[systemhub-task-meta:";
+const TEAM_TASK_META_SUFFIX = "]]";
 const GOOGLE_CALENDAR_SYNC_DEBOUNCE_MS = 1200;
 const THEME_STORAGE_KEY = "systemhub.theme";
 const MASTER_PASSWORD_VERIFIER_KEY = "systemhub.masterPasswordVerifier";
 const DEFAULT_TEAM_TASK_MEMBERS = ["Фатима", "Темирлан", "Аружан", "Шерхан", "Алина"];
 const EXPIRING_SOON_DAYS = 30;
+const LOW_STOCK_THRESHOLD = 5;
 const GOOGLE_AUTO_SYNC_DEBOUNCE_MS = 900;
 const GOOGLE_REMOTE_REFRESH_MS = 3000;
 const PASSWORD_ENCRYPTION_PREFIX = "enc:v1:";
@@ -6418,6 +7474,62 @@ const AUTH_PASSWORD_DERIVE_ITERATIONS = 150000;
 const DEFAULT_ADMIN_USERS = [
   { login: "16643", password: "AirAstana2026!", role: "admin", displayName: "Admin 16643" },
   { login: "14524", password: "AirAstana2026!", role: "admin", displayName: "Admin 14524" },
+];
+const DEFAULT_ELEARNING_TEAM = [
+  {
+    id: "igor-chiplikov",
+    parentId: "",
+    name: "Igor Chiplikov",
+    jobTitle: "Director Corporate Learning & Development",
+    department: "Customer Service Training: Training Academy",
+    workLocation: "ALA",
+    company: "Air Astana",
+  },
+  {
+    id: "fatima-alekperzade",
+    parentId: "igor-chiplikov",
+    name: "Fatima Alekperzade",
+    jobTitle: "Manager E-learning and Systems",
+    department: "Training Academy",
+    workLocation: "ALA",
+    company: "Air Astana",
+  },
+  {
+    id: "temirlan-amirkhanov",
+    parentId: "fatima-alekperzade",
+    name: "Temirlan Amirkhanov",
+    jobTitle: "Supervisor Training Systems",
+    department: "Training Academy",
+    workLocation: "ALA",
+    company: "Air Astana",
+  },
+  {
+    id: "sherkhan-zhunusbay",
+    parentId: "temirlan-amirkhanov",
+    name: "Sherkhan Zhunusbay",
+    jobTitle: "Specialist Training Systems",
+    department: "Training Academy",
+    workLocation: "ALA",
+    company: "Air Astana",
+  },
+  {
+    id: "aruzhan-omirzakova",
+    parentId: "fatima-alekperzade",
+    name: "Aruzhan Omirzakova",
+    jobTitle: "Supervisor E-learning",
+    department: "Training Academy",
+    workLocation: "ALA",
+    company: "Air Astana",
+  },
+  {
+    id: "alina-polechshuk",
+    parentId: "aruzhan-omirzakova",
+    name: "Alina Polechshuk",
+    jobTitle: "E-learning developer",
+    department: "Training Academy",
+    workLocation: "ALA",
+    company: "Air Astana",
+  },
 ];
 
 const authShell = document.querySelector("#authShell");
@@ -6510,11 +7622,28 @@ const analyticsCentersTable = document.querySelector("#analyticsCentersTable");
 const analyticsRemainingTable = document.querySelector("#analyticsRemainingTable");
 const analyticsStatusesTable = document.querySelector("#analyticsStatusesTable");
 const analyticsTopBuyersTable = document.querySelector("#analyticsTopBuyersTable");
+const globalSearch = document.querySelector("#globalSearch");
+const globalSearchInput = document.querySelector("#globalSearchInput");
+const globalSearchResults = document.querySelector("#globalSearchResults");
+const todayMyActiveCount = document.querySelector("#todayMyActiveCount");
+const todayNewAssignmentCount = document.querySelector("#todayNewAssignmentCount");
+const todayOverdueCount = document.querySelector("#todayOverdueCount");
+const todayWeekCount = document.querySelector("#todayWeekCount");
+const todayMyAssignments = document.querySelector("#todayMyAssignments");
+const todayUpcomingList = document.querySelector("#todayUpcomingList");
+const todayRisksList = document.querySelector("#todayRisksList");
+const todayActivityList = document.querySelector("#todayActivityList");
+const myTasksSearchInput = document.querySelector("#myTasksSearchInput");
+const myTasksStatusFilter = document.querySelector("#myTasksStatusFilter");
+const myTasksDeadlineFilter = document.querySelector("#myTasksDeadlineFilter");
+const myTasksList = document.querySelector("#myTasksList");
 const teamTaskTabs = document.querySelector("#teamTaskTabs");
 const teamTaskDashboardView = document.querySelector("#teamTaskDashboardView");
 const teamTaskStatsView = document.querySelector("#teamTaskStatsView");
+const teamTaskKanbanView = document.querySelector("#teamTaskKanbanView");
 const teamTaskBoard = document.querySelector("#teamTaskBoard");
 const teamTaskStatsContent = document.querySelector("#teamTaskStatsContent");
+const teamTaskKanbanBoard = document.querySelector("#teamTaskKanbanBoard");
 const teamMemberForm = document.querySelector("#teamMemberForm");
 const teamMemberNameInput = document.querySelector("#teamMemberNameInput");
 const teamMemberList = document.querySelector("#teamMemberList");
@@ -6532,9 +7661,36 @@ const teamTaskStartDateInput = document.querySelector("#teamTaskStartDateInput")
 const teamTaskDeadlineInput = document.querySelector("#teamTaskDeadlineInput");
 const teamTaskPriorityInput = document.querySelector("#teamTaskPriorityInput");
 const teamTaskNotesInput = document.querySelector("#teamTaskNotesInput");
+const teamTaskChecklistInput = document.querySelector("#teamTaskChecklistInput");
+const teamTaskAttachmentsInput = document.querySelector("#teamTaskAttachmentsInput");
+const teamTaskCommentInput = document.querySelector("#teamTaskCommentInput");
 const teamTaskSubmitText = document.querySelector("#teamTaskSubmitText");
 const closeTeamTaskModalButton = document.querySelector("#closeTeamTaskModal");
 const cancelTeamTaskFormButton = document.querySelector("#cancelTeamTaskForm");
+const assignmentBell = document.querySelector("#assignmentBell");
+const assignmentBellButton = document.querySelector("#assignmentBellButton");
+const assignmentBellPanel = document.querySelector("#assignmentBellPanel");
+const assignmentBellCount = document.querySelector("#assignmentBellCount");
+const assignmentBellList = document.querySelector("#assignmentBellList");
+const elearningTeamTree = document.querySelector("#elearningTeamTree");
+const employeeModal = document.querySelector("#employeeModal");
+const employeeProfileForm = document.querySelector("#employeeProfileForm");
+const employeeProfileIdInput = document.querySelector("#employeeProfileId");
+const employeeProfileName = document.querySelector("#employeeProfileName");
+const employeeProfileRole = document.querySelector("#employeeProfileRole");
+const employeeProfileOrg = document.querySelector("#employeeProfileOrg");
+const employeePhotoPreview = document.querySelector("#employeePhotoPreview");
+const employeePhotoInput = document.querySelector("#employeePhotoInput");
+const removeEmployeePhotoButton = document.querySelector("#removeEmployeePhoto");
+const closeEmployeeModalButton = document.querySelector("#closeEmployeeModal");
+const cancelEmployeeProfileButton = document.querySelector("#cancelEmployeeProfile");
+const employeeEmailInput = document.querySelector("#employeeEmailInput");
+const employeeMobileInput = document.querySelector("#employeeMobileInput");
+const employeeWorkPhoneInput = document.querySelector("#employeeWorkPhoneInput");
+const employeeWorkLocationInput = document.querySelector("#employeeWorkLocationInput");
+const employeeCompanyInput = document.querySelector("#employeeCompanyInput");
+const employeeJobTitleInput = document.querySelector("#employeeJobTitleInput");
+const employeeDepartmentInput = document.querySelector("#employeeDepartmentInput");
 const trmsReleaseForm = document.querySelector("#trmsReleaseForm");
 const trmsReleaseTaskIdInput = document.querySelector("#trmsReleaseTaskId");
 const trmsReleaseNameInput = document.querySelector("#trmsReleaseName");
@@ -6700,6 +7856,7 @@ let promoPurchases = loadPromoPurchases();
 let promoPurchasePositions = loadPromoPurchasePositions();
 let teamTaskMembers = loadTeamTaskMembers();
 let teamTasks = normalizeTeamTasks(loadTeamTasks());
+let elearningTeamProfiles = loadElearningTeamProfiles();
 let trmsReleaseTasks = loadTrmsReleaseTasks();
 let reportRows = loadReportRows();
 let googleScriptUrl = loadGoogleScriptUrl();
@@ -6770,6 +7927,15 @@ const TEAM_TASK_PRIORITIES = [
   { key: "urgent", label: "Срочно", className: "team-priority-urgent", rank: 4 },
 ];
 
+const TEAM_NOTIFICATION_ALIASES = [
+  ["16643", "temirlan", "temirlan amirkhanov", "темирлан", "темирлан амирханов"],
+  ["fatima", "fatima alekperzade", "фатима", "фатима алекперзаде"],
+  ["sherkhan", "sherkhan zhunusbay", "шеркан", "шерxан", "шерхан", "шерхан жунусбай"],
+  ["aruzhan", "aruzhan omirzakova", "аружан", "аружан омирзакова"],
+  ["alina", "alina polechshuk", "алина", "алина полещук"],
+  ["igor", "igor chiplikov", "игорь", "игорь чипликов"],
+];
+
 const teamTaskFilters = TEAM_TASK_DIRECTIONS.reduce((acc, direction) => {
   acc[direction.key] = {
     status: "",
@@ -6781,6 +7947,8 @@ const teamTaskFilters = TEAM_TASK_DIRECTIONS.reduce((acc, direction) => {
 }, {});
 
 let activeTeamTaskView = "tasks";
+let activeEmployeeId = "";
+let pendingEmployeePhoto = "";
 
 function getSavedTheme() {
   try {
@@ -7382,13 +8550,141 @@ function saveTeamTaskMembers() {
   queueGoogleSheetsSync("teamTaskMembers", { replaceAll: true });
 }
 
+function normalizeTeamTaskAcknowledgements(values) {
+  return (Array.isArray(values) ? values : [])
+    .map((item) => ({
+      userKey: String(item?.userKey || "").trim(),
+      userName: String(item?.userName || "").trim(),
+      at: item?.at || "",
+    }))
+    .filter((item) => item.userKey || item.userName);
+}
+
+function normalizeTeamTaskChecklist(values) {
+  return (Array.isArray(values) ? values : [])
+    .map((item) => {
+      if (typeof item === "string") {
+        return {
+          id: createId(),
+          text: item.trim(),
+          done: false,
+        };
+      }
+
+      return {
+        id: item?.id || createId(),
+        text: String(item?.text || item?.label || "").trim(),
+        done: Boolean(item?.done),
+      };
+    })
+    .filter((item) => item.text);
+}
+
+function normalizeTeamTaskAttachments(values) {
+  return (Array.isArray(values) ? values : [])
+    .map((item) => {
+      if (typeof item === "string") {
+        const url = item.trim();
+        return {
+          id: createId(),
+          label: getAttachmentLabelFromUrl(url),
+          url,
+        };
+      }
+
+      const url = String(item?.url || item?.href || "").trim();
+      return {
+        id: item?.id || createId(),
+        label: String(item?.label || item?.name || getAttachmentLabelFromUrl(url)).trim(),
+        url,
+      };
+    })
+    .filter((item) => item.url);
+}
+
+function normalizeTeamTaskComments(values) {
+  return (Array.isArray(values) ? values : [])
+    .map((item) => ({
+      id: item?.id || createId(),
+      type: item?.type === "history" ? "history" : "comment",
+      userName: String(item?.userName || "").trim(),
+      text: String(item?.text || "").trim(),
+      at: item?.at || "",
+    }))
+    .filter((item) => item.text);
+}
+
+function readTeamTaskMetaFromNotes(notes) {
+  const value = String(notes || "");
+  const escapedPrefix = TEAM_TASK_META_PREFIX.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapedSuffix = TEAM_TASK_META_SUFFIX.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = value.match(new RegExp(`${escapedPrefix}([\\s\\S]*?)${escapedSuffix}`));
+  if (!match) return {};
+
+  try {
+    const parsed = JSON.parse(decodeURIComponent(match[1]));
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function stripTeamTaskMetaFromNotes(notes) {
+  const value = String(notes || "");
+  const escapedPrefix = TEAM_TASK_META_PREFIX.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapedSuffix = TEAM_TASK_META_SUFFIX.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return value
+    .replace(new RegExp(`\\n*${escapedPrefix}[\\s\\S]*?${escapedSuffix}\\n*`, "g"), "\n")
+    .trim();
+}
+
+function getTeamTaskMeta(task) {
+  const noteMeta = readTeamTaskMetaFromNotes(task?.notes);
+
+  return {
+    acknowledgements: normalizeTeamTaskAcknowledgements(task?.acknowledgements?.length ? task.acknowledgements : noteMeta.acknowledgements),
+    checklist: normalizeTeamTaskChecklist(task?.checklist?.length ? task.checklist : noteMeta.checklist),
+    attachments: normalizeTeamTaskAttachments(task?.attachments?.length ? task.attachments : noteMeta.attachments),
+    comments: normalizeTeamTaskComments(task?.comments?.length ? task.comments : noteMeta.comments),
+  };
+}
+
+function mergeTeamTaskMetaIntoNotes(notes, meta) {
+  const visibleNotes = stripTeamTaskMetaFromNotes(notes);
+  const payload = {
+    acknowledgements: normalizeTeamTaskAcknowledgements(meta?.acknowledgements),
+    checklist: normalizeTeamTaskChecklist(meta?.checklist),
+    attachments: normalizeTeamTaskAttachments(meta?.attachments),
+    comments: normalizeTeamTaskComments(meta?.comments),
+  };
+  const hasPayload = Object.values(payload).some((items) => items.length > 0);
+
+  if (!hasPayload) return visibleNotes;
+
+  const encodedPayload = encodeURIComponent(JSON.stringify(payload));
+  return [visibleNotes, `${TEAM_TASK_META_PREFIX}${encodedPayload}${TEAM_TASK_META_SUFFIX}`].filter(Boolean).join("\n\n");
+}
+
+function getTeamTaskVisibleNotes(task) {
+  return stripTeamTaskMetaFromNotes(task?.notes || "");
+}
+
 function normalizeTeamTasks(tasks) {
   const allowedMembers = new Set(teamTaskMembers);
 
-  return tasks.map((task) => ({
-    ...task,
-    assignees: normalizeTeamTaskMemberList(task.assignees || []).filter((assignee) => allowedMembers.has(assignee)),
-  }));
+  return tasks.map((task) => {
+    const meta = getTeamTaskMeta(task);
+
+    return {
+      ...task,
+      notes: mergeTeamTaskMetaIntoNotes(task.notes || "", meta),
+      assignees: normalizeTeamTaskMemberList(task.assignees || []).filter((assignee) => allowedMembers.has(assignee)),
+      acknowledgements: meta.acknowledgements,
+      checklist: meta.checklist,
+      attachments: meta.attachments,
+      comments: meta.comments,
+    };
+  });
 }
 
 function loadTeamTasks() {
@@ -7408,6 +8704,19 @@ function saveTeamTasks() {
   persistDatasetLocally("teamTasks");
   queueGoogleSheetsSync("teamTasks");
   queueGoogleCalendarSync();
+}
+
+function loadElearningTeamProfiles() {
+  try {
+    const value = JSON.parse(localStorage.getItem(ELEARNING_TEAM_PROFILES_STORAGE_KEY)) || {};
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveElearningTeamProfiles() {
+  setStorageValue(ELEARNING_TEAM_PROFILES_STORAGE_KEY, JSON.stringify(elearningTeamProfiles));
 }
 
 function loadTrmsReleaseTasks() {
@@ -9013,7 +10322,7 @@ function buildGoogleCalendarEvents() {
         task.assignees?.length ? `Исполнители: ${task.assignees.join(", ")}` : "",
         task.status ? `Статус: ${task.status}` : "",
         task.priority ? `Приоритет: ${task.priority}` : "",
-        task.notes ? `Заметки: ${task.notes}` : "",
+        getTeamTaskVisibleNotes(task) ? `Заметки: ${getTeamTaskVisibleNotes(task)}` : "",
         "Источник: SystemHub / Задачи команды",
       ].filter(Boolean).join("\n"),
     });
@@ -9201,7 +10510,7 @@ function buildTelegramTaskMessage(task, assignees) {
     `Приоритет: ${priority.label}`,
     task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Дедлайн: не указан",
     task.description ? `Описание: ${task.description}` : "",
-    task.notes ? `Заметки: ${task.notes}` : "",
+    getTeamTaskVisibleNotes(task) ? `Заметки: ${getTeamTaskVisibleNotes(task)}` : "",
     `Открыть: ${getTeamTaskUrl()}`,
   ].filter(Boolean).join("\n");
 }
@@ -9232,7 +10541,7 @@ function buildTeamTaskTelegramPayload(task, assignees) {
       priorityLabel: priority.label,
       startDate: task.startDate || "",
       deadline: task.deadline || "",
-      notes: task.notes || "",
+      notes: getTeamTaskVisibleNotes(task),
       createdAt: task.createdAt || "",
       updatedAt: task.updatedAt || "",
     },
@@ -9689,12 +10998,15 @@ function renderPromoPurchaseStatusSelect(purchase) {
 }
 
 function getPageFromHash() {
+  if (window.location.hash === "#today") return "today";
+  if (window.location.hash === "#my-tasks") return "myTasks";
   if (window.location.hash === "#links") return "links";
   if (window.location.hash === "#survey") return "survey";
   if (window.location.hash === "#promo") return "promo";
   if (window.location.hash === "#promo-purchases") return "promoPurchases";
   if (window.location.hash === "#purchase-analytics") return "purchaseAnalytics";
   if (window.location.hash === "#team-tasks") return "teamTasks";
+  if (window.location.hash === "#elearning-team") return "elearningTeam";
   if (window.location.hash === "#trms-releases") return "trmsReleases";
   if (window.location.hash === "#dashboards") return "dashboards";
   if (window.location.hash === "#training-report") return "trainingReport";
@@ -9704,9 +11016,11 @@ function getPageFromHash() {
 }
 
 function getHashForPage(page) {
+  if (page === "myTasks") return "#my-tasks";
   if (page === "promoPurchases") return "#promo-purchases";
   if (page === "purchaseAnalytics") return "#purchase-analytics";
   if (page === "teamTasks") return "#team-tasks";
+  if (page === "elearningTeam") return "#elearning-team";
   if (page === "trmsReleases") return "#trms-releases";
   if (page === "trainingReport") return "#training-report";
   if (page === "participantReports") return "#participant-reports";
@@ -9732,7 +11046,12 @@ function showPage(page) {
     }
   });
 
+  if (page === "today") renderTodayDashboard();
+  if (page === "myTasks") renderMyTasks();
+
   const pageTitles = {
+    today: "Сегодня",
+    myTasks: "Мои задачи",
     systems: "Данные систем",
     links: "Полезные ссылки",
     survey: "Ссылки на опрос формы",
@@ -9740,6 +11059,7 @@ function showPage(page) {
     promoPurchases: "Покупки промо",
     purchaseAnalytics: "Аналитика покупок",
     teamTasks: "Задачи команды",
+    elearningTeam: "Команда E-Learning & Systems",
     trmsReleases: "ТРМС Релизы",
     dashboards: "Дэшборды",
     trainingReport: "Отчеты",
@@ -10278,6 +11598,240 @@ function renderPurchaseAnalytics() {
       : renderAnalyticsEmptyRow(4, "Покупателей пока нет.");
 }
 
+function getElearningEmployeeBase(id) {
+  return DEFAULT_ELEARNING_TEAM.find((employee) => employee.id === id) || null;
+}
+
+function getElearningEmployee(id) {
+  const base = getElearningEmployeeBase(id);
+  if (!base) return null;
+
+  return {
+    email: "",
+    mobile: "",
+    workPhone: "",
+    photo: "",
+    ...base,
+    ...(elearningTeamProfiles[id] || {}),
+    id: base.id,
+    parentId: base.parentId,
+    name: base.name,
+  };
+}
+
+function getEmployeeInitials(name) {
+  return String(name || "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("");
+}
+
+function renderEmployeeAvatar(employee, className = "team-org-avatar") {
+  const photo = employee.photo || "";
+  return `
+    <span class="${className}">
+      ${photo ? `<img src="${escapeHtml(photo)}" alt="${escapeHtml(employee.name)}" />` : escapeHtml(getEmployeeInitials(employee.name))}
+    </span>
+  `;
+}
+
+function renderElearningTeamNode(employee) {
+  const children = DEFAULT_ELEARNING_TEAM.filter((item) => item.parentId === employee.id);
+  const profile = getElearningEmployee(employee.id);
+
+  return `
+    <li class="team-org-node">
+      <button class="team-org-card" type="button" data-employee-id="${escapeHtml(employee.id)}">
+        ${renderEmployeeAvatar(profile)}
+        <span class="team-org-main">
+          <strong>${escapeHtml(profile.name)}</strong>
+          <span>${escapeHtml(profile.jobTitle || "")}</span>
+          <span>${escapeHtml([profile.department, profile.workLocation].filter(Boolean).join(" · "))}</span>
+        </span>
+      </button>
+      ${
+        children.length > 0
+          ? `<ul class="team-org-list is-children">${children.map(renderElearningTeamNode).join("")}</ul>`
+          : ""
+      }
+    </li>
+  `;
+}
+
+function renderElearningTeam() {
+  if (!elearningTeamTree) return;
+
+  const roots = DEFAULT_ELEARNING_TEAM.filter((employee) => !employee.parentId);
+  elearningTeamTree.innerHTML = `<ul class="team-org-list">${roots.map(renderElearningTeamNode).join("")}</ul>`;
+}
+
+function setEmployeePhotoPreview(employee) {
+  if (!employeePhotoPreview) return;
+
+  if (!employee) {
+    employeePhotoPreview.innerHTML = "";
+    return;
+  }
+
+  employeePhotoPreview.innerHTML = employee.photo
+    ? `<img src="${escapeHtml(employee.photo)}" alt="${escapeHtml(employee.name)}" />`
+    : escapeHtml(getEmployeeInitials(employee.name));
+}
+
+function openEmployeeModal(id) {
+  const employee = getElearningEmployee(id);
+  if (!employee || !employeeModal || !employeeProfileForm) return;
+
+  activeEmployeeId = id;
+  pendingEmployeePhoto = employee.photo || "";
+  employeeProfileForm.reset();
+  employeeProfileIdInput.value = id;
+  employeeProfileName.textContent = employee.name;
+  employeeProfileRole.textContent = employee.jobTitle || "";
+  employeeProfileOrg.textContent = [employee.department, employee.workLocation].filter(Boolean).join(" · ");
+  setEmployeePhotoPreview(employee);
+
+  employeeEmailInput.value = employee.email || "";
+  employeeMobileInput.value = employee.mobile || "";
+  employeeWorkPhoneInput.value = employee.workPhone || "";
+  employeeWorkLocationInput.value = employee.workLocation || "";
+  employeeCompanyInput.value = employee.company || "";
+  employeeJobTitleInput.value = employee.jobTitle || "";
+  employeeDepartmentInput.value = employee.department || "";
+
+  employeeModal.hidden = false;
+  document.body.classList.add("modal-open");
+  window.setTimeout(() => employeeEmailInput?.focus(), 0);
+}
+
+function closeEmployeeModal() {
+  if (!employeeModal) return;
+
+  employeeModal.hidden = true;
+  activeEmployeeId = "";
+  pendingEmployeePhoto = "";
+  document.body.classList.remove("modal-open");
+}
+
+function getEmployeeProfileFromForm() {
+  return {
+    email: employeeEmailInput.value.trim(),
+    mobile: employeeMobileInput.value.trim(),
+    workPhone: employeeWorkPhoneInput.value.trim(),
+    workLocation: employeeWorkLocationInput.value.trim(),
+    company: employeeCompanyInput.value.trim(),
+    jobTitle: employeeJobTitleInput.value.trim(),
+    department: employeeDepartmentInput.value.trim(),
+    photo: pendingEmployeePhoto,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function saveEmployeeProfile() {
+  if (!activeEmployeeId) return;
+
+  elearningTeamProfiles = {
+    ...elearningTeamProfiles,
+    [activeEmployeeId]: getEmployeeProfileFromForm(),
+  };
+  saveElearningTeamProfiles();
+  renderElearningTeam();
+}
+
+function readEmployeePhoto(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(String(reader.result || "")));
+    reader.addEventListener("error", () => reject(reader.error || new Error("Не удалось прочитать файл.")));
+    reader.readAsDataURL(file);
+  });
+}
+
+function getAttachmentLabelFromUrl(url) {
+  const value = String(url || "").trim();
+  if (!value) return "Файл";
+
+  try {
+    const parsedUrl = new URL(value);
+    const name = parsedUrl.pathname.split("/").filter(Boolean).pop();
+    return decodeURIComponent(name || parsedUrl.hostname || "Файл");
+  } catch {
+    return value.replace(/^https?:\/\//i, "").split(/[/?#]/)[0] || "Файл";
+  }
+}
+
+function createTeamTaskActivity(text, type = "comment") {
+  return {
+    id: createId(),
+    type: type === "history" ? "history" : "comment",
+    userName: getCurrentUserDisplayName(),
+    text: String(text || "").trim(),
+    at: new Date().toISOString(),
+  };
+}
+
+function getTeamTaskChecklist(task) {
+  return normalizeTeamTaskChecklist(task?.checklist);
+}
+
+function getTeamTaskAttachments(task) {
+  return normalizeTeamTaskAttachments(task?.attachments);
+}
+
+function getTeamTaskComments(task) {
+  return normalizeTeamTaskComments(task?.comments);
+}
+
+function parseTeamTaskChecklistInput(value, existingChecklist = []) {
+  const previousByText = new Map(
+    normalizeTeamTaskChecklist(existingChecklist).map((item) => [normalizeNotificationIdentity(item.text), item]),
+  );
+
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((text) => {
+      const previous = previousByText.get(normalizeNotificationIdentity(text));
+      return {
+        id: previous?.id || createId(),
+        text,
+        done: Boolean(previous?.done),
+      };
+    });
+}
+
+function formatTeamTaskChecklistInput(checklist) {
+  return normalizeTeamTaskChecklist(checklist).map((item) => item.text).join("\n");
+}
+
+function parseTeamTaskAttachmentInput(value, existingAttachments = []) {
+  const previousByUrl = new Map(normalizeTeamTaskAttachments(existingAttachments).map((item) => [item.url, item]));
+
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [rawLabel, rawUrl] = line.split("|").map((part) => part.trim());
+      const url = rawUrl ? normalizeLinkUrl(rawUrl) : normalizeLinkUrl(rawLabel);
+      const previous = previousByUrl.get(url);
+      return {
+        id: previous?.id || createId(),
+        label: rawUrl ? rawLabel : previous?.label || getAttachmentLabelFromUrl(url),
+        url,
+      };
+    });
+}
+
+function formatTeamTaskAttachmentInput(attachments) {
+  return normalizeTeamTaskAttachments(attachments)
+    .map((item) => (item.label && item.label !== getAttachmentLabelFromUrl(item.url) ? `${item.label} | ${item.url}` : item.url))
+    .join("\n");
+}
+
 function getTeamDirectionMeta(directionKey) {
   return TEAM_TASK_DIRECTIONS.find((direction) => direction.key === directionKey) || TEAM_TASK_DIRECTIONS[0];
 }
@@ -10296,6 +11850,268 @@ function getTeamTaskAssignees() {
 
 function parseTeamTaskAssignees(value) {
   return normalizeTeamTaskMemberList(String(value || "").split(/[;,]/));
+}
+
+function getEmployeeForAssignee(assignee) {
+  const normalizedAssignee = normalizeNotificationIdentity(assignee);
+  if (!normalizedAssignee) return null;
+
+  return DEFAULT_ELEARNING_TEAM.map((employee) => getElearningEmployee(employee.id)).find((employee) => {
+    const nameParts = normalizeNotificationIdentity(employee.name).split(" ").filter(Boolean);
+    const aliases = new Set([
+      normalizeNotificationIdentity(employee.name),
+      normalizeNotificationIdentity(employee.id.replaceAll("-", " ")),
+      ...nameParts,
+    ]);
+
+    TEAM_NOTIFICATION_ALIASES.forEach((group) => {
+      const normalizedGroup = group.map(normalizeNotificationIdentity);
+      if (normalizedGroup.some((alias) => aliases.has(alias))) {
+        normalizedGroup.forEach((alias) => aliases.add(alias));
+      }
+    });
+
+    return aliases.has(normalizedAssignee);
+  }) || null;
+}
+
+function renderTeamTaskAssignees(assignees) {
+  const safeAssignees = assignees?.length ? assignees : ["Не назначено"];
+
+  return `
+    <div class="team-assignee-list">
+      ${safeAssignees.map((assignee) => {
+        const employee = getEmployeeForAssignee(assignee);
+
+        if (!employee) {
+          return `<span class="team-assignee-static">${escapeHtml(assignee)}</span>`;
+        }
+
+        return `
+          <button class="team-assignee-button" type="button" data-team-task-action="open-profile" data-employee-id="${escapeHtml(employee.id)}" title="Открыть карточку сотрудника">
+            ${renderEmployeeAvatar(employee, "team-assignee-avatar")}
+            <span>${escapeHtml(assignee)}</span>
+          </button>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function normalizeNotificationIdentity(value) {
+  return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function getCurrentUserDisplayName() {
+  return currentUser?.displayName || currentUser?.login || "Сотрудник";
+}
+
+function getCurrentUserNotificationKey() {
+  return normalizeNotificationIdentity(currentUser?.login || currentUser?.displayName || "");
+}
+
+function getCurrentUserAssigneeAliases() {
+  const aliases = new Set();
+  const addAlias = (value) => {
+    const normalized = normalizeNotificationIdentity(value);
+    if (normalized) aliases.add(normalized);
+  };
+
+  addAlias(currentUser?.login);
+  addAlias(currentUser?.displayName);
+  String(currentUser?.displayName || "").split(/\s+/).forEach(addAlias);
+
+  TEAM_NOTIFICATION_ALIASES.forEach((group) => {
+    const normalizedGroup = group.map(normalizeNotificationIdentity);
+    if (normalizedGroup.some((alias) => aliases.has(alias))) {
+      normalizedGroup.forEach(addAlias);
+    }
+  });
+
+  return aliases;
+}
+
+function isTaskAssignedToCurrentUser(task) {
+  if (!currentUser) return false;
+
+  const aliases = getCurrentUserAssigneeAliases();
+  return normalizeTeamTaskMemberList(task.assignees || []).some((assignee) => aliases.has(normalizeNotificationIdentity(assignee)));
+}
+
+function getTaskAcknowledgements(task) {
+  return normalizeTeamTaskAcknowledgements(task.acknowledgements);
+}
+
+function hasTaskAcknowledgementByCurrentUser(task) {
+  const aliases = getCurrentUserAssigneeAliases();
+  const userKey = getCurrentUserNotificationKey();
+  const notes = normalizeNotificationIdentity(getTeamTaskVisibleNotes(task));
+  const acknowledgedInNotes = [...aliases].some((alias) => (
+    alias && notes.includes(alias) && (notes.includes("ознаком") || notes.includes("видел") || notes.includes("приступил"))
+  ));
+
+  return acknowledgedInNotes || getTaskAcknowledgements(task).some((ack) => {
+    const ackKey = normalizeNotificationIdentity(ack.userKey);
+    const ackName = normalizeNotificationIdentity(ack.userName);
+    return (userKey && ackKey === userKey) || aliases.has(ackName);
+  });
+}
+
+function getCurrentAssignmentNotifications() {
+  if (!currentUser) return [];
+
+  return teamTasks
+    .filter((task) => task.status !== "done")
+    .filter(isTaskAssignedToCurrentUser)
+    .filter((task) => !hasTaskAcknowledgementByCurrentUser(task))
+    .sort((a, b) => {
+      const aDate = a.deadline || "9999-12-31";
+      const bDate = b.deadline || "9999-12-31";
+      if (aDate !== bDate) return aDate.localeCompare(bDate);
+      return String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""));
+    });
+}
+
+function formatAcknowledgementDate(value) {
+  const date = value ? new Date(value) : new Date();
+  if (Number.isNaN(date.getTime())) return "";
+
+  return new Intl.DateTimeFormat("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+}
+
+function buildAcknowledgementComment(acknowledgement) {
+  const dateText = formatAcknowledgementDate(acknowledgement.at);
+  return `${dateText ? `${dateText} - ` : ""}${acknowledgement.userName}: видел(а) задачу и приступил(а) к выполнению.`;
+}
+
+function acknowledgeTeamTaskAssignment(taskId) {
+  const task = teamTasks.find((item) => item.id === taskId);
+  if (!task || !currentUser || hasTaskAcknowledgementByCurrentUser(task)) return;
+
+  const acknowledgement = {
+    userKey: getCurrentUserNotificationKey(),
+    userName: getCurrentUserDisplayName(),
+    at: new Date().toISOString(),
+  };
+  const comment = buildAcknowledgementComment(acknowledgement);
+
+  teamTasks = teamTasks.map((item) => {
+    if (item.id !== taskId) return item;
+
+    const acknowledgements = [...getTaskAcknowledgements(item), acknowledgement];
+    const visibleNotes = [getTeamTaskVisibleNotes(item), comment].filter(Boolean).join("\n");
+    const comments = [
+      createTeamTaskActivity(comment, "history"),
+      ...getTeamTaskComments(item),
+    ];
+
+    return {
+      ...item,
+      status: item.status === "new" ? "inprogress" : item.status,
+      notes: mergeTeamTaskMetaIntoNotes(visibleNotes, {
+        acknowledgements,
+        checklist: getTeamTaskChecklist(item),
+        attachments: getTeamTaskAttachments(item),
+        comments,
+      }),
+      acknowledgements,
+      comments,
+      updatedAt: new Date().toISOString(),
+    };
+  });
+
+  saveTeamTasks();
+  renderTeamTasks();
+  if (activeTeamTaskView === "stats") renderTeamTaskStats();
+  renderAssignmentBell();
+  if (window.SystemHubNotifications?.render) window.SystemHubNotifications.render();
+}
+
+function renderTeamTaskAcknowledgements(task) {
+  const acknowledgements = getTaskAcknowledgements(task);
+  if (acknowledgements.length === 0) return "";
+
+  return `
+    <div class="team-task-ack-list" aria-label="Ознакомления">
+      ${acknowledgements.map((ack) => `<span>${escapeHtml(ack.userName)}: ознакомлен ${escapeHtml(formatAcknowledgementDate(ack.at))}</span>`).join("")}
+    </div>
+  `;
+}
+
+function setAssignmentBellOpen(isOpen) {
+  if (!assignmentBellButton || !assignmentBellPanel) return;
+
+  assignmentBellButton.setAttribute("aria-expanded", String(isOpen));
+  assignmentBellPanel.hidden = !isOpen;
+}
+
+function renderAssignmentBell() {
+  if (!assignmentBell || !assignmentBellCount || !assignmentBellList) return;
+
+  assignmentBell.hidden = !currentUser;
+  if (!currentUser) {
+    setAssignmentBellOpen(false);
+    return;
+  }
+
+  const notifications = getCurrentAssignmentNotifications();
+  const acknowledgedTasks = getMyTeamTasks({ includeDone: true })
+    .filter((task) => hasTaskAcknowledgementByCurrentUser(task))
+    .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")))
+    .slice(0, 5);
+  assignmentBellCount.textContent = String(notifications.length);
+  assignmentBellCount.hidden = notifications.length === 0;
+
+  const pendingHtml = notifications.length > 0
+    ? notifications.map((task) => {
+      const direction = getTeamDirectionMeta(task.direction);
+      const priority = getTeamTaskPriorityMeta(task.priority);
+
+      return `
+        <article class="assignment-bell-item">
+          <strong>${escapeHtml(task.title || "Задача команды")}</strong>
+          <p>${escapeHtml(task.description || "Вас назначили ответственным по задаче.")}</p>
+          <div class="assignment-bell-meta">
+            <span>${escapeHtml(direction.label)}</span>
+            <span>${escapeHtml(priority.label)}</span>
+            <span>${task.deadline ? `Дедлайн: ${escapeHtml(formatDate(task.deadline))}` : "Без дедлайна"}</span>
+          </div>
+          <div class="assignment-bell-actions">
+            <button class="primary-button" type="button" data-assignment-action="acknowledge" data-id="${escapeHtml(task.id)}">Ознакомлен</button>
+            <a class="ghost-button" href="#team-tasks" data-assignment-action="open">Открыть</a>
+          </div>
+        </article>
+      `;
+    }).join("")
+    : '<div class="assignment-bell-empty">Новых назначений для вас нет.</div>';
+
+  const archiveHtml = acknowledgedTasks.length > 0
+    ? `
+      <div class="assignment-bell-head">
+        <div>
+          <p class="eyebrow">Archive</p>
+          <strong>Ознакомленные</strong>
+        </div>
+      </div>
+      ${acknowledgedTasks.map((task) => `
+        <article class="assignment-bell-item">
+          <strong>${escapeHtml(task.title || "Задача команды")}</strong>
+          <p>${task.deadline ? `Дедлайн: ${escapeHtml(formatDate(task.deadline))}` : "Без дедлайна"}</p>
+          <div class="assignment-bell-actions">
+            <a class="ghost-button" href="#team-tasks" data-assignment-action="open">Открыть</a>
+          </div>
+        </article>
+      `).join("")}
+    `
+    : "";
+
+  assignmentBellList.innerHTML = [pendingHtml, archiveHtml].filter(Boolean).join("");
 }
 
 function addTeamTaskMember(value, shouldRender = true) {
@@ -10433,6 +12249,12 @@ function renderTeamTaskCard(task) {
   const overdue = isTeamTaskOverdue(task);
   const description = task.description || "Описание не заполнено.";
   const assignees = task.assignees?.length ? task.assignees : ["Не назначено"];
+  const notes = getTeamTaskVisibleNotes(task);
+  const checklist = getTeamTaskChecklist(task);
+  const attachments = getTeamTaskAttachments(task);
+  const comments = getTeamTaskComments(task);
+  const doneChecklistItems = checklist.filter((item) => item.done).length;
+  const canAcknowledge = currentUser && isTaskAssignedToCurrentUser(task) && !hasTaskAcknowledgementByCurrentUser(task);
 
   return `
     <article class="team-task-card${overdue ? " is-overdue" : ""}">
@@ -10450,14 +12272,54 @@ function renderTeamTaskCard(task) {
       </div>
 
       <div class="team-task-meta">
-        <span>Участники: <strong>${assignees.map(escapeHtml).join(", ")}</strong></span>
+        <span>Участники:</span>
+        ${renderTeamTaskAssignees(assignees)}
         <span>Старт: <strong>${formatDate(task.startDate)}</strong></span>
         <span>Дедлайн: <strong>${formatDate(task.deadline)}</strong></span>
       </div>
 
-      ${task.notes ? `<p class="team-task-note">${escapeHtml(task.notes)}</p>` : ""}
+      ${notes ? `<p class="team-task-note">${escapeHtml(notes)}</p>` : ""}
+      ${checklist.length > 0 ? `
+        <div class="team-task-progress">
+          <div class="team-task-progress-row">
+            <span>Чеклист</span>
+            <strong>${doneChecklistItems}/${checklist.length}</strong>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:${Math.round((doneChecklistItems / checklist.length) * 100)}%"></div>
+          </div>
+          <div class="team-task-checklist">
+            ${checklist.slice(0, 6).map((item) => `
+              <button class="team-check-item${item.done ? " is-done" : ""}" type="button" data-team-task-action="toggle-checklist" data-id="${escapeHtml(task.id)}" data-checklist-id="${escapeHtml(item.id)}">
+                <span class="team-check-box">${item.done ? "✓" : ""}</span>
+                <span>${escapeHtml(item.text)}</span>
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      ` : ""}
+      ${attachments.length > 0 ? `
+        <div class="team-attachments">
+          ${attachments.map((item) => `<a class="team-attachment" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.label || getAttachmentLabelFromUrl(item.url))}</a>`).join("")}
+        </div>
+      ` : ""}
+      ${renderTeamTaskAcknowledgements(task)}
+      ${comments.length > 0 ? `
+        <div class="team-task-activity">
+          <h4>История</h4>
+          <div class="team-task-activity-list">
+            ${comments.slice(0, 3).map((item) => `
+              <div class="team-activity-item">
+                <strong>${escapeHtml(item.userName || "SystemHub")}</strong>
+                <span>${escapeHtml(formatAcknowledgementDate(item.at))} · ${escapeHtml(item.text)}</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      ` : ""}
 
       <div class="team-task-actions">
+        ${canAcknowledge ? `<button class="primary-button" type="button" data-team-task-action="acknowledge" data-id="${escapeHtml(task.id)}">Ознакомлен</button>` : ""}
         <button class="ghost-button" type="button" data-team-task-action="cycle-status" data-id="${task.id}">Изменить статус</button>
         <button class="icon-button" type="button" data-team-task-action="edit" data-id="${task.id}" aria-label="Редактировать задачу" title="Редактировать">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -10541,6 +12403,311 @@ function renderTeamTasks() {
   if (activeTeamTaskView === "stats") {
     renderTeamTaskStats();
   }
+
+  if (activeTeamTaskView === "kanban") {
+    renderTeamTaskKanban();
+  }
+
+  renderTodayDashboard();
+  renderMyTasks();
+}
+
+function sortTeamTasksByDeadline(tasks) {
+  return [...tasks].sort((a, b) => {
+    const aDeadline = a.deadline || "9999-12-31";
+    const bDeadline = b.deadline || "9999-12-31";
+    if (aDeadline !== bDeadline) return aDeadline.localeCompare(bDeadline);
+    return String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""));
+  });
+}
+
+function getMyTeamTasks({ includeDone = false } = {}) {
+  if (!currentUser) return [];
+
+  return sortTeamTasksByDeadline(
+    teamTasks
+      .filter(isTaskAssignedToCurrentUser)
+      .filter((task) => includeDone || task.status !== "done"),
+  );
+}
+
+function renderTaskQuickActions(task) {
+  const canAcknowledge = currentUser && isTaskAssignedToCurrentUser(task) && !hasTaskAcknowledgementByCurrentUser(task);
+
+  return `
+    <div class="team-task-actions">
+      ${canAcknowledge ? `<button class="primary-button" type="button" data-team-task-action="acknowledge" data-id="${escapeHtml(task.id)}">Ознакомлен</button>` : ""}
+      ${task.status !== "inprogress" && task.status !== "done" ? `<button class="ghost-button" type="button" data-team-task-action="set-status" data-status="inprogress" data-id="${escapeHtml(task.id)}">В работу</button>` : ""}
+      ${task.status !== "done" ? `<button class="ghost-button" type="button" data-team-task-action="set-status" data-status="done" data-id="${escapeHtml(task.id)}">Завершить</button>` : ""}
+      <button class="ghost-button" type="button" data-team-task-action="edit" data-id="${escapeHtml(task.id)}">Открыть</button>
+    </div>
+  `;
+}
+
+function renderTodayTaskItem(task) {
+  const direction = getTeamDirectionMeta(task.direction);
+  const status = getTeamTaskStatusMeta(task.status);
+  const overdue = isTeamTaskOverdue(task);
+
+  return `
+    <article class="today-item${overdue ? " is-overdue" : ""}">
+      <strong>${escapeHtml(task.title || "Задача команды")}</strong>
+      <span>${escapeHtml(direction.label)} · ${escapeHtml(status.label)} · ${task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Без срока"}</span>
+      ${renderTaskQuickActions(task)}
+    </article>
+  `;
+}
+
+function renderTodayInfoItem(title, meta, href = "") {
+  const content = `
+    <strong>${escapeHtml(title)}</strong>
+    <span>${escapeHtml(meta)}</span>
+  `;
+
+  return href
+    ? `<a class="today-item" href="${escapeHtml(href)}">${content}</a>`
+    : `<article class="today-item">${content}</article>`;
+}
+
+function renderTodayDashboard() {
+  if (!todayMyAssignments) return;
+
+  const myActiveTasks = getMyTeamTasks();
+  const newAssignments = getCurrentAssignmentNotifications();
+  const overdueTasks = teamTasks.filter((task) => task.status !== "done" && (isTeamTaskOverdue(task) || task.status === "overdue"));
+  const weekTasks = teamTasks.filter((task) => task.status !== "done" && getTeamTaskDeadlineFilter(task) === "week");
+  const upcomingTasks = sortTeamTasksByDeadline(
+    teamTasks.filter((task) => task.status !== "done" && ["today", "week"].includes(getTeamTaskDeadlineFilter(task))),
+  ).slice(0, 6);
+  const lowStockItems = stockItems
+    .filter((item) => Number(item.quantity || 0) <= LOW_STOCK_THRESHOLD)
+    .slice(0, 4);
+  const licenseRisks = records
+    .filter((record) => ["soon", "expired"].includes(getLicenseStatus(record).key))
+    .sort((a, b) => String(a.licenseEndDate || "").localeCompare(String(b.licenseEndDate || "")))
+    .slice(0, 4);
+  const recentActivity = [...teamTasks]
+    .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")))
+    .slice(0, 5);
+
+  if (todayMyActiveCount) todayMyActiveCount.textContent = formatQuantity(myActiveTasks.length);
+  if (todayNewAssignmentCount) todayNewAssignmentCount.textContent = formatQuantity(newAssignments.length);
+  if (todayOverdueCount) todayOverdueCount.textContent = formatQuantity(overdueTasks.length);
+  if (todayWeekCount) todayWeekCount.textContent = formatQuantity(weekTasks.length);
+
+  todayMyAssignments.innerHTML = myActiveTasks.length > 0
+    ? myActiveTasks.slice(0, 5).map(renderTodayTaskItem).join("")
+    : '<div class="team-task-empty">Нет активных задач для текущего пользователя.</div>';
+
+  if (todayUpcomingList) {
+    todayUpcomingList.innerHTML = upcomingTasks.length > 0
+      ? upcomingTasks.map(renderTodayTaskItem).join("")
+      : '<div class="team-task-empty">Ближайших дедлайнов нет.</div>';
+  }
+
+  if (todayRisksList) {
+    const riskItems = [
+      ...overdueTasks.slice(0, 4).map((task) => renderTodayInfoItem(task.title || "Задача команды", `Просрочено · ${formatDate(task.deadline)}`, "#team-tasks")),
+      ...lowStockItems.map((item) => renderTodayInfoItem(item.name || "Промо позиция", `Остаток: ${formatQuantity(Number(item.quantity || 0))}`, "#promo")),
+      ...licenseRisks.map((record) => {
+        const status = getLicenseStatus(record);
+        return renderTodayInfoItem(record.systemName || "Система", `${status.label} · ${formatDate(record.licenseEndDate)}`, "#systems");
+      }),
+    ].slice(0, 8);
+
+    todayRisksList.innerHTML = riskItems.length > 0
+      ? riskItems.join("")
+      : '<div class="team-task-empty">Критичных рисков нет.</div>';
+  }
+
+  if (todayActivityList) {
+    todayActivityList.innerHTML = recentActivity.length > 0
+      ? recentActivity.map((task) => {
+        const latestComment = getTeamTaskComments(task)[0];
+        return renderTodayInfoItem(
+          task.title || "Задача команды",
+          latestComment ? `${latestComment.userName || "SystemHub"}: ${latestComment.text}` : `Обновлено: ${formatAcknowledgementDate(task.updatedAt)}`,
+          "#team-tasks",
+        );
+      }).join("")
+      : '<div class="team-task-empty">Активности пока нет.</div>';
+  }
+}
+
+function renderMyTaskStatusFilter() {
+  if (!myTasksStatusFilter) return;
+
+  const selected = myTasksStatusFilter.value;
+  myTasksStatusFilter.innerHTML = `
+    <option value="">Все статусы</option>
+    ${TEAM_TASK_STATUSES.map((status) => `<option value="${status.key}" ${selected === status.key ? "selected" : ""}>${escapeHtml(status.label)}</option>`).join("")}
+  `;
+}
+
+function getFilteredMyTasks() {
+  const query = normalizeNotificationIdentity(myTasksSearchInput?.value || "");
+  const statusFilterValue = myTasksStatusFilter?.value || "";
+  const deadlineFilterValue = myTasksDeadlineFilter?.value || "";
+
+  return getMyTeamTasks({ includeDone: true })
+    .filter((task) => !statusFilterValue || task.status === statusFilterValue)
+    .filter((task) => !deadlineFilterValue || getTeamTaskDeadlineFilter(task) === deadlineFilterValue)
+    .filter((task) => {
+      if (!query) return true;
+      return normalizeNotificationIdentity([
+        task.title,
+        task.description,
+        getTeamTaskVisibleNotes(task),
+        ...(task.assignees || []),
+      ].join(" ")).includes(query);
+    });
+}
+
+function renderMyTaskCard(task) {
+  const direction = getTeamDirectionMeta(task.direction);
+  const status = getTeamTaskStatusMeta(task.status);
+  const priority = getTeamTaskPriorityMeta(task.priority);
+  const checklist = getTeamTaskChecklist(task);
+  const doneChecklistItems = checklist.filter((item) => item.done).length;
+
+  return `
+    <article class="my-task-card${isTeamTaskOverdue(task) ? " is-overdue" : ""}">
+      <div class="team-task-card-head">
+        <div>
+          <strong>${escapeHtml(task.title || "Задача команды")}</strong>
+          <span>${escapeHtml(direction.label)} · ${task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Без срока"}</span>
+        </div>
+        <span class="task-status-chip ${status.className}">${escapeHtml(status.label)}</span>
+      </div>
+      <span class="task-priority-chip ${priority.className}">${escapeHtml(priority.label)}</span>
+      ${task.description ? `<p>${escapeHtml(task.description)}</p>` : ""}
+      ${checklist.length > 0 ? `<span>Чеклист: ${doneChecklistItems}/${checklist.length}</span>` : ""}
+      ${renderTaskQuickActions(task)}
+    </article>
+  `;
+}
+
+function renderMyTasks() {
+  if (!myTasksList) return;
+
+  renderMyTaskStatusFilter();
+  const tasks = getFilteredMyTasks();
+  myTasksList.innerHTML = tasks.length > 0
+    ? tasks.map(renderMyTaskCard).join("")
+    : '<div class="team-task-empty">Для текущего пользователя задач не найдено.</div>';
+}
+
+function renderTeamTaskKanban() {
+  if (!teamTaskKanbanBoard) return;
+
+  teamTaskKanbanBoard.innerHTML = TEAM_TASK_STATUSES.map((status) => {
+    const tasks = sortTeamTasksByDeadline(teamTasks.filter((task) => task.status === status.key));
+
+    return `
+      <section class="kanban-column" data-kanban-status="${escapeHtml(status.key)}">
+        <div class="kanban-column-head">
+          <h3>${escapeHtml(status.label)}</h3>
+          <span class="task-status-chip ${status.className}">${formatQuantity(tasks.length)}</span>
+        </div>
+        ${tasks.length > 0
+          ? tasks.map((task) => {
+            const priority = getTeamTaskPriorityMeta(task.priority);
+            return `
+              <article class="kanban-card" draggable="true" data-id="${escapeHtml(task.id)}">
+                <strong>${escapeHtml(task.title || "Задача команды")}</strong>
+                <span>${task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Без срока"}</span>
+                <span class="task-priority-chip ${priority.className}">${escapeHtml(priority.label)}</span>
+              </article>
+            `;
+          }).join("")
+          : '<div class="team-task-empty">Нет задач</div>'}
+      </section>
+    `;
+  }).join("");
+}
+
+function buildGlobalSearchItems() {
+  const items = [];
+  const pushItem = (type, title, meta, href, searchText = "") => {
+    if (!title) return;
+
+    items.push({
+      type,
+      title,
+      meta,
+      href,
+      searchText: normalizeNotificationIdentity([type, title, meta, searchText].join(" ")),
+    });
+  };
+
+  records.forEach((record) => {
+    pushItem(
+      "Система",
+      record.systemName,
+      `Логин: ${record.login || "не указан"} · Лицензия: ${formatDate(record.licenseEndDate)}`,
+      "#systems",
+      record.login,
+    );
+  });
+
+  links.forEach((link) => pushItem("Ссылка", link.description, link.url, "#links", link.url));
+  surveyLinks.forEach((link) => pushItem("Опрос", link.description, link.url, "#survey", link.url));
+  promoItems.forEach((item) => pushItem("Промо", item.name, `Остаток: ${formatQuantity(Number(item.quantity || 0))}`, "#promo", item.note));
+  promoPurchases.forEach((purchase) => pushItem("Покупка", purchase.fullName, [purchase.city, purchase.center].filter(Boolean).join(" · "), "#promo-purchases", purchase.address));
+  teamTasks.forEach((task) => {
+    pushItem(
+      "Задача",
+      task.title,
+      `${getTeamTaskStatusMeta(task.status).label} · ${task.deadline ? `Дедлайн: ${formatDate(task.deadline)}` : "Без срока"}`,
+      "#team-tasks",
+      [task.description, getTeamTaskVisibleNotes(task), ...(task.assignees || [])].join(" "),
+    );
+  });
+  DEFAULT_ELEARNING_TEAM.forEach((employee) => {
+    const profile = getElearningEmployee(employee.id);
+    pushItem(
+      "Сотрудник",
+      profile.name,
+      [profile.jobTitle, profile.department, profile.workLocation].filter(Boolean).join(" · "),
+      "#elearning-team",
+      [profile.email, profile.mobile, profile.workPhone].join(" "),
+    );
+  });
+  trmsReleaseTasks.forEach((task) => pushItem("TRMS релиз", task.taskName || task.title || task.releaseName, task.releaseName || "", "#trms-releases", task.link || ""));
+
+  return items;
+}
+
+function renderGlobalSearchResults() {
+  if (!globalSearch || !globalSearchInput || !globalSearchResults) return;
+
+  globalSearch.hidden = !currentUser;
+  if (!currentUser) {
+    globalSearchResults.hidden = true;
+    return;
+  }
+
+  const query = normalizeNotificationIdentity(globalSearchInput.value);
+  if (!query) {
+    globalSearchResults.hidden = true;
+    globalSearchResults.innerHTML = "";
+    return;
+  }
+
+  const results = buildGlobalSearchItems()
+    .filter((item) => item.searchText.includes(query))
+    .slice(0, 12);
+
+  globalSearchResults.hidden = false;
+  globalSearchResults.innerHTML = results.length > 0
+    ? results.map((item) => `
+      <a class="global-search-result" href="${escapeHtml(item.href)}" data-global-search-result>
+        <span>${escapeHtml(item.type)}</span>
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.meta || "")}</span>
+      </a>
+    `).join("")
+    : '<div class="global-search-empty">Ничего не найдено.</div>';
 }
 
 function getTeamTaskStats() {
@@ -10718,9 +12885,15 @@ function switchTeamTaskView(view) {
   teamTaskDashboardView.classList.toggle("is-active", view === "tasks");
   teamTaskStatsView.hidden = view !== "stats";
   teamTaskStatsView.classList.toggle("is-active", view === "stats");
+  teamTaskKanbanView.hidden = view !== "kanban";
+  teamTaskKanbanView.classList.toggle("is-active", view === "kanban");
 
   if (view === "stats") {
     renderTeamTaskStats();
+  }
+
+  if (view === "kanban") {
+    renderTeamTaskKanban();
   }
 }
 
@@ -10729,6 +12902,9 @@ function resetTeamTaskForm() {
   teamTaskIdInput.value = "";
   teamTaskStatusInput.value = "new";
   teamTaskPriorityInput.value = "medium";
+  if (teamTaskChecklistInput) teamTaskChecklistInput.value = "";
+  if (teamTaskAttachmentsInput) teamTaskAttachmentsInput.value = "";
+  if (teamTaskCommentInput) teamTaskCommentInput.value = "";
   teamTaskSubmitText.textContent = "Создать задачу";
   renderTeamTaskAssigneePicker();
 }
@@ -10754,7 +12930,10 @@ function openTeamTaskModal(directionKey, taskId = "") {
     teamTaskStartDateInput.value = task.startDate || "";
     teamTaskDeadlineInput.value = task.deadline || "";
     teamTaskPriorityInput.value = task.priority;
-    teamTaskNotesInput.value = task.notes || "";
+    teamTaskNotesInput.value = getTeamTaskVisibleNotes(task);
+    if (teamTaskChecklistInput) teamTaskChecklistInput.value = formatTeamTaskChecklistInput(task.checklist);
+    if (teamTaskAttachmentsInput) teamTaskAttachmentsInput.value = formatTeamTaskAttachmentInput(task.attachments);
+    if (teamTaskCommentInput) teamTaskCommentInput.value = "";
     teamTaskSubmitText.textContent = "Обновить задачу";
   }
 
@@ -10771,7 +12950,28 @@ function closeTeamTaskModal() {
 
 function createTeamTaskFromForm() {
   const assignees = parseTeamTaskAssignees(teamTaskAssigneesInput.value);
+  const existingTask = teamTasks.find((task) => task.id === teamTaskIdInput.value);
+  const now = new Date().toISOString();
+  const nextStatus = teamTaskStatusInput.value;
+  const comments = getTeamTaskComments(existingTask || {});
+  const newComment = teamTaskCommentInput?.value.trim() || "";
   ensureTeamTaskMembers(assignees);
+
+  if (!existingTask) {
+    comments.unshift(createTeamTaskActivity("Задача создана", "history"));
+  }
+
+  if (existingTask && existingTask.status !== nextStatus) {
+    comments.unshift(createTeamTaskActivity(`Статус изменен: ${getTeamTaskStatusMeta(existingTask.status).label} → ${getTeamTaskStatusMeta(nextStatus).label}`, "history"));
+  }
+
+  if (newComment) {
+    comments.unshift(createTeamTaskActivity(newComment, "comment"));
+  }
+
+  const acknowledgements = getTaskAcknowledgements(existingTask || {});
+  const checklist = parseTeamTaskChecklistInput(teamTaskChecklistInput?.value || "", existingTask?.checklist || []);
+  const attachments = parseTeamTaskAttachmentInput(teamTaskAttachmentsInput?.value || "", existingTask?.attachments || []);
 
   return {
     id: teamTaskIdInput.value || createId(),
@@ -10779,30 +12979,126 @@ function createTeamTaskFromForm() {
     title: teamTaskTitleInput.value.trim(),
     description: teamTaskDescriptionInput.value.trim(),
     assignees,
-    status: teamTaskStatusInput.value,
+    status: nextStatus,
     startDate: teamTaskStartDateInput.value,
     deadline: teamTaskDeadlineInput.value,
     priority: teamTaskPriorityInput.value,
-    notes: teamTaskNotesInput.value.trim(),
-    createdAt: teamTasks.find((task) => task.id === teamTaskIdInput.value)?.createdAt || new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    notes: mergeTeamTaskMetaIntoNotes(teamTaskNotesInput.value.trim(), { acknowledgements, checklist, attachments, comments }),
+    acknowledgements,
+    checklist,
+    attachments,
+    comments,
+    createdAt: existingTask?.createdAt || now,
+    updatedAt: now,
   };
 }
 
-function cycleTeamTaskStatus(id) {
-  const statusOrder = TEAM_TASK_STATUSES.map((status) => status.key);
+function setTeamTaskStatus(id, nextStatus) {
+  if (!TEAM_TASK_STATUSES.some((status) => status.key === nextStatus)) return;
+
   teamTasks = teamTasks.map((task) => {
     if (task.id !== id) return task;
-    const currentIndex = statusOrder.indexOf(task.status);
-    const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length] || "new";
+    if (task.status === nextStatus) return task;
+
     return {
       ...task,
       status: nextStatus,
+      comments: [
+        createTeamTaskActivity(`Статус изменен: ${getTeamTaskStatusMeta(task.status).label} → ${getTeamTaskStatusMeta(nextStatus).label}`, "history"),
+        ...getTeamTaskComments(task),
+      ],
       updatedAt: new Date().toISOString(),
     };
   });
   saveTeamTasks();
   renderTeamTasks();
+  renderAssignmentBell();
+  if (window.SystemHubNotifications?.render) window.SystemHubNotifications.render();
+}
+
+function cycleTeamTaskStatus(id) {
+  const statusOrder = TEAM_TASK_STATUSES.map((status) => status.key);
+  const task = teamTasks.find((item) => item.id === id);
+  if (!task) return;
+
+  const currentIndex = statusOrder.indexOf(task.status);
+  const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length] || "new";
+  setTeamTaskStatus(id, nextStatus);
+}
+
+function toggleTeamTaskChecklistItem(taskId, checklistId) {
+  teamTasks = teamTasks.map((task) => {
+    if (task.id !== taskId) return task;
+
+    const checklist = getTeamTaskChecklist(task).map((item) => (
+      item.id === checklistId ? { ...item, done: !item.done } : item
+    ));
+    const changedItem = checklist.find((item) => item.id === checklistId);
+    const actionText = changedItem?.done ? "Пункт чеклиста выполнен" : "Пункт чеклиста возвращен в работу";
+
+    return {
+      ...task,
+      checklist,
+      comments: changedItem ? [
+        createTeamTaskActivity(`${actionText}: ${changedItem.text}`, "history"),
+        ...getTeamTaskComments(task),
+      ] : getTeamTaskComments(task),
+      updatedAt: new Date().toISOString(),
+    };
+  });
+
+  saveTeamTasks();
+  renderTeamTasks();
+  renderAssignmentBell();
+}
+
+function handleTeamTaskAction(button) {
+  const { teamTaskAction, id, direction, status, employeeId, checklistId } = button.dataset;
+
+  if (teamTaskAction === "create") {
+    openTeamTaskModal(direction);
+  }
+
+  if (teamTaskAction === "edit") {
+    const task = teamTasks.find((item) => item.id === id);
+    if (task) {
+      openTeamTaskModal(task.direction, task.id);
+    }
+  }
+
+  if (teamTaskAction === "cycle-status") {
+    cycleTeamTaskStatus(id);
+  }
+
+  if (teamTaskAction === "set-status") {
+    setTeamTaskStatus(id, status);
+  }
+
+  if (teamTaskAction === "acknowledge") {
+    acknowledgeTeamTaskAssignment(id);
+  }
+
+  if (teamTaskAction === "toggle-checklist") {
+    toggleTeamTaskChecklistItem(id, checklistId);
+  }
+
+  if (teamTaskAction === "open-profile" && employeeId) {
+    openEmployeeModal(employeeId);
+  }
+
+  if (teamTaskAction === "delete") {
+    const task = teamTasks.find((item) => item.id === id);
+    if (!task) return;
+
+    const confirmed = window.confirm(`Удалить задачу "${task.title}"?`);
+    if (!confirmed) return;
+
+    teamTasks = teamTasks.filter((item) => item.id !== id);
+    saveTeamTasks();
+    renderTeamTasks();
+    renderAssignmentBell();
+    if (window.SystemHubNotifications?.render) window.SystemHubNotifications.render();
+  }
 }
 
 function getGroupedTrmsReleases() {
@@ -11790,6 +14086,11 @@ function render() {
   renderStep("purchaseAnalytics", renderPurchaseAnalytics);
   renderStep("teamMembers", renderTeamMembers);
   renderStep("teamTasks", renderTeamTasks);
+  renderStep("todayDashboard", renderTodayDashboard);
+  renderStep("myTasks", renderMyTasks);
+  renderStep("assignmentBell", renderAssignmentBell);
+  renderStep("globalSearch", renderGlobalSearchResults);
+  renderStep("elearningTeam", renderElearningTeam);
   renderStep("trmsReleases", renderTrmsReleases);
   renderStep("dashboardFilters", populateDashboardFilters);
   renderStep("trainingReportFilters", populateTrainingReportFilters);
@@ -12504,35 +14805,7 @@ teamTaskTabs.addEventListener("click", (event) => {
 teamTaskBoard.addEventListener("click", (event) => {
   const button = event.target.closest("[data-team-task-action]");
   if (!button) return;
-
-  const { teamTaskAction, id, direction } = button.dataset;
-
-  if (teamTaskAction === "create") {
-    openTeamTaskModal(direction);
-  }
-
-  if (teamTaskAction === "edit") {
-    const task = teamTasks.find((item) => item.id === id);
-    if (task) {
-      openTeamTaskModal(task.direction, task.id);
-    }
-  }
-
-  if (teamTaskAction === "cycle-status") {
-    cycleTeamTaskStatus(id);
-  }
-
-  if (teamTaskAction === "delete") {
-    const task = teamTasks.find((item) => item.id === id);
-    if (!task) return;
-
-    const confirmed = window.confirm(`Удалить задачу "${task.title}"?`);
-    if (!confirmed) return;
-
-    teamTasks = teamTasks.filter((item) => item.id !== id);
-    saveTeamTasks();
-    renderTeamTasks();
-  }
+  handleTeamTaskAction(button);
 });
 
 teamTaskBoard.addEventListener("change", (event) => {
@@ -12543,6 +14816,72 @@ teamTaskBoard.addEventListener("change", (event) => {
   teamTaskFilters[direction][teamTaskFilter] = select.value;
   renderTeamTasks();
 });
+
+[
+  myTasksList,
+  todayMyAssignments,
+  todayUpcomingList,
+].forEach((container) => {
+  if (!container) return;
+
+  container.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-team-task-action]");
+    if (!button) return;
+    handleTeamTaskAction(button);
+  });
+});
+
+if (myTasksSearchInput) {
+  myTasksSearchInput.addEventListener("input", renderMyTasks);
+}
+
+if (myTasksStatusFilter) {
+  myTasksStatusFilter.addEventListener("change", renderMyTasks);
+}
+
+if (myTasksDeadlineFilter) {
+  myTasksDeadlineFilter.addEventListener("change", renderMyTasks);
+}
+
+if (teamTaskKanbanBoard) {
+  teamTaskKanbanBoard.addEventListener("click", (event) => {
+    const card = event.target.closest(".kanban-card");
+    if (!card) return;
+    const task = teamTasks.find((item) => item.id === card.dataset.id);
+    if (task) openTeamTaskModal(task.direction, task.id);
+  });
+
+  teamTaskKanbanBoard.addEventListener("dragstart", (event) => {
+    const card = event.target.closest(".kanban-card");
+    if (!card) return;
+
+    event.dataTransfer.setData("text/plain", card.dataset.id);
+    event.dataTransfer.effectAllowed = "move";
+  });
+
+  teamTaskKanbanBoard.addEventListener("dragover", (event) => {
+    const column = event.target.closest("[data-kanban-status]");
+    if (!column) return;
+
+    event.preventDefault();
+    column.classList.add("is-drag-over");
+  });
+
+  teamTaskKanbanBoard.addEventListener("dragleave", (event) => {
+    const column = event.target.closest("[data-kanban-status]");
+    if (column) column.classList.remove("is-drag-over");
+  });
+
+  teamTaskKanbanBoard.addEventListener("drop", (event) => {
+    const column = event.target.closest("[data-kanban-status]");
+    if (!column) return;
+
+    event.preventDefault();
+    column.classList.remove("is-drag-over");
+    const taskId = event.dataTransfer.getData("text/plain");
+    if (taskId) setTeamTaskStatus(taskId, column.dataset.kanbanStatus);
+  });
+}
 
 teamTaskAssigneesInput.addEventListener("input", renderTeamTaskAssigneePicker);
 
@@ -12572,6 +14911,7 @@ teamTaskForm.addEventListener("submit", (event) => {
   closeTeamTaskModal();
   renderTeamMembers();
   renderTeamTasks();
+  renderAssignmentBell();
   notifyTeamTaskAssignmentInTelegram(formTask, previousTask);
 });
 
@@ -12587,6 +14927,142 @@ teamTaskModal.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !teamTaskModal.hidden) {
     closeTeamTaskModal();
+  }
+});
+
+if (assignmentBellButton) {
+  assignmentBellButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isOpen = assignmentBellButton.getAttribute("aria-expanded") === "true";
+    setAssignmentBellOpen(!isOpen);
+  });
+}
+
+if (assignmentBellPanel) {
+  assignmentBellPanel.addEventListener("click", (event) => {
+    const acknowledgeButton = event.target.closest('[data-assignment-action="acknowledge"]');
+    const openLink = event.target.closest('[data-assignment-action="open"]');
+
+    if (acknowledgeButton) {
+      acknowledgeTeamTaskAssignment(acknowledgeButton.dataset.id);
+    }
+
+    if (openLink) {
+      setAssignmentBellOpen(false);
+    }
+  });
+}
+
+document.addEventListener("click", (event) => {
+  if (assignmentBell && !assignmentBell.contains(event.target)) {
+    setAssignmentBellOpen(false);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    setAssignmentBellOpen(false);
+  }
+});
+
+if (globalSearchInput) {
+  globalSearchInput.addEventListener("input", renderGlobalSearchResults);
+  globalSearchInput.addEventListener("focus", renderGlobalSearchResults);
+  globalSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      globalSearchInput.value = "";
+      renderGlobalSearchResults();
+      globalSearchInput.blur();
+    }
+  });
+}
+
+if (globalSearchResults) {
+  globalSearchResults.addEventListener("click", (event) => {
+    const result = event.target.closest("[data-global-search-result]");
+    if (!result) return;
+
+    globalSearchInput.value = "";
+    globalSearchResults.hidden = true;
+  });
+}
+
+document.addEventListener("click", (event) => {
+  if (globalSearch && !globalSearch.contains(event.target)) {
+    if (globalSearchResults) globalSearchResults.hidden = true;
+  }
+});
+
+if (elearningTeamTree) {
+  elearningTeamTree.addEventListener("click", (event) => {
+    const card = event.target.closest("[data-employee-id]");
+    if (!card) return;
+
+    openEmployeeModal(card.dataset.employeeId);
+  });
+}
+
+if (employeeProfileForm) {
+  employeeProfileForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (!employeeProfileForm.reportValidity()) return;
+
+    saveEmployeeProfile();
+    closeEmployeeModal();
+  });
+}
+
+if (employeePhotoInput) {
+  employeePhotoInput.addEventListener("change", async () => {
+    const file = employeePhotoInput.files?.[0];
+    if (!file || !activeEmployeeId) return;
+
+    try {
+      pendingEmployeePhoto = await readEmployeePhoto(file);
+      setEmployeePhotoPreview({
+        ...getElearningEmployee(activeEmployeeId),
+        photo: pendingEmployeePhoto,
+      });
+    } catch (error) {
+      console.error(error);
+      window.alert("Не удалось загрузить фото.");
+    }
+  });
+}
+
+if (removeEmployeePhotoButton) {
+  removeEmployeePhotoButton.addEventListener("click", () => {
+    if (!activeEmployeeId) return;
+
+    pendingEmployeePhoto = "";
+    if (employeePhotoInput) employeePhotoInput.value = "";
+    setEmployeePhotoPreview({
+      ...getElearningEmployee(activeEmployeeId),
+      photo: "",
+    });
+  });
+}
+
+if (closeEmployeeModalButton) {
+  closeEmployeeModalButton.addEventListener("click", closeEmployeeModal);
+}
+
+if (cancelEmployeeProfileButton) {
+  cancelEmployeeProfileButton.addEventListener("click", closeEmployeeModal);
+}
+
+if (employeeModal) {
+  employeeModal.addEventListener("click", (event) => {
+    if (event.target === employeeModal) {
+      closeEmployeeModal();
+    }
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && employeeModal && !employeeModal.hidden) {
+    closeEmployeeModal();
   }
 });
 
@@ -13926,6 +16402,11 @@ initializeAuth();
 <script>
 (function () {
   var WEBVIEW_PAGES = {
+    chatgpt: {
+      title: "ChatGPT",
+      url: "https://chatgpt.com/",
+      fallback: 'ChatGPT может ограничивать просмотр внутри iframe. Используйте кнопку "Открыть в новой вкладке".',
+    },
     lms: {
       title: "LMS",
       url: "https://lms.airastana.com/",
@@ -13937,10 +16418,11 @@ initializeAuth();
   };
 
   var fallbackMessage =
-    'Корпоративная политика безопасности может ограничивать просмотр внутри системы. Пожалуйста, используйте кнопку "Открыть в новой вкладке"';
+    'Сайт может ограничивать просмотр внутри системы. Используйте кнопку "Открыть в новой вкладке".';
   var loadTimers = {};
 
   function getWebviewPageFromHash() {
+    if (window.location.hash === "#chatgpt") return "chatgpt";
     if (window.location.hash === "#lms") return "lms";
     if (window.location.hash === "#trms") return "trms";
     return "";
@@ -13964,7 +16446,7 @@ initializeAuth();
     var fallback = getWebviewElements(page).fallback;
     if (!fallback) return;
 
-    fallback.textContent = fallbackMessage;
+    fallback.textContent = WEBVIEW_PAGES[page]?.fallback || fallbackMessage;
     fallback.classList.add("is-visible");
   }
 
@@ -14049,7 +16531,7 @@ initializeAuth();
   document.addEventListener(
     "click",
     function (event) {
-      var link = event.target.closest('[data-nav-link="lms"], [data-nav-link="trms"]');
+      var link = event.target.closest('[data-nav-link="chatgpt"], [data-nav-link="lms"], [data-nav-link="trms"]');
       if (!link) return;
 
       event.preventDefault();
