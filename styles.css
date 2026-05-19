@@ -923,6 +923,7 @@ svg {
 }
 
 #dashboardsPage .stat-card,
+#pdpDashboardPage .stat-card,
 #purchaseAnalyticsPage .stat-card {
   position: relative;
   overflow: hidden;
@@ -933,6 +934,7 @@ svg {
 }
 
 #dashboardsPage .stat-card::before,
+#pdpDashboardPage .stat-card::before,
 #purchaseAnalyticsPage .stat-card::before {
   content: "";
   position: absolute;
@@ -942,16 +944,19 @@ svg {
 }
 
 #dashboardsPage .stat-card:nth-child(2)::before,
+#pdpDashboardPage .stat-card:nth-child(2)::before,
 #purchaseAnalyticsPage .stat-card:nth-child(2)::before {
   background: var(--air-gold-light);
 }
 
 #dashboardsPage .stat-card:nth-child(3)::before,
+#pdpDashboardPage .stat-card:nth-child(3)::before,
 #purchaseAnalyticsPage .stat-card:nth-child(3)::before {
   background: var(--air-blue);
 }
 
 #dashboardsPage .stat-card:nth-child(4)::before,
+#pdpDashboardPage .stat-card:nth-child(4)::before,
 #purchaseAnalyticsPage .stat-card:nth-child(4)::before {
   background: var(--air-gold);
 }
@@ -1131,7 +1136,18 @@ svg {
   background: linear-gradient(90deg, var(--air-gold-light), var(--air-sky), var(--air-blue));
 }
 
+.pdp-question-cell {
+  max-width: 520px;
+  white-space: normal;
+  line-height: 1.45;
+}
+
+#pdpDashboardPage .table-wrap table {
+  min-width: 760px;
+}
+
 #dashboardsPage .table-panel,
+#pdpDashboardPage .table-panel,
 #purchaseAnalyticsPage .table-panel {
   position: relative;
   overflow: hidden;
@@ -1142,6 +1158,7 @@ svg {
 }
 
 #dashboardsPage .table-panel:nth-of-type(2n),
+#pdpDashboardPage .table-panel:nth-of-type(2n),
 #purchaseAnalyticsPage .table-panel:nth-of-type(2n) {
   border-color: rgba(214, 160, 47, 0.38);
   background:
@@ -1150,6 +1167,7 @@ svg {
 }
 
 #dashboardsPage .table-panel::before,
+#pdpDashboardPage .table-panel::before,
 #purchaseAnalyticsPage .table-panel::before {
   content: "";
   position: absolute;
@@ -4946,10 +4964,13 @@ html[data-theme="light"] .task-modal {
 }
 
 html[data-theme="light"] #dashboardsPage .stat-card,
+html[data-theme="light"] #pdpDashboardPage .stat-card,
 html[data-theme="light"] #purchaseAnalyticsPage .stat-card,
 html[data-theme="light"] #dashboardsPage .table-panel,
+html[data-theme="light"] #pdpDashboardPage .table-panel,
 html[data-theme="light"] #purchaseAnalyticsPage .table-panel,
 html[data-theme="light"] #dashboardsPage .table-panel:nth-of-type(2n),
+html[data-theme="light"] #pdpDashboardPage .table-panel:nth-of-type(2n),
 html[data-theme="light"] #purchaseAnalyticsPage .table-panel:nth-of-type(2n) {
   border-color: rgba(0, 103, 177, 0.18);
   background:

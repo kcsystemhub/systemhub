@@ -46,6 +46,7 @@ const TELEGRAM_SETTINGS_KEY = "telegramBot";
 const MESSENGER_SETTINGS_KEY = "messenger";
 const MESSENGER_GENERAL_CONVERSATION_ID = "group:team";
 const AUTH_PASSWORD_DERIVE_ITERATIONS = 150000;
+const PDP_DEFAULT_REPORT_FILE = "Отчет по PDP (6).xlsx";
 const DEFAULT_ADMIN_USERS = [
   { login: "16643", password: "AirAstana2026!", role: "admin", displayName: "Admin 16643" },
   { login: "14524", password: "AirAstana2026!", role: "admin", displayName: "Admin 14524" },
@@ -78,6 +79,7 @@ const INTERFACE_TEXT = {
     calendar: { ru: "Календарь", en: "Calendar" },
     lms: { ru: "LMS", en: "LMS" },
     dashboards: { ru: "Дэшборды", en: "Dashboards" },
+    pdpDashboard: { ru: "PDP дэшборд", en: "PDP Dashboard" },
     trainingReport: { ru: "Отчеты", en: "Reports" },
     participantReports: { ru: "Отчеты по участникам", en: "Participant Reports" },
     settings: { ru: "Настройки", en: "Settings" },
@@ -128,6 +130,9 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Уведомления", "Notifications"],
   ["Календарь", "Calendar"],
   ["Дэшборды", "Dashboards"],
+  ["PDP дэшборд", "PDP Dashboard"],
+  ["Загрузка Отчет PDP", "PDP Report Upload"],
+  ["Срез PDP", "PDP Slice"],
   ["Отчеты", "Reports"],
   ["Отчеты по участникам", "Participant Reports"],
   ["Настройки", "Settings"],
@@ -832,6 +837,30 @@ const dashboardStatusesChart = document.querySelector("#dashboardStatusesChart")
 const dashboardTrainersTable = document.querySelector("#dashboardTrainersTable");
 const dashboardMonthsChart = document.querySelector("#dashboardMonthsChart");
 const dashboardEventsTable = document.querySelector("#dashboardEventsTable");
+const pdpReportFileInput = document.querySelector("#pdpReportFileInput");
+const pdpReportFileLabel = document.querySelector("#pdpReportFileLabel");
+const loadDefaultPdpReportButton = document.querySelector("#loadDefaultPdpReport");
+const clearPdpReportDataButton = document.querySelector("#clearPdpReportData");
+const pdpReportStatus = document.querySelector("#pdpReportStatus");
+const pdpFiltersForm = document.querySelector("#pdpFilters");
+const resetPdpFiltersButton = document.querySelector("#resetPdpFilters");
+const pdpYearFilter = document.querySelector("#pdpYearFilter");
+const pdpStageFilter = document.querySelector("#pdpStageFilter");
+const pdpStatusFilter = document.querySelector("#pdpStatusFilter");
+const pdpDepartmentFilter = document.querySelector("#pdpDepartmentFilter");
+const pdpCityFilter = document.querySelector("#pdpCityFilter");
+const pdpSelectionFilter = document.querySelector("#pdpSelectionFilter");
+const pdpSearchInput = document.querySelector("#pdpSearchInput");
+const pdpEmployeeCount = document.querySelector("#pdpEmployeeCount");
+const pdpCompletedRate = document.querySelector("#pdpCompletedRate");
+const pdpSelectedTopicCount = document.querySelector("#pdpSelectedTopicCount");
+const pdpAverageScore = document.querySelector("#pdpAverageScore");
+const pdpStatusChart = document.querySelector("#pdpStatusChart");
+const pdpTopicChart = document.querySelector("#pdpTopicChart");
+const pdpCompetencyTable = document.querySelector("#pdpCompetencyTable");
+const pdpDepartmentTable = document.querySelector("#pdpDepartmentTable");
+const pdpEmployeeTable = document.querySelector("#pdpEmployeeTable");
+const pdpQuestionTable = document.querySelector("#pdpQuestionTable");
 const trainingReportFileInput = document.querySelector("#trainingReportFileInput");
 const trainingReportFileLabel = document.querySelector("#trainingReportFileLabel");
 const trainingReportLoadDefaultButton = document.querySelector("#trainingReportLoadDefault");
@@ -967,6 +996,8 @@ let teamDevelopmentResults = loadTeamDevelopmentResults();
 let messengerState = loadMessengerState();
 let trmsReleaseTasks = loadTrmsReleaseTasks();
 let reportRows = loadReportRows();
+let pdpReportRows = [];
+let pdpAnswerRows = [];
 let googleScriptUrl = loadGoogleScriptUrl();
 let googleSyncToken = loadGoogleSyncToken();
 let googleCalendarScriptUrl = loadGoogleCalendarScriptUrl();
@@ -2789,30 +2820,299 @@ function parseCsv(text) {
   );
 }
 
-async function parseReportFile(file) {
+function decodeXmlEntities(value) {
+  return String(value || "")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/_x000D_/g, "\n");
+}
+
+function getXmlAttribute(tagText, attributeName) {
+  const escapedName = attributeName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = String(tagText || "").match(new RegExp(`\\s${escapedName}="([^"]*)"`, "i"));
+  return match ? decodeXmlEntities(match[1]) : "";
+}
+
+function getColumnIndexFromCellRef(cellRef) {
+  const letters = String(cellRef || "A").match(/[A-Z]+/i)?.[0]?.toUpperCase() || "A";
+  return [...letters].reduce((index, letter) => index * 26 + letter.charCodeAt(0) - 64, 0) - 1;
+}
+
+function parseWorksheetXmlRows(xmlText) {
+  const rows = [];
+  const rowPattern = /<row\b[^>]*>([\s\S]*?)<\/row>/gi;
+  let rowMatch;
+
+  while ((rowMatch = rowPattern.exec(xmlText))) {
+    const rowXml = rowMatch[1];
+    const values = [];
+    const cellPattern = /<c\b([^>]*)>([\s\S]*?)<\/c>/gi;
+    let cellMatch;
+
+    while ((cellMatch = cellPattern.exec(rowXml))) {
+      const attributes = cellMatch[1];
+      const cellXml = cellMatch[2];
+      const columnIndex = getColumnIndexFromCellRef(getXmlAttribute(attributes, "r"));
+      const textParts = [...cellXml.matchAll(/<t\b[^>]*>([\s\S]*?)<\/t>/gi)].map((match) => decodeXmlEntities(match[1]));
+      const valueMatch = textParts.length > 0 ? null : cellXml.match(/<v\b[^>]*>([\s\S]*?)<\/v>/i);
+      const value = textParts.length > 0 ? textParts.join("") : decodeXmlEntities(valueMatch?.[1] || "");
+
+      while (values.length <= columnIndex) values.push("");
+      values[columnIndex] = value;
+    }
+
+    if (values.some((value) => String(value || "").trim() !== "")) {
+      rows.push(values);
+    }
+  }
+
+  return rows;
+}
+
+function matrixRowsToObjects(rows) {
+  const [headers = [], ...dataRows] = rows;
+  return dataRows.map((dataRow) =>
+    headers.reduce((record, header, index) => {
+      record[String(header).replace(/^\uFEFF/, "")] = dataRow[index] || "";
+      return record;
+    }, {}),
+  );
+}
+
+function parseWorkbookSheetDescriptors(workbookXml) {
+  return [...String(workbookXml || "").matchAll(/<sheet\b([^>]*)\/?>/gi)].map((match, index) => ({
+    name: getXmlAttribute(match[1], "name") || `Sheet ${index + 1}`,
+    relationshipId: getXmlAttribute(match[1], "r:id"),
+  }));
+}
+
+function parseWorkbookRelationships(relsXml) {
+  return [...String(relsXml || "").matchAll(/<Relationship\b([^>]*)\/?>/gi)].reduce((map, match) => {
+    const id = getXmlAttribute(match[1], "Id");
+    const target = getXmlAttribute(match[1], "Target");
+    if (id && target) {
+      map[id] = target.startsWith("/") ? target.slice(1) : `xl/${target.replace(/^\.\.\//, "")}`;
+    }
+    return map;
+  }, {});
+}
+
+function findOpenXmlLocalEntries(bytes) {
+  const entries = [];
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const decoder = new TextDecoder();
+
+  for (let offset = 0; offset < bytes.length - 30; offset += 1) {
+    if (
+      bytes[offset] !== 0x50 ||
+      bytes[offset + 1] !== 0x4b ||
+      bytes[offset + 2] !== 0x03 ||
+      bytes[offset + 3] !== 0x04
+    ) {
+      continue;
+    }
+
+    const flags = view.getUint16(offset + 6, true);
+    const method = view.getUint16(offset + 8, true);
+    const compressedSize = view.getUint32(offset + 18, true);
+    const fileNameLength = view.getUint16(offset + 26, true);
+    const extraLength = view.getUint16(offset + 28, true);
+    const nameStart = offset + 30;
+    const dataStart = nameStart + fileNameLength + extraLength;
+    const name = decoder.decode(bytes.slice(nameStart, nameStart + fileNameLength));
+
+    entries.push({
+      offset,
+      flags,
+      method,
+      compressedSize,
+      dataStart,
+      name,
+    });
+
+    offset = Math.max(offset, dataStart - 1);
+  }
+
+  return entries;
+}
+
+async function inflateOpenXmlEntry(bytes, entry, nextEntry) {
+  let dataEnd = entry.compressedSize > 0
+    ? entry.dataStart + entry.compressedSize
+    : nextEntry?.offset || bytes.length;
+
+  if (entry.compressedSize === 0 && nextEntry) {
+    const descriptorStartWithSignature = nextEntry.offset - 16;
+    const descriptorStartWithoutSignature = nextEntry.offset - 12;
+    const hasDescriptorSignature =
+      descriptorStartWithSignature > entry.dataStart &&
+      bytes[descriptorStartWithSignature] === 0x50 &&
+      bytes[descriptorStartWithSignature + 1] === 0x4b &&
+      bytes[descriptorStartWithSignature + 2] === 0x07 &&
+      bytes[descriptorStartWithSignature + 3] === 0x08;
+
+    dataEnd = hasDescriptorSignature ? descriptorStartWithSignature : descriptorStartWithoutSignature;
+  }
+
+  const compressedData = bytes.slice(entry.dataStart, Math.max(entry.dataStart, dataEnd));
+
+  if (entry.method === 0) {
+    return compressedData;
+  }
+
+  if (entry.method !== 8) {
+    throw new Error(`Unsupported XLSX compression method: ${entry.method}`);
+  }
+
+  if (globalThis.pako?.Inflate) {
+    const inflator = new globalThis.pako.Inflate({ raw: true });
+    inflator.push(compressedData, true);
+
+    if (inflator.result?.length) {
+      return inflator.result;
+    }
+
+    const chunks = inflator.chunks || [];
+    const totalLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+
+    if (chunks.length > 0) {
+      const inflated = new Uint8Array(totalLength);
+      let writeOffset = 0;
+      chunks.forEach((chunk) => {
+        inflated.set(chunk, writeOffset);
+        writeOffset += chunk.length;
+      });
+      return inflated;
+    }
+
+    if (inflator.err) {
+      throw new Error(inflator.msg || "XLSX deflate failed.");
+    }
+  }
+
+  if (!globalThis.DecompressionStream) {
+    throw new Error("Browser cannot unpack this XLSX export");
+  }
+
+  const stream = new Blob([compressedData]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+async function parseOpenXmlWorkbookFallback(arrayBuffer) {
+  const bytes = new Uint8Array(arrayBuffer);
+  const entries = findOpenXmlLocalEntries(bytes);
+  const entryByName = new Map(entries.map((entry) => [entry.name, entry]));
+  const textDecoder = new TextDecoder("utf-8");
+  const inflatedCache = new Map();
+
+  async function inflateText(name) {
+    if (inflatedCache.has(name)) return inflatedCache.get(name);
+
+    const entryIndex = entries.findIndex((entry) => entry.name === name);
+    const entry = entries[entryIndex];
+    if (!entry) return "";
+
+    const inflated = await inflateOpenXmlEntry(bytes, entry, entries[entryIndex + 1]);
+    const text = textDecoder.decode(inflated);
+    inflatedCache.set(name, text);
+    return text;
+  }
+
+  const workbookXml = await inflateText("xl/workbook.xml");
+  const relsXml = await inflateText("xl/_rels/workbook.xml.rels");
+  const relationshipTargets = parseWorkbookRelationships(relsXml);
+  const sheetDescriptors = parseWorkbookSheetDescriptors(workbookXml);
+  const worksheetNames = entries
+    .map((entry) => entry.name)
+    .filter((name) => /^xl\/worksheets\/sheet\d+\.xml$/i.test(name));
+  const sheets = [];
+  const warnings = [];
+
+  for (const descriptor of sheetDescriptors) {
+    const targetName = relationshipTargets[descriptor.relationshipId];
+    const worksheetName = targetName && entryByName.has(targetName)
+      ? targetName
+      : worksheetNames[sheets.length];
+    if (!worksheetName) continue;
+
+    try {
+      const worksheetXml = await inflateText(worksheetName);
+      sheets.push({
+        name: descriptor.name,
+        rows: matrixRowsToObjects(parseWorksheetXmlRows(worksheetXml)),
+      });
+    } catch (error) {
+      warnings.push(`${descriptor.name}: ${error.message || String(error)}`);
+    }
+  }
+
+  if (sheets.length === 0) {
+    for (const worksheetName of worksheetNames) {
+      try {
+        const worksheetXml = await inflateText(worksheetName);
+        sheets.push({
+          name: worksheetName.split("/").pop().replace(/\.xml$/i, ""),
+          rows: matrixRowsToObjects(parseWorksheetXmlRows(worksheetXml)),
+        });
+      } catch (error) {
+        warnings.push(`${worksheetName}: ${error.message || String(error)}`);
+      }
+    }
+  }
+
+  return { sheets, warnings };
+}
+
+async function parseSpreadsheetWorkbook(file) {
   const extension = file.name.split(".").pop().toLowerCase();
 
   if (extension === "csv" || file.type.includes("csv")) {
-    return parseCsv(await file.text());
+    return {
+      sheets: [{ name: file.name.replace(/\.[^.]+$/, "") || "CSV", rows: parseCsv(await file.text()) }],
+    };
   }
 
   if (extension === "xlsx" || extension === "xls") {
-    if (!globalThis.XLSX) {
-      throw new Error("XLSX parser is not loaded");
+    const arrayBuffer = await file.arrayBuffer();
+
+    if (globalThis.XLSX) {
+      try {
+        const workbook = globalThis.XLSX.read(arrayBuffer, {
+          type: "array",
+          cellDates: true,
+        });
+
+        return {
+          sheets: workbook.SheetNames.map((sheetName) => ({
+            name: sheetName,
+            rows: globalThis.XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+              defval: "",
+              raw: false,
+            }),
+          })),
+        };
+      } catch (error) {
+        if (extension === "xls") throw error;
+      }
     }
 
-    const workbook = globalThis.XLSX.read(await file.arrayBuffer(), {
-      type: "array",
-      cellDates: true,
-    });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    return globalThis.XLSX.utils.sheet_to_json(sheet, {
-      defval: "",
-      raw: false,
-    });
+    if (extension === "xlsx") {
+      return parseOpenXmlWorkbookFallback(arrayBuffer);
+    }
+
+    throw new Error("XLSX parser is not loaded");
   }
 
   throw new Error("Unsupported report file");
+}
+
+async function parseReportFile(file) {
+  const workbook = await parseSpreadsheetWorkbook(file);
+  return workbook.sheets[0]?.rows || [];
 }
 
 function updateReportFileLabels(label) {
@@ -4637,6 +4937,7 @@ function getPageFromHash() {
   if (window.location.hash === "#messenger") return "messenger";
   if (window.location.hash === "#trms-releases") return "trmsReleases";
   if (window.location.hash === "#dashboards") return "dashboards";
+  if (window.location.hash === "#pdp-dashboard") return "pdpDashboard";
   if (window.location.hash === "#training-report") return "trainingReport";
   if (window.location.hash === "#participant-reports") return "participantReports";
   if (window.location.hash === "#settings") return "settings";
@@ -4652,6 +4953,7 @@ function getHashForPage(page) {
   if (page === "teamDevelopment") return "#team-development";
   if (page === "messenger") return "#messenger";
   if (page === "trmsReleases") return "#trms-releases";
+  if (page === "pdpDashboard") return "#pdp-dashboard";
   if (page === "trainingReport") return "#training-report";
   if (page === "participantReports") return "#participant-reports";
   if (page === "settings") return "#settings";
@@ -4678,6 +4980,7 @@ function showPage(page) {
 
   if (page === "today") renderTodayDashboard();
   if (page === "myTasks") renderMyTasks();
+  if (page === "pdpDashboard") renderPdpDashboard();
   if (page === "messenger") {
     loadSharedMessengerState({ silent: true }).catch(() => {});
     renderMessenger();
@@ -8904,6 +9207,425 @@ function renderLineChart(container, series) {
       : '<div class="muted-cell">Нет данных для графика.</div>';
 }
 
+function normalizePdpKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getPdpSourceValue(row, aliases) {
+  const normalizedAliases = aliases.map(normalizePdpKey);
+  const entry = Object.entries(row || {}).find(([key]) => normalizedAliases.includes(normalizePdpKey(key)));
+  return entry ? entry[1] : "";
+}
+
+function parsePdpBoolean(value) {
+  return /^(true|1|yes|да|истина)$/i.test(String(value || "").trim());
+}
+
+function parsePdpScore(value) {
+  const score = Number(String(value || "").replace(",", "."));
+  return Number.isFinite(score) ? score : null;
+}
+
+function getPdpYear(value, fallbackValue = "") {
+  const explicitYear = String(value || "").match(/\b(20\d{2})\b/)?.[1];
+  if (explicitYear) return explicitYear;
+
+  return String(fallbackValue || "").match(/\b(20\d{2})\b/)?.[1] || "Без года";
+}
+
+function normalizePdpReportRow(row) {
+  const formName = getPdpSourceValue(row, ["Наименование формы", "Form name"]);
+  const score = parsePdpScore(getPdpSourceValue(row, ["Балл", "Score"]));
+
+  return {
+    fullName: String(getPdpSourceValue(row, ["ФИО", "Full name", "Employee"]) || "").trim(),
+    employeeId: String(getPdpSourceValue(row, ["Таб.номер", "Табельный номер", "Employee number"]) || "").trim(),
+    department: String(getPdpSourceValue(row, ["Департамент", "Департамент ", "Department"]) || "Не указано").trim(),
+    position: String(getPdpSourceValue(row, ["Позиция", " Position", "Position", "Должность"]) || "").trim(),
+    manager: String(getPdpSourceValue(row, ["Руководитель (кто проводит апрейзл)", "Руководитель \n(кто проводит апрейзл)", "Руководитель", "Manager"]) || "").trim(),
+    costCenter: String(getPdpSourceValue(row, ["Кост центр", "Cost center"]) || "").trim(),
+    city: String(getPdpSourceValue(row, ["Город", "City"]) || "Не указано").trim(),
+    email: String(getPdpSourceValue(row, ["E-mail", "Email"]) || "").trim(),
+    formName,
+    year: getPdpYear(getPdpSourceValue(row, ["Год", "Year"]), formName),
+    stage: String(getPdpSourceValue(row, ["Этап", "Stage"]) || "Не указано").trim(),
+    status: String(getPdpSourceValue(row, ["Статус формы", "Статус", "Status"]) || "Не указано").trim(),
+    competency: String(getPdpSourceValue(row, ["Компетенция", "Competency"]) || "Не указано").trim(),
+    score,
+    topic: String(getPdpSourceValue(row, ["Тема", "Topic"]) || "Без темы").trim(),
+    employeeSelected: parsePdpBoolean(getPdpSourceValue(row, ["Выбор сотрудника", "Employee choice"])),
+    managerSelected: parsePdpBoolean(getPdpSourceValue(row, ["Выбор менеджера", "Manager choice"])),
+    priority: String(getPdpSourceValue(row, ["Приоритет", "Priority"]) || "").trim(),
+    managerComment: String(getPdpSourceValue(row, ["Комментарий руководителя", "Manager comment"]) || "").trim(),
+  };
+}
+
+function normalizePdpAnswerRow(row) {
+  return {
+    fullName: String(getPdpSourceValue(row, ["ФИО", "Full name", "Employee"]) || "").trim(),
+    employeeId: String(getPdpSourceValue(row, ["Таб.номер", "Табельный номер", "Employee number"]) || "").trim(),
+    department: String(getPdpSourceValue(row, ["Департамент", "Департамент ", "Department"]) || "Не указано").trim(),
+    manager: String(getPdpSourceValue(row, ["Руководитель (кто проводит апрейзл)", "Руководитель \n(кто проводит апрейзл)", "Руководитель", "Manager"]) || "").trim(),
+    city: String(getPdpSourceValue(row, ["Город", "City"]) || "Не указано").trim(),
+    year: getPdpYear(getPdpSourceValue(row, ["Год", "Year"])),
+    stage: String(getPdpSourceValue(row, ["Этап", "Stage"]) || "Не указано").trim(),
+    status: String(getPdpSourceValue(row, ["Статус", "Статус формы", "Status"]) || "Не указано").trim(),
+    question: String(getPdpSourceValue(row, ["Вопрос", "Question"]) || "Без вопроса").trim(),
+    owner: String(getPdpSourceValue(row, ["Чей вопрос", "Owner"]) || "Не указано").trim(),
+    answer: String(getPdpSourceValue(row, ["Ответ", "Answer"]) || "").trim(),
+  };
+}
+
+function setPdpReportStatus(message, type = "") {
+  if (!pdpReportStatus) return;
+
+  pdpReportStatus.textContent = message;
+  pdpReportStatus.className = `sync-status${type ? ` is-${type}` : ""}`;
+}
+
+function getPdpEmployeeKey(row) {
+  return row.employeeId || row.fullName || row.email || "";
+}
+
+function isPdpCompletedStatus(status) {
+  return /заверш|completed|complete/i.test(String(status || ""));
+}
+
+function populatePdpReportFilters() {
+  if (!pdpFiltersForm) return;
+
+  setFilterOptions(pdpYearFilter, getUniqueValues(pdpReportRows, (row) => row.year), "Все годы");
+  setFilterOptions(pdpStageFilter, getUniqueValues(pdpReportRows, (row) => row.stage), "Все этапы");
+  setFilterOptions(pdpStatusFilter, getUniqueValues(pdpReportRows, (row) => row.status), "Все статусы");
+  setFilterOptions(pdpDepartmentFilter, getUniqueValues(pdpReportRows, (row) => row.department), "Все департаменты");
+  setFilterOptions(pdpCityFilter, getUniqueValues(pdpReportRows, (row) => row.city), "Все города");
+}
+
+function matchesPdpSelectionFilter(row, selectionFilter) {
+  if (!selectionFilter) return true;
+  if (selectionFilter === "employee") return row.employeeSelected;
+  if (selectionFilter === "manager") return row.managerSelected;
+  if (selectionFilter === "both") return row.employeeSelected && row.managerSelected;
+  if (selectionFilter === "none") return !row.employeeSelected && !row.managerSelected;
+  return true;
+}
+
+function getFilteredPdpRows() {
+  const search = normalizePdpKey(pdpSearchInput?.value || "");
+
+  return pdpReportRows.filter((row) => {
+    const haystack = normalizePdpKey([
+      row.fullName,
+      row.employeeId,
+      row.department,
+      row.manager,
+      row.competency,
+      row.topic,
+      row.city,
+    ].join(" "));
+
+    return (
+      (!pdpYearFilter?.value || row.year === pdpYearFilter.value) &&
+      (!pdpStageFilter?.value || row.stage === pdpStageFilter.value) &&
+      (!pdpStatusFilter?.value || row.status === pdpStatusFilter.value) &&
+      (!pdpDepartmentFilter?.value || row.department === pdpDepartmentFilter.value) &&
+      (!pdpCityFilter?.value || row.city === pdpCityFilter.value) &&
+      matchesPdpSelectionFilter(row, pdpSelectionFilter?.value || "") &&
+      (!search || haystack.includes(search))
+    );
+  });
+}
+
+function getFilteredPdpAnswers() {
+  const search = normalizePdpKey(pdpSearchInput?.value || "");
+
+  return pdpAnswerRows.filter((row) => {
+    const haystack = normalizePdpKey([
+      row.fullName,
+      row.employeeId,
+      row.department,
+      row.manager,
+      row.question,
+      row.answer,
+      row.city,
+    ].join(" "));
+
+    return (
+      (!pdpYearFilter?.value || row.year === pdpYearFilter.value) &&
+      (!pdpStageFilter?.value || row.stage === pdpStageFilter.value) &&
+      (!pdpStatusFilter?.value || row.status === pdpStatusFilter.value) &&
+      (!pdpDepartmentFilter?.value || row.department === pdpDepartmentFilter.value) &&
+      (!pdpCityFilter?.value || row.city === pdpCityFilter.value) &&
+      (!search || haystack.includes(search))
+    );
+  });
+}
+
+function getPdpEmployeeSummaries(rows) {
+  const summaries = new Map();
+
+  rows.forEach((row) => {
+    const key = getPdpEmployeeKey(row);
+    if (!key) return;
+
+    const current = summaries.get(key) || {
+      key,
+      fullName: row.fullName || key,
+      employeeId: row.employeeId,
+      department: row.department,
+      manager: row.manager,
+      status: row.status,
+      selectedTopics: 0,
+      scoreSum: 0,
+      scoreCount: 0,
+    };
+
+    if (row.employeeSelected || row.managerSelected) current.selectedTopics += 1;
+    if (row.score !== null) {
+      current.scoreSum += row.score;
+      current.scoreCount += 1;
+    }
+    if (isPdpCompletedStatus(row.status)) current.status = row.status;
+
+    summaries.set(key, current);
+  });
+
+  return [...summaries.values()].map((summary) => ({
+    ...summary,
+    averageScore: summary.scoreCount > 0 ? summary.scoreSum / summary.scoreCount : null,
+  }));
+}
+
+function getPdpGroupSummary(rows, keyGetter) {
+  return rows.reduce((map, row) => {
+    const key = keyGetter(row) || "Не указано";
+    const current = map.get(key) || {
+      key,
+      rows: 0,
+      employeeKeys: new Set(),
+      completedEmployeeKeys: new Set(),
+      selectedTopics: 0,
+      employeeSelected: 0,
+      managerSelected: 0,
+      scoreSum: 0,
+      scoreCount: 0,
+    };
+
+    const employeeKey = getPdpEmployeeKey(row);
+    current.rows += 1;
+    if (employeeKey) current.employeeKeys.add(employeeKey);
+    if (employeeKey && isPdpCompletedStatus(row.status)) current.completedEmployeeKeys.add(employeeKey);
+    if (row.employeeSelected || row.managerSelected) current.selectedTopics += 1;
+    if (row.employeeSelected) current.employeeSelected += 1;
+    if (row.managerSelected) current.managerSelected += 1;
+    if (row.score !== null) {
+      current.scoreSum += row.score;
+      current.scoreCount += 1;
+    }
+
+    map.set(key, current);
+    return map;
+  }, new Map());
+}
+
+function renderPdpDashboard() {
+  const rows = getFilteredPdpRows();
+  const answerRows = getFilteredPdpAnswers();
+  const employees = getPdpEmployeeSummaries(rows);
+  const completedEmployees = employees.filter((employee) => isPdpCompletedStatus(employee.status)).length;
+  const selectedTopicCount = rows.filter((row) => row.employeeSelected || row.managerSelected).length;
+  const scoreRows = rows.filter((row) => row.score !== null);
+  const averageScore = scoreRows.length > 0
+    ? scoreRows.reduce((sum, row) => sum + row.score, 0) / scoreRows.length
+    : 0;
+
+  if (pdpEmployeeCount) pdpEmployeeCount.textContent = formatQuantity(employees.length);
+  if (pdpCompletedRate) pdpCompletedRate.textContent = employees.length > 0 ? `${Math.round((completedEmployees / employees.length) * 100)}%` : "0%";
+  if (pdpSelectedTopicCount) pdpSelectedTopicCount.textContent = formatQuantity(selectedTopicCount);
+  if (pdpAverageScore) pdpAverageScore.textContent = averageScore.toFixed(1);
+
+  const statusItems = [...employees.reduce((map, employee) => {
+    const key = employee.status || "Не указано";
+    const current = map.get(key) || { key, count: 0 };
+    current.count += 1;
+    map.set(key, current);
+    return map;
+  }, new Map()).values()].sort((a, b) => b.count - a.count);
+  renderBarChart(pdpStatusChart, statusItems, "count");
+
+  const topicItems = [...getPdpGroupSummary(
+    rows.filter((row) => row.employeeSelected || row.managerSelected),
+    (row) => row.topic,
+  ).values()]
+    .sort((a, b) => b.selectedTopics - a.selectedTopics)
+    .slice(0, 12)
+    .map((item) => ({ key: item.key, count: item.selectedTopics }));
+  renderBarChart(pdpTopicChart, topicItems, "count");
+
+  const competencyItems = [...getPdpGroupSummary(rows, (row) => row.competency).values()]
+    .sort((a, b) => b.selectedTopics - a.selectedTopics || a.key.localeCompare(b.key, "ru"))
+    .slice(0, 15);
+  pdpCompetencyTable.innerHTML =
+    competencyItems.length > 0
+      ? competencyItems
+          .map((item) => `
+            <tr>
+              <td>${escapeHtml(item.key)}</td>
+              <td>${item.scoreCount > 0 ? (item.scoreSum / item.scoreCount).toFixed(1) : "-"}</td>
+              <td>${formatQuantity(item.employeeSelected)}</td>
+              <td>${formatQuantity(item.managerSelected)}</td>
+            </tr>
+          `)
+          .join("")
+      : renderAnalyticsEmptyRow(4, "Загрузите Excel-файл PDP.");
+
+  const departmentItems = [...getPdpGroupSummary(rows, (row) => row.department).values()]
+    .sort((a, b) => b.employeeKeys.size - a.employeeKeys.size)
+    .slice(0, 15);
+  pdpDepartmentTable.innerHTML =
+    departmentItems.length > 0
+      ? departmentItems
+          .map((item) => {
+            const completedRate = item.employeeKeys.size > 0
+              ? Math.round((item.completedEmployeeKeys.size / item.employeeKeys.size) * 100)
+              : 0;
+            return `
+              <tr>
+                <td>${escapeHtml(item.key)}</td>
+                <td>${formatQuantity(item.employeeKeys.size)}</td>
+                <td>${completedRate}%</td>
+                <td>${formatQuantity(item.selectedTopics)}</td>
+              </tr>
+            `;
+          })
+          .join("")
+      : renderAnalyticsEmptyRow(4, "Нет данных по департаментам.");
+
+  const topEmployees = employees
+    .sort((a, b) => b.selectedTopics - a.selectedTopics || (b.averageScore || 0) - (a.averageScore || 0))
+    .slice(0, 25);
+  pdpEmployeeTable.innerHTML =
+    topEmployees.length > 0
+      ? topEmployees
+          .map((employee) => `
+            <tr>
+              <td>
+                <div class="system-cell">
+                  <strong>${escapeHtml(employee.fullName)}</strong>
+                  <span>${escapeHtml(employee.employeeId || "-")}</span>
+                </div>
+              </td>
+              <td>${escapeHtml(employee.department || "-")}</td>
+              <td>${escapeHtml(employee.manager || "-")}</td>
+              <td>${escapeHtml(employee.status || "-")}</td>
+              <td>${formatQuantity(employee.selectedTopics)}</td>
+              <td>${employee.averageScore !== null ? employee.averageScore.toFixed(1) : "-"}</td>
+            </tr>
+          `)
+          .join("")
+      : renderAnalyticsEmptyRow(6, "Нет сотрудников для выбранного среза.");
+
+  const questionItems = [...answerRows.reduce((map, row) => {
+    const key = `${row.owner}::${row.question}`;
+    const current = map.get(key) || {
+      key,
+      question: row.question,
+      owner: row.owner,
+      answered: 0,
+      total: 0,
+    };
+
+    current.total += 1;
+    if (row.answer) current.answered += 1;
+    map.set(key, current);
+    return map;
+  }, new Map()).values()]
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 12);
+  pdpQuestionTable.innerHTML =
+    questionItems.length > 0
+      ? questionItems
+          .map((item) => {
+            const answerRate = item.total > 0 ? Math.round((item.answered / item.total) * 100) : 0;
+            return `
+              <tr>
+                <td class="pdp-question-cell">${escapeHtml(item.question)}</td>
+                <td>${escapeHtml(item.owner)}</td>
+                <td>${formatQuantity(item.answered)}</td>
+                <td>${formatQuantity(item.total)}</td>
+                <td>${answerRate}%</td>
+              </tr>
+            `;
+          })
+          .join("")
+      : renderAnalyticsEmptyRow(5, "Во вкладке ответов пока нет данных для выбранного среза.");
+}
+
+function clearPdpReportData() {
+  pdpReportRows = [];
+  pdpAnswerRows = [];
+  if (pdpReportFileInput) pdpReportFileInput.value = "";
+  if (pdpReportFileLabel) pdpReportFileLabel.textContent = "Выберите Excel-файл PDP";
+  if (pdpFiltersForm) pdpFiltersForm.reset();
+  setPdpReportStatus("Загрузите Excel-файл PDP. Используются вкладки «Отчет» и «Ответы на вопросы».");
+  populatePdpReportFilters();
+  renderPdpDashboard();
+}
+
+async function loadPdpReportFromFile(file) {
+  if (!file) return;
+
+  if (pdpReportFileLabel) pdpReportFileLabel.textContent = `${file.name}: чтение...`;
+  setPdpReportStatus("Читаю Excel-файл PDP. Для больших выгрузок это может занять несколько секунд.");
+
+  const workbook = await parseSpreadsheetWorkbook(file);
+  const explicitReportSheet = workbook.sheets.find((sheet) => /отчет|report/i.test(sheet.name) && !/ответ|answer/i.test(sheet.name)) || null;
+  const answerSheet = workbook.sheets.find((sheet) => /ответ|answer/i.test(sheet.name)) || null;
+  const reportSheet = explicitReportSheet || answerSheet || workbook.sheets[0];
+
+  pdpReportRows = (reportSheet?.rows || [])
+    .map(normalizePdpReportRow)
+    .filter((row) => row.fullName || row.employeeId || row.topic);
+  pdpAnswerRows = (answerSheet?.rows || [])
+    .map(normalizePdpAnswerRow)
+    .filter((row) => row.fullName || row.employeeId || row.question);
+
+  if (pdpReportFileLabel) {
+    pdpReportFileLabel.textContent = `${file.name}: ${formatQuantity(pdpReportRows.length)} строк`;
+  }
+
+  const warningText = !explicitReportSheet && answerSheet
+    ? " Детальная вкладка «Отчет» не прочитана, сводка построена по вкладке «Ответы на вопросы»."
+    : "";
+  const parserWarnings = workbook.warnings?.length ? ` Предупреждения: ${workbook.warnings.join("; ")}` : "";
+  setPdpReportStatus(
+    `PDP загружен: ${formatQuantity(pdpReportRows.length)} строк отчета, ${formatQuantity(pdpAnswerRows.length)} строк ответов.${warningText}${parserWarnings}`,
+    workbook.warnings?.length ? "warning" : "success",
+  );
+  populatePdpReportFilters();
+  renderPdpDashboard();
+}
+
+async function loadPdpReportFromUrl(fileName) {
+  try {
+    if (pdpReportFileLabel) pdpReportFileLabel.textContent = `Загрузка ${fileName}...`;
+    setPdpReportStatus(`Загружаю ${fileName}...`);
+    const response = await fetch(fileName);
+    if (!response.ok) throw new Error("PDP report file not found");
+
+    const blob = await response.blob();
+    const file = new File([blob], fileName, { type: blob.type });
+    await loadPdpReportFromFile(file);
+  } catch (error) {
+    if (pdpReportFileLabel) pdpReportFileLabel.textContent = "Откройте Excel через выбор файла";
+    setPdpReportStatus(error.message || "Не удалось загрузить PDP-файл.", "error");
+  }
+}
+
 function renderDashboards() {
   const rows = getFilteredReportRows();
   const totalSessions = rows.length;
@@ -9220,7 +9942,9 @@ function render() {
   renderStep("dashboardFilters", populateDashboardFilters);
   renderStep("trainingReportFilters", populateTrainingReportFilters);
   renderStep("participantReportFilters", populateParticipantReportFilters);
+  renderStep("pdpReportFilters", populatePdpReportFilters);
   renderStep("dashboards", renderDashboards);
+  renderStep("pdpDashboard", renderPdpDashboard);
   renderStep("trainingReport", renderTrainingReport);
   renderStep("participantReports", renderParticipantReports);
   renderStep("googleSheetsSettings", renderGoogleSheetsSettings);
@@ -9797,6 +10521,40 @@ resetDashboardFiltersButton.addEventListener("click", () => {
   dashboardFiltersForm.reset();
   renderDashboards();
 });
+
+if (pdpReportFileInput) {
+  pdpReportFileInput.addEventListener("change", async () => {
+    const [file] = pdpReportFileInput.files;
+    if (!file) return;
+
+    try {
+      await loadPdpReportFromFile(file);
+    } catch (error) {
+      if (pdpReportFileLabel) pdpReportFileLabel.textContent = "Файл не удалось прочитать";
+      setPdpReportStatus(error.message || "Файл PDP не удалось прочитать.", "error");
+    }
+  });
+}
+
+if (loadDefaultPdpReportButton) {
+  loadDefaultPdpReportButton.addEventListener("click", () => loadPdpReportFromUrl(PDP_DEFAULT_REPORT_FILE));
+}
+
+if (clearPdpReportDataButton) {
+  clearPdpReportDataButton.addEventListener("click", clearPdpReportData);
+}
+
+if (pdpFiltersForm) {
+  pdpFiltersForm.addEventListener("change", renderPdpDashboard);
+  pdpFiltersForm.addEventListener("input", renderPdpDashboard);
+}
+
+if (resetPdpFiltersButton) {
+  resetPdpFiltersButton.addEventListener("click", () => {
+    pdpFiltersForm.reset();
+    renderPdpDashboard();
+  });
+}
 
 trainingReportFiltersForm.addEventListener("change", renderTrainingReport);
 

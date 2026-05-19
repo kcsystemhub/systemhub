@@ -223,6 +223,15 @@
             </svg>
             Дэшборды
           </a>
+          <a class="nav-link" href="#pdp-dashboard" data-nav-link="pdpDashboard">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 19V5" />
+              <path d="M4 19h16" />
+              <path d="M8 15l3-3 3 2 5-7" />
+              <path d="M8 7h5M8 11h3" />
+            </svg>
+            PDP дэшборд
+          </a>
           <a class="nav-link" href="#training-report" data-nav-link="trainingReport">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 19V5" />
@@ -2130,6 +2139,251 @@
           </section>
         </section>
 
+        <section class="page-section" id="pdpDashboardPage" data-page-panel="pdpDashboard" hidden>
+          <header class="topbar">
+            <div>
+              <p class="eyebrow">Personal Development Plan</p>
+              <h1>PDP дэшборд</h1>
+            </div>
+            <div class="sheet-badge" title="Дэшборд строится из Excel-файла Отчет PDP">
+              <span class="status-dot"></span>
+              Excel PDP
+            </div>
+          </header>
+
+          <section class="entry-panel" aria-labelledby="pdpUploadTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Источник данных</p>
+                <h2 id="pdpUploadTitle">Загрузка Отчет PDP</h2>
+              </div>
+              <button class="ghost-button" id="clearPdpReportData" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4h8v2" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                </svg>
+                Очистить
+              </button>
+            </div>
+
+            <div class="dashboard-upload">
+              <label class="file-drop">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v12" />
+                  <path d="m7 8 5-5 5 5" />
+                  <path d="M5 21h14" />
+                </svg>
+                <span id="pdpReportFileLabel">Выберите Excel-файл PDP</span>
+                <input id="pdpReportFileInput" type="file" accept=".xlsx,.xls,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" />
+              </label>
+
+              <button class="ghost-button" id="loadDefaultPdpReport" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M12 15V3" />
+                </svg>
+                Загрузить Отчет по PDP
+              </button>
+            </div>
+
+            <div class="sync-status" id="pdpReportStatus" role="status">
+              Загрузите Excel-файл PDP. Используются вкладки «Отчет» и «Ответы на вопросы».
+            </div>
+          </section>
+
+          <section class="entry-panel" aria-labelledby="pdpFiltersTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Фильтры</p>
+                <h2 id="pdpFiltersTitle">Срез PDP</h2>
+              </div>
+              <button class="ghost-button" id="resetPdpFilters" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1 0 3-6.7M3 4v6h6" />
+                </svg>
+                Сбросить
+              </button>
+            </div>
+
+            <form id="pdpFilters" class="dashboard-filters">
+              <label class="field">
+                <span>Год</span>
+                <select id="pdpYearFilter"></select>
+              </label>
+
+              <label class="field">
+                <span>Этап</span>
+                <select id="pdpStageFilter"></select>
+              </label>
+
+              <label class="field">
+                <span>Статус</span>
+                <select id="pdpStatusFilter"></select>
+              </label>
+
+              <label class="field">
+                <span>Департамент</span>
+                <select id="pdpDepartmentFilter"></select>
+              </label>
+
+              <label class="field">
+                <span>Город</span>
+                <select id="pdpCityFilter"></select>
+              </label>
+
+              <label class="field">
+                <span>Выбор</span>
+                <select id="pdpSelectionFilter">
+                  <option value="">Все темы</option>
+                  <option value="employee">Выбор сотрудника</option>
+                  <option value="manager">Выбор менеджера</option>
+                  <option value="both">Выбрали оба</option>
+                  <option value="none">Без выбора</option>
+                </select>
+              </label>
+
+              <label class="field field-wide">
+                <span>Поиск</span>
+                <input id="pdpSearchInput" type="search" placeholder="ФИО, табельный номер, руководитель, тема" />
+              </label>
+            </form>
+          </section>
+
+          <section class="stats-grid" aria-label="PDP сводка">
+            <article class="stat-card">
+              <span>Сотрудников</span>
+              <strong id="pdpEmployeeCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Завершено</span>
+              <strong id="pdpCompletedRate">0%</strong>
+            </article>
+            <article class="stat-card">
+              <span>Выбранных тем</span>
+              <strong id="pdpSelectedTopicCount">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Средний балл</span>
+              <strong id="pdpAverageScore">0</strong>
+            </article>
+          </section>
+
+          <section class="dashboard-grid">
+            <section class="table-panel" aria-labelledby="pdpStatusesTitle">
+              <div class="table-toolbar">
+                <div>
+                  <p class="eyebrow">Статусы форм</p>
+                  <h2 id="pdpStatusesTitle">Прогресс заполнения</h2>
+                </div>
+              </div>
+              <div class="dashboard-bars" id="pdpStatusChart"></div>
+            </section>
+
+            <section class="table-panel" aria-labelledby="pdpTopicsTitle">
+              <div class="table-toolbar">
+                <div>
+                  <p class="eyebrow">Темы развития</p>
+                  <h2 id="pdpTopicsTitle">Самые частые выбранные темы</h2>
+                </div>
+              </div>
+              <div class="dashboard-bars" id="pdpTopicChart"></div>
+            </section>
+
+            <section class="table-panel" aria-labelledby="pdpCompetenciesTitle">
+              <div class="table-toolbar">
+                <div>
+                  <p class="eyebrow">Компетенции</p>
+                  <h2 id="pdpCompetenciesTitle">Балл и выбранные темы</h2>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Компетенция</th>
+                      <th>Средний балл</th>
+                      <th>Выбор сотрудника</th>
+                      <th>Выбор менеджера</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pdpCompetencyTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="table-panel" aria-labelledby="pdpDepartmentsTitle">
+              <div class="table-toolbar">
+                <div>
+                  <p class="eyebrow">Департаменты</p>
+                  <h2 id="pdpDepartmentsTitle">Охват и завершение</h2>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Департамент</th>
+                      <th>Сотрудников</th>
+                      <th>Завершено</th>
+                      <th>Темы</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pdpDepartmentTable"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <section class="table-panel" aria-labelledby="pdpEmployeesTitle">
+            <div class="table-toolbar">
+              <div>
+                <p class="eyebrow">Сотрудники</p>
+                <h2 id="pdpEmployeesTitle">Топ по количеству выбранных тем</h2>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Сотрудник</th>
+                    <th>Департамент</th>
+                    <th>Руководитель</th>
+                    <th>Статус</th>
+                    <th>Выбрано</th>
+                    <th>Средний балл</th>
+                  </tr>
+                </thead>
+                <tbody id="pdpEmployeeTable"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="table-panel" aria-labelledby="pdpQuestionsTitle">
+            <div class="table-toolbar">
+              <div>
+                <p class="eyebrow">Ответы на вопросы</p>
+                <h2 id="pdpQuestionsTitle">Заполненность текстовых вопросов</h2>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Вопрос</th>
+                    <th>Чей вопрос</th>
+                    <th>Ответов</th>
+                    <th>Всего</th>
+                    <th>Заполнено</th>
+                  </tr>
+                </thead>
+                <tbody id="pdpQuestionTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
         <section class="page-section" id="trainingReportPage" data-page-panel="trainingReport" hidden>
           <header class="topbar">
             <div>
@@ -3030,6 +3284,7 @@ notify pgrst, 'reload schema';</code></pre>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
     <script src="./systemhub-config.js"></script>
     <script src="./systemhub-app.js"></script>
     <script src="./systemhub-notifications.js"></script>
