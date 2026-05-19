@@ -1858,7 +1858,6 @@ html[data-theme="light"] .assignment-bell-item strong,
 html[data-theme="light"] .global-search-result strong,
 html[data-theme="light"] .today-item strong,
 html[data-theme="light"] .my-task-card strong,
-html[data-theme="light"] .team-activity-item strong,
 html[data-theme="light"] .kanban-column-head h3,
 html[data-theme="light"] .kanban-card strong {
   color: var(--ink);
@@ -1960,6 +1959,14 @@ html[data-theme="light"] .kanban-card strong {
   gap: 8px;
   justify-content: space-between;
   align-items: baseline;
+}
+
+.messenger-message-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .messenger-message-text {
@@ -3271,6 +3278,228 @@ html[data-theme="light"] .messenger-message-author {
   background: transparent;
 }
 
+.development-sensitive-access {
+  margin-top: 22px;
+}
+
+.development-access-form {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(160px, 0.35fr) minmax(180px, 0.42fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.development-access-form h3,
+.development-access-form p {
+  margin: 0;
+}
+
+.development-access-form h3 {
+  color: #ffffff;
+}
+
+.development-access-form p {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.development-access-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.development-access-actions .primary-button,
+.development-access-actions .ghost-button {
+  width: auto;
+}
+
+.development-access-form .sync-status {
+  grid-column: 1 / -1;
+}
+
+.development-portrait {
+  display: grid;
+  gap: 14px;
+}
+
+.development-portrait-summary,
+.development-portrait-card {
+  display: grid;
+  gap: 9px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.development-portrait-summary {
+  border-color: rgba(87, 181, 231, 0.28);
+  background: rgba(87, 181, 231, 0.07);
+}
+
+.development-portrait-summary h4,
+.development-portrait-card strong {
+  margin: 0;
+  color: #ffffff;
+}
+
+.development-portrait-summary p,
+.development-portrait-card p,
+.development-portrait-list li {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.development-portrait-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.development-portrait-card.is-strength {
+  border-left: 4px solid var(--green);
+}
+
+.development-portrait-card.is-growth {
+  border-left: 4px solid var(--air-gold);
+}
+
+.development-portrait-card.is-focus {
+  border-left: 4px solid var(--air-sky);
+}
+
+.development-portrait-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.development-coverage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.development-coverage span {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.development-emotion-card {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(245, 196, 81, 0.32);
+  border-radius: var(--radius);
+  background: rgba(245, 196, 81, 0.06);
+}
+
+.development-emotion-card h4,
+.development-emotion-card strong {
+  margin: 0;
+  color: #ffffff;
+}
+
+.development-emotion-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.plutchik-wheel-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.plutchik-wheel {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+}
+
+.plutchik-wheel svg {
+  width: min(100%, 280px);
+  height: auto;
+}
+
+.plutchik-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.plutchik-legend-item {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.plutchik-legend-head {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plutchik-label {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  min-width: 0;
+}
+
+.plutchik-color {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+}
+
+.plutchik-track {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.plutchik-track div {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.development-missing-tests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.development-missing-tests span {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
 .team-member-manager {
   display: grid;
   grid-template-columns: minmax(180px, 0.6fr) minmax(260px, 1fr) minmax(260px, 0.9fr);
@@ -3307,6 +3536,18 @@ html[data-theme="light"] .messenger-message-author {
   color: var(--air-sky);
   font-size: 0.82rem;
   font-weight: 900;
+}
+
+.team-member-chip {
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.team-member-chip:hover,
+.team-member-chip.is-active {
+  border-color: rgba(245, 196, 81, 0.48);
+  background: rgba(245, 196, 81, 0.14);
+  color: var(--air-gold-light);
 }
 
 .team-member-picker {
@@ -3606,7 +3847,6 @@ html[data-theme="light"] .messenger-message-author {
 
 .today-list,
 .my-task-list,
-.team-task-activity-list,
 .team-task-checklist,
 .team-attachments {
   display: grid;
@@ -3614,8 +3854,7 @@ html[data-theme="light"] .messenger-message-author {
 }
 
 .today-item,
-.my-task-card,
-.team-activity-item {
+.my-task-card {
   display: grid;
   gap: 8px;
   padding: 12px;
@@ -3625,14 +3864,12 @@ html[data-theme="light"] .messenger-message-author {
 }
 
 .today-item strong,
-.my-task-card strong,
-.team-activity-item strong {
+.my-task-card strong {
   color: #ffffff;
 }
 
 .today-item span,
-.my-task-card span,
-.team-activity-item span {
+.my-task-card span {
   color: var(--muted);
   font-size: 0.82rem;
   line-height: 1.35;
@@ -3762,22 +3999,6 @@ html[data-theme="light"] .messenger-message-author {
 .team-attachment:hover {
   border-color: rgba(255, 200, 90, 0.42);
   background: rgba(255, 200, 90, 0.1);
-}
-
-.team-task-activity {
-  display: grid;
-  gap: 8px;
-}
-
-.team-task-activity h4 {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-}
-
-.team-activity-item {
-  padding: 9px;
 }
 
 .team-task-kanban {
@@ -4648,9 +4869,14 @@ html[data-theme="light"] .team-mini-task strong,
 html[data-theme="light"] .development-test-head h3,
 html[data-theme="light"] .development-question strong,
 html[data-theme="light"] .development-result h3,
+html[data-theme="light"] .development-access-form h3,
 html[data-theme="light"] .development-score-card strong,
 html[data-theme="light"] .development-score-advice strong,
 html[data-theme="light"] .development-focus-card strong,
+html[data-theme="light"] .development-portrait-summary h4,
+html[data-theme="light"] .development-portrait-card strong,
+html[data-theme="light"] .development-emotion-card h4,
+html[data-theme="light"] .development-emotion-card strong,
 html[data-theme="light"] .development-saved-item h4,
 html[data-theme="light"] .development-saved-title,
 html[data-theme="light"] .team-org-main strong,
@@ -4694,6 +4920,10 @@ html[data-theme="light"] .development-question,
 html[data-theme="light"] .development-test-head,
 html[data-theme="light"] .development-progress,
 html[data-theme="light"] .development-focus-card,
+html[data-theme="light"] .development-portrait-summary,
+html[data-theme="light"] .development-portrait-card,
+html[data-theme="light"] .development-emotion-card,
+html[data-theme="light"] .plutchik-legend-item,
 html[data-theme="light"] .team-member-manager,
 html[data-theme="light"] .ghost-button,
 html[data-theme="light"] .link-actions .icon-button,
@@ -4751,9 +4981,9 @@ html[data-theme="light"] .team-task-card,
 html[data-theme="light"] .team-mini-task,
 html[data-theme="light"] .today-item,
 html[data-theme="light"] .my-task-card,
-html[data-theme="light"] .team-activity-item,
 html[data-theme="light"] .kanban-card,
 html[data-theme="light"] .development-result,
+html[data-theme="light"] .development-sensitive-access,
 html[data-theme="light"] .development-scale label,
 html[data-theme="light"] .development-score-card,
 html[data-theme="light"] .development-saved-item,
@@ -4800,6 +5030,12 @@ html[data-theme="light"] .team-member-chip,
 html[data-theme="light"] .team-member-picker-button {
   background: rgba(0, 103, 177, 0.1);
   color: var(--air-blue);
+}
+
+html[data-theme="light"] .team-member-chip:hover,
+html[data-theme="light"] .team-member-chip.is-active {
+  background: rgba(214, 160, 47, 0.14);
+  color: #9a6410;
 }
 
 html[data-theme="light"] .summary-row td {
@@ -4935,6 +5171,7 @@ html[data-theme="light"] .report-pie {
   .promo-purchase-form,
   .promo-form,
   .release-form,
+  .development-access-form,
   .team-member-manager,
   .team-task-board,
   .stock-form,
@@ -5152,9 +5389,13 @@ html[data-theme="light"] .report-pie {
   .password-vault-controls,
   .employee-profile-form,
   .development-respondent,
+  .development-access-form,
   .development-layout,
   .development-score-grid,
   .development-focus-grid,
+  .development-portrait-grid,
+  .plutchik-wheel-layout,
+  .plutchik-legend,
   .messenger-layout,
   .messenger-form-grid,
   .dashboard-grid,
@@ -6834,7 +7075,45 @@ html[data-theme="light"] .report-pie {
             <section class="development-result" id="teamDevelopmentResult" aria-live="polite" hidden></section>
           </section>
 
-          <section class="development-layout is-single">
+          <section class="development-sensitive-access team-chart-card" id="teamDevelopmentSensitiveAccess">
+            <form class="development-access-form" id="teamDevelopmentAccessForm" autocomplete="off">
+              <div>
+                <p class="eyebrow">Закрытый доступ</p>
+                <h3>Портреты и сохраненные результаты</h3>
+                <p>Введите логин и пароль 14524 или 14962, чтобы открыть собранные профили и финальные ответы сотрудников.</p>
+              </div>
+              <label class="field">
+                <span>Логин</span>
+                <input id="teamDevelopmentAccessLoginInput" type="text" inputmode="numeric" autocomplete="off" required />
+              </label>
+              <label class="field">
+                <span>Пароль</span>
+                <input id="teamDevelopmentAccessPasswordInput" type="password" autocomplete="current-password" required />
+              </label>
+              <div class="development-access-actions">
+                <button class="primary-button" type="submit">Открыть доступ</button>
+                <button class="ghost-button" id="lockTeamDevelopmentAccess" type="button" hidden>Закрыть доступ</button>
+              </div>
+              <div class="sync-status" id="teamDevelopmentAccessStatus" role="status">
+                Данные скрыты до проверки логина 14524 или 14962.
+              </div>
+            </form>
+          </section>
+
+          <section class="development-layout is-single" id="teamDevelopmentSensitiveContent" hidden>
+            <article class="team-chart-card">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Собранный профиль</p>
+                  <h3>Портрет сотрудника</h3>
+                </div>
+                <div class="development-result-actions">
+                  <select id="teamDevelopmentPortraitEmployeeSelect" aria-label="Выберите сотрудника для портрета"></select>
+                </div>
+              </div>
+              <div class="development-portrait" id="teamDevelopmentPortrait"></div>
+            </article>
+
             <article class="team-chart-card">
               <div class="team-chart-head">
                 <div>
@@ -8380,6 +8659,7 @@ const EXPIRING_SOON_DAYS = 30;
 const LOW_STOCK_THRESHOLD = 5;
 const GOOGLE_AUTO_SYNC_DEBOUNCE_MS = 900;
 const GOOGLE_REMOTE_REFRESH_MS = 3000;
+const TEAM_TASK_VISIBLE_LIMIT = 7;
 const PASSWORD_ENCRYPTION_PREFIX = "enc:v1:";
 const PASSWORD_VERIFIER_TEXT = "systemhub-password-vault-v1";
 const PASSWORD_REVEAL_MS = 8000;
@@ -8395,6 +8675,7 @@ const DEFAULT_ADMIN_USERS = [
   { login: "16643", password: "AirAstana2026!", role: "admin", displayName: "Admin 16643" },
   { login: "14524", password: "AirAstana2026!", role: "admin", displayName: "Admin 14524" },
 ];
+const TEAM_DEVELOPMENT_SENSITIVE_ACCESS_LOGINS = new Set(["14524", "14962"]);
 
 const INTERFACE_TEXT = {
   themeLight: { ru: "Светлая тема", en: "Light theme" },
@@ -8500,6 +8781,7 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Скрыть пароль", "Hide password"],
   ["Редактировать", "Edit"],
   ["Удалить", "Delete"],
+  ["Удалить сообщение", "Delete message"],
   ["Отмена", "Cancel"],
   ["Сохранить", "Save"],
   ["Сбросить", "Reset"],
@@ -8522,6 +8804,7 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Ответственный", "Owner"],
   ["Исполнитель", "Assignee"],
   ["Задача", "Task"],
+  ["Показать задачи участника", "Show member tasks"],
   ["Новая задача", "New Task"],
   ["Добавить задачу", "Add Task"],
   ["Создать задачу", "Create Task"],
@@ -8529,6 +8812,8 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Комментарии", "Comments"],
   ["Ознакомлен", "Acknowledged"],
   ["Открыть", "Open"],
+  ["View all", "View all"],
+  ["Свернуть до 7", "Collapse to 7"],
   ["Открыть полный ответ", "Open full answer"],
   ["Свернуть", "Collapse"],
   ["Финальный результат", "Final result"],
@@ -8542,6 +8827,33 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Сотрудник", "Employee"],
   ["Сохраненные результаты", "Saved results"],
   ["Финальные ответы сотрудников", "Employee final answers"],
+  ["Закрытый доступ", "Restricted access"],
+  ["Портреты и сохраненные результаты", "Portraits and saved results"],
+  ["Открыть доступ", "Unlock access"],
+  ["Закрыть доступ", "Lock access"],
+  ["Данные скрыты до проверки логина 14524 или 14962.", "Data is hidden until login 14524 or 14962 is verified."],
+  ["Собранный профиль", "Combined profile"],
+  ["Портрет сотрудника", "Employee portrait"],
+  ["Выберите сотрудника для портрета", "Select employee for portrait"],
+  ["Сильные стороны", "Strengths"],
+  ["Зоны роста", "Growth areas"],
+  ["Фокус развития навыков", "Skill development focus"],
+  ["Покрытие тестами", "Test coverage"],
+  ["Средний сигнал", "Average signal"],
+  ["Последнее обновление", "Last updated"],
+  ["Портрет пока не готов", "Portrait is not ready yet"],
+  ["Колесо эмоций Плутчика", "Plutchik emotion wheel"],
+  ["Эмоциональный профиль", "Emotional profile"],
+  ["Не хватает тестов", "Missing tests"],
+  ["Рабочая интерпретация", "Work interpretation"],
+  ["Радость", "Joy"],
+  ["Доверие", "Trust"],
+  ["Страх", "Fear"],
+  ["Удивление", "Surprise"],
+  ["Грусть", "Sadness"],
+  ["Отвращение", "Disgust"],
+  ["Гнев", "Anger"],
+  ["Ожидание", "Anticipation"],
   ["Только финальные итоги", "Final results only"],
   ["Опросы для укрепления командного духа", "Assessments for stronger teamwork"],
   ["Выберите или введите имя", "Select or enter a name"],
@@ -9087,6 +9399,14 @@ const teamDevelopmentEmployeeDatalist = document.querySelector("#teamDevelopment
 const teamDevelopmentTestContent = document.querySelector("#teamDevelopmentTestContent");
 const teamDevelopmentResult = document.querySelector("#teamDevelopmentResult");
 const teamDevelopmentSavedResults = document.querySelector("#teamDevelopmentSavedResults");
+const teamDevelopmentAccessForm = document.querySelector("#teamDevelopmentAccessForm");
+const teamDevelopmentAccessLoginInput = document.querySelector("#teamDevelopmentAccessLoginInput");
+const teamDevelopmentAccessPasswordInput = document.querySelector("#teamDevelopmentAccessPasswordInput");
+const teamDevelopmentAccessStatus = document.querySelector("#teamDevelopmentAccessStatus");
+const teamDevelopmentSensitiveContent = document.querySelector("#teamDevelopmentSensitiveContent");
+const lockTeamDevelopmentAccessButton = document.querySelector("#lockTeamDevelopmentAccess");
+const teamDevelopmentPortrait = document.querySelector("#teamDevelopmentPortrait");
+const teamDevelopmentPortraitEmployeeSelect = document.querySelector("#teamDevelopmentPortraitEmployeeSelect");
 const exportTeamDevelopmentResultsButton = document.querySelector("#exportTeamDevelopmentResults");
 const clearTeamDevelopmentResultsButton = document.querySelector("#clearTeamDevelopmentResults");
 const messengerThreadList = document.querySelector("#messengerThreadList");
@@ -9367,11 +9687,17 @@ const teamTaskFilters = TEAM_TASK_DIRECTIONS.reduce((acc, direction) => {
 }, {});
 
 let activeTeamTaskView = "tasks";
+let expandedTeamTaskDirections = new Set();
+let expandedTeamTaskKanbanStatuses = new Set();
+let activeTeamMemberTaskFilter = "";
 let activeEmployeeId = "";
 let pendingEmployeePhoto = "";
 let activeTeamDevelopmentTest = "herzberg";
 let pendingTeamDevelopmentResult = null;
 let activeTeamDevelopmentSavedResultId = "";
+let activeTeamDevelopmentPortraitEmployee = "";
+let teamDevelopmentSensitiveUnlocked = false;
+let teamDevelopmentSensitiveUnlockedBy = "";
 let activeMessengerConversationId = MESSENGER_GENERAL_CONVERSATION_ID;
 
 function getSavedLanguage() {
@@ -11834,6 +12160,9 @@ async function initializeAuth() {
 
 function logoutCurrentUser() {
   clearAuthSession();
+  teamDevelopmentSensitiveUnlocked = false;
+  teamDevelopmentSensitiveUnlockedBy = "";
+  activeTeamDevelopmentSavedResultId = "";
   currentUser = null;
   loginForm?.reset();
 
@@ -13972,6 +14301,532 @@ function renderTeamDevelopmentResultBody(result, eyebrow = "Финальный �
   `;
 }
 
+function isTeamDevelopmentSensitiveUnlocked() {
+  return Boolean(currentUser && teamDevelopmentSensitiveUnlocked);
+}
+
+function setTeamDevelopmentAccessStatus(message, type = "") {
+  if (!teamDevelopmentAccessStatus) return;
+  teamDevelopmentAccessStatus.textContent = message;
+  teamDevelopmentAccessStatus.className = `sync-status${type ? ` is-${type}` : ""}`;
+}
+
+function renderTeamDevelopmentAccess(options = {}) {
+  const unlocked = isTeamDevelopmentSensitiveUnlocked();
+
+  if (teamDevelopmentSensitiveContent) {
+    teamDevelopmentSensitiveContent.hidden = !unlocked;
+  }
+
+  if (teamDevelopmentAccessLoginInput) {
+    teamDevelopmentAccessLoginInput.disabled = unlocked;
+  }
+
+  if (teamDevelopmentAccessPasswordInput) {
+    teamDevelopmentAccessPasswordInput.disabled = unlocked;
+  }
+
+  const submitButton = teamDevelopmentAccessForm?.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.disabled = unlocked;
+  }
+
+  if (lockTeamDevelopmentAccessButton) {
+    lockTeamDevelopmentAccessButton.hidden = !unlocked;
+  }
+
+  if (!options.preserveStatus) {
+    if (unlocked) {
+      setTeamDevelopmentAccessStatus(`Доступ открыт: ${teamDevelopmentSensitiveUnlockedBy || "разрешенный пользователь"}.`, "success");
+    } else {
+      setTeamDevelopmentAccessStatus("Данные скрыты до проверки логина 14524 или 14962.", "warning");
+    }
+  }
+}
+
+function lockTeamDevelopmentSensitiveAccess(options = {}) {
+  teamDevelopmentSensitiveUnlocked = false;
+  teamDevelopmentSensitiveUnlockedBy = "";
+  activeTeamDevelopmentSavedResultId = "";
+
+  if (teamDevelopmentAccessForm) teamDevelopmentAccessForm.reset();
+
+  renderTeamDevelopmentAccess();
+  renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentPortrait();
+  renderGlobalSearchResults();
+
+  if (options.focus) {
+    teamDevelopmentAccessLoginInput?.focus();
+  }
+}
+
+async function unlockTeamDevelopmentSensitiveAccess() {
+  if (!teamDevelopmentAccessForm?.reportValidity()) return;
+
+  const login = normalizeAuthLogin(teamDevelopmentAccessLoginInput?.value || "");
+  const password = teamDevelopmentAccessPasswordInput?.value || "";
+
+  setTeamDevelopmentAccessStatus("Проверяю доступ...");
+
+  try {
+    await bootstrapDefaultAdminUsers();
+    const user = await getAuthUserByLogin(login);
+
+    if (!user || !user.isActive) {
+      throw new Error("Неверный логин или пароль.");
+    }
+
+    const passwordMatches = await verifyAuthPassword(password, user.passwordSalt, user.passwordHash);
+    if (!passwordMatches) {
+      throw new Error("Неверный логин или пароль.");
+    }
+
+    if (!TEAM_DEVELOPMENT_SENSITIVE_ACCESS_LOGINS.has(user.login)) {
+      throw new Error("Доступ к портретам и сохраненным результатам разрешен только логинам 14524 и 14962.");
+    }
+
+    teamDevelopmentSensitiveUnlocked = true;
+    teamDevelopmentSensitiveUnlockedBy = user.displayName || user.login;
+    if (teamDevelopmentAccessPasswordInput) teamDevelopmentAccessPasswordInput.value = "";
+    renderTeamDevelopmentAccess();
+    renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentPortrait();
+    renderGlobalSearchResults();
+  } catch (error) {
+    teamDevelopmentSensitiveUnlocked = false;
+    teamDevelopmentSensitiveUnlockedBy = "";
+    setTeamDevelopmentAccessStatus(error.message || "Не удалось открыть доступ.", "error");
+    renderTeamDevelopmentAccess({ preserveStatus: true });
+    renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentPortrait();
+  }
+}
+
+function getTeamDevelopmentPortraitEmployeeNames() {
+  return [...new Set([
+    ...teamDevelopmentResults.map((item) => item.employeeName),
+    teamDevelopmentEmployeeInput?.value,
+    ...getTeamDevelopmentEmployeeOptions(),
+  ].map((name) => String(name || "").trim()).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, "ru"));
+}
+
+function getLatestTeamDevelopmentResultsByTest(employeeName) {
+  const employeeKey = normalizeNotificationIdentity(employeeName);
+  if (!employeeKey) return [];
+
+  const latestByTest = new Map();
+  [...teamDevelopmentResults]
+    .filter((item) => normalizeNotificationIdentity(item.employeeName) === employeeKey)
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")))
+    .forEach((item) => {
+      const testKey = item.testKey || item.testTitle || item.id;
+      if (!latestByTest.has(testKey)) latestByTest.set(testKey, item);
+    });
+
+  return [...latestByTest.values()]
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+}
+
+function ensureTeamDevelopmentPortraitEmployee() {
+  const names = getTeamDevelopmentPortraitEmployeeNames();
+  const savedNames = [...new Set(teamDevelopmentResults.map((item) => item.employeeName).filter(Boolean))];
+  const findName = (value) => names.find((name) => normalizeNotificationIdentity(name) === normalizeNotificationIdentity(value));
+  const hasSavedResults = (value) => teamDevelopmentResults
+    .some((item) => normalizeNotificationIdentity(item.employeeName) === normalizeNotificationIdentity(value));
+  const activeMatch = findName(activeTeamDevelopmentPortraitEmployee);
+
+  if (activeMatch) {
+    activeTeamDevelopmentPortraitEmployee = activeMatch;
+    return activeTeamDevelopmentPortraitEmployee;
+  }
+
+  activeTeamDevelopmentPortraitEmployee =
+    (hasSavedResults(getTeamDevelopmentEmployeeName()) ? findName(getTeamDevelopmentEmployeeName()) : "")
+    || savedNames[0]
+    || findName(getTeamDevelopmentEmployeeName())
+    || names[0]
+    || "";
+
+  return activeTeamDevelopmentPortraitEmployee;
+}
+
+function renderTeamDevelopmentPortraitEmployeeOptions() {
+  if (!teamDevelopmentPortraitEmployeeSelect) return;
+  if (!isTeamDevelopmentSensitiveUnlocked()) {
+    teamDevelopmentPortraitEmployeeSelect.innerHTML = "";
+    return;
+  }
+
+  const names = getTeamDevelopmentPortraitEmployeeNames();
+  const selectedName = ensureTeamDevelopmentPortraitEmployee();
+  teamDevelopmentPortraitEmployeeSelect.innerHTML = names.length > 0
+    ? names.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join("")
+    : '<option value="">Нет сотрудников</option>';
+
+  if (selectedName) {
+    teamDevelopmentPortraitEmployeeSelect.value = selectedName;
+  }
+}
+
+function getTeamDevelopmentPortraitScoreItems(results) {
+  return results.flatMap((item) => {
+    const hydrated = hydrateTeamDevelopmentResult(item);
+    return hydrated.scores.map((score) => ({
+      ...score,
+      testTitle: hydrated.testTitle,
+      primaryResult: hydrated.primaryResult,
+      createdAt: item.createdAt,
+    }));
+  }).filter((score) => score.label && Number.isFinite(score.percent));
+}
+
+function getUniqueDevelopmentPortraitItems(items, limit = 6) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = normalizeNotificationIdentity([item.label, item.testTitle].join(" "));
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, limit);
+}
+
+function renderDevelopmentPortraitList(items, emptyText) {
+  if (!items.length) return `<p>${escapeHtml(emptyText)}</p>`;
+
+  return `
+    <ul class="development-portrait-list">
+      ${items.map((item) => `
+        <li>
+          <strong>${escapeHtml(item.label)} · ${item.percent}%</strong>
+          ${item.testTitle ? ` (${escapeHtml(item.testTitle)})` : ""} — ${escapeHtml(item.description || item.advice || "Сигнал требует обсуждения с сотрудником.")}
+          ${item.advice ? `<br>${escapeHtml(item.advice)}` : ""}
+        </li>
+      `).join("")}
+    </ul>
+  `;
+}
+
+function getTeamDevelopmentTestKeys() {
+  return Object.keys(TEAM_DEVELOPMENT_TESTS);
+}
+
+function getMissingTeamDevelopmentTests(results) {
+  const completed = new Set(results.map((item) => item.testKey).filter(Boolean));
+  return getTeamDevelopmentTestKeys()
+    .filter((testKey) => !completed.has(testKey))
+    .map((testKey) => getTeamDevelopmentTest(testKey).title);
+}
+
+function createDevelopmentScoreLookup(results) {
+  const lookup = new Map();
+  results.forEach((item) => {
+    const hydrated = hydrateTeamDevelopmentResult(item);
+    hydrated.scores.forEach((score) => {
+      lookup.set(`${item.testKey}:${score.key}`, Number(score.percent) || 0);
+    });
+  });
+  return lookup;
+}
+
+function getDevelopmentScorePercent(scoreLookup, testKey, dimensionKey, fallback = 50) {
+  const value = scoreLookup.get(`${testKey}:${dimensionKey}`);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function invertDevelopmentSignal(value) {
+  return Math.max(0, Math.min(100, 100 - (Number(value) || 0)));
+}
+
+function averageDevelopmentSignals(values) {
+  const validValues = values.map(Number).filter(Number.isFinite);
+  if (!validValues.length) return 0;
+  return Math.round(validValues.reduce((sum, value) => sum + value, 0) / validValues.length);
+}
+
+function getPlutchikEmotionScores(results) {
+  const scoreLookup = createDevelopmentScoreLookup(results);
+  const score = (testKey, dimensionKey) => getDevelopmentScorePercent(scoreLookup, testKey, dimensionKey);
+  const inverse = (testKey, dimensionKey) => invertDevelopmentSignal(score(testKey, dimensionKey));
+
+  return [
+    {
+      key: "joy",
+      label: "Радость",
+      color: "#f5c451",
+      description: "Энергия, вовлеченность, признание и ощущение роста.",
+      percent: averageDevelopmentSignals([
+        score("herzberg", "motivator"),
+        score("energy", "recovery"),
+        score("feedback", "recognition"),
+        score("trust", "cooperation"),
+      ]),
+    },
+    {
+      key: "trust",
+      label: "Доверие",
+      color: "#5ee1a4",
+      description: "Надежность, психологическая безопасность и готовность опираться на команду.",
+      percent: averageDevelopmentSignals([
+        score("trust", "reliability"),
+        score("trust", "cooperation"),
+        score("psychSafety", "respect"),
+        score("psychSafety", "help"),
+        score("feedback", "privacy"),
+      ]),
+    },
+    {
+      key: "fear",
+      label: "Страх",
+      color: "#7fd96b",
+      description: "Риск осторожности из-за низкой безопасности, неясности или слабого контроля.",
+      percent: averageDevelopmentSignals([
+        inverse("psychSafety", "voice"),
+        inverse("psychSafety", "mistakes"),
+        inverse("trust", "clarity"),
+        inverse("energy", "control"),
+      ]),
+    },
+    {
+      key: "surprise",
+      label: "Удивление",
+      color: "#37c8ef",
+      description: "Открытость новому, любопытство, гибкость и реакция на изменения.",
+      percent: averageDevelopmentSignals([
+        score("learningAgility", "curiosity"),
+        score("learningAgility", "adaptability"),
+        score("learningAgility", "experimentation"),
+        score("belbin", "plant"),
+        score("belbin", "resource"),
+      ]),
+    },
+    {
+      key: "sadness",
+      label: "Грусть",
+      color: "#4d8fff",
+      description: "Сигнал возможного снижения энергии, признания или ясности.",
+      percent: averageDevelopmentSignals([
+        inverse("energy", "recovery"),
+        inverse("energy", "clarity"),
+        inverse("herzberg", "hygiene"),
+        inverse("feedback", "recognition"),
+      ]),
+    },
+    {
+      key: "disgust",
+      label: "Отвращение",
+      color: "#a678f0",
+      description: "Сигнал отторжения при низком уважении, коммуникации или справедливости взаимодействия.",
+      percent: averageDevelopmentSignals([
+        inverse("psychSafety", "respect"),
+        inverse("trust", "communication"),
+        inverse("trust", "reliability"),
+        inverse("trust", "cooperation"),
+      ]),
+    },
+    {
+      key: "anger",
+      label: "Гнев",
+      color: "#f05c5c",
+      description: "Напор, конкуренция и риск напряжения при перегрузе или низком уважении.",
+      percent: averageDevelopmentSignals([
+        score("tki", "competing"),
+        score("disc", "d"),
+        inverse("energy", "workload"),
+        inverse("psychSafety", "respect"),
+      ]),
+    },
+    {
+      key: "anticipation",
+      label: "Ожидание",
+      color: "#f29b38",
+      description: "Готовность планировать, действовать, пробовать и двигаться к следующему шагу.",
+      percent: averageDevelopmentSignals([
+        score("learningAgility", "curiosity"),
+        score("learningAgility", "experimentation"),
+        score("belbin", "implementer"),
+        score("belbin", "coordinator"),
+        score("herzberg", "motivator"),
+      ]),
+    },
+  ];
+}
+
+function getPlutchikSegmentPath(index, percent) {
+  const center = 120;
+  const minRadius = 34;
+  const maxRadius = 102;
+  const radius = minRadius + ((Math.max(0, Math.min(100, percent)) / 100) * (maxRadius - minRadius));
+  const startAngle = (index * 45) - 112.5;
+  const endAngle = startAngle + 45;
+  const point = (angle) => {
+    const radians = (angle * Math.PI) / 180;
+    return {
+      x: center + (Math.cos(radians) * radius),
+      y: center + (Math.sin(radians) * radius),
+    };
+  };
+  const start = point(startAngle);
+  const end = point(endAngle);
+
+  return `M ${center} ${center} L ${start.x.toFixed(2)} ${start.y.toFixed(2)} A ${radius.toFixed(2)} ${radius.toFixed(2)} 0 0 1 ${end.x.toFixed(2)} ${end.y.toFixed(2)} Z`;
+}
+
+function renderPlutchikEmotionWheel(results) {
+  const missingTests = getMissingTeamDevelopmentTests(results);
+
+  if (missingTests.length > 0) {
+    return `
+      <section class="development-emotion-card">
+        <div>
+          <p class="eyebrow">Колесо эмоций Плутчика</p>
+          <h4>Не хватает тестов</h4>
+          <p>Колесо появится после того, как у сотрудника будет сохранен финальный результат по каждому тесту. Это рабочая интерпретация по мотивам модели Плутчика, не психологическая диагностика.</p>
+        </div>
+        <div class="development-missing-tests">
+          ${missingTests.map((title) => `<span>${escapeHtml(title)}</span>`).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  const emotions = getPlutchikEmotionScores(results);
+  const topEmotions = [...emotions].sort((a, b) => b.percent - a.percent).slice(0, 2);
+
+  return `
+    <section class="development-emotion-card">
+      <div>
+        <p class="eyebrow">Колесо эмоций Плутчика</p>
+        <h4>Эмоциональный профиль</h4>
+        <p>Рабочая интерпретация: сильнее всего выражены ${escapeHtml(topEmotions.map((emotion) => `${emotion.label} ${emotion.percent}%`).join(" и "))}. Колесо собрано из сохраненных результатов всех тестов и помогает понять эмоциональный фон развития сотрудника.</p>
+      </div>
+      <div class="plutchik-wheel-layout">
+        <div class="plutchik-wheel" aria-hidden="true">
+          <svg viewBox="0 0 240 240" role="img">
+            <circle cx="120" cy="120" r="102" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+            <circle cx="120" cy="120" r="76" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+            <circle cx="120" cy="120" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+            ${emotions.map((emotion, index) => `<path d="${getPlutchikSegmentPath(index, 100)}" fill="${emotion.color}" opacity="0.12"></path>`).join("")}
+            ${emotions.map((emotion, index) => `<path d="${getPlutchikSegmentPath(index, emotion.percent)}" fill="${emotion.color}" opacity="0.86"></path>`).join("")}
+            <circle cx="120" cy="120" r="27" fill="rgba(5,18,42,0.92)" stroke="rgba(255,255,255,0.22)" />
+            <text x="120" y="116" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="800">Plutchik</text>
+            <text x="120" y="130" text-anchor="middle" fill="#f5c451" font-size="9" font-weight="800">wheel</text>
+          </svg>
+        </div>
+        <div class="plutchik-legend">
+          ${emotions.map((emotion) => `
+            <article class="plutchik-legend-item">
+              <div class="plutchik-legend-head">
+                <span class="plutchik-label">
+                  <span class="plutchik-color" style="background:${emotion.color}"></span>
+                  <strong>${escapeHtml(emotion.label)}</strong>
+                </span>
+                <strong>${emotion.percent}%</strong>
+              </div>
+              <div class="plutchik-track"><div style="width:${emotion.percent}%;background:${emotion.color}"></div></div>
+              <p>${escapeHtml(emotion.description)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function buildTeamDevelopmentPortraitSummary(employeeName, results, strengths, growthAreas, averagePercent) {
+  const coveragePrefix = results.length < Object.keys(TEAM_DEVELOPMENT_TESTS).length
+    ? "Портрет предварительный"
+    : "Портрет собран по полному набору сохраненных тестов";
+  const strengthText = strengths.slice(0, 3).map((item) => item.label).join(", ") || "сильные стороны еще не выделены";
+  const growthText = growthAreas.slice(0, 3).map((item) => item.label).join(", ") || "зоны роста выражены умеренно";
+  const profileText = results.slice(0, 5)
+    .map((item) => {
+      const hydrated = hydrateTeamDevelopmentResult(item);
+      return `${hydrated.testTitle}: ${hydrated.primaryResult}`;
+    })
+    .join("; ");
+
+  return `${coveragePrefix}: ${employeeName}. Средний сигнал по сохраненным шкалам — ${averagePercent}%. Основные опоры: ${strengthText}. Фокус развития: ${growthText}.${profileText ? ` Ключевые результаты: ${profileText}.` : ""}`;
+}
+
+function renderTeamDevelopmentPortrait() {
+  if (!teamDevelopmentPortrait) return;
+  if (!isTeamDevelopmentSensitiveUnlocked()) {
+    renderTeamDevelopmentPortraitEmployeeOptions();
+    teamDevelopmentPortrait.innerHTML = "";
+    return;
+  }
+
+  renderTeamDevelopmentPortraitEmployeeOptions();
+  const employeeName = ensureTeamDevelopmentPortraitEmployee();
+  const results = getLatestTeamDevelopmentResultsByTest(employeeName);
+
+  if (!employeeName || results.length === 0) {
+    teamDevelopmentPortrait.innerHTML = `
+      <div class="development-portrait-summary">
+        <p class="eyebrow">Портрет пока не готов</p>
+        <h4>${escapeHtml(employeeName || "Сотрудник не выбран")}</h4>
+        <p>Сохраните финальные ответы сотрудника после тестов. Когда появятся результаты, SystemHub соберет портрет с сильными сторонами, зонами роста и фокусом развития навыков.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const scoreItems = getTeamDevelopmentPortraitScoreItems(results);
+  const averagePercent = scoreItems.length
+    ? Math.round(scoreItems.reduce((sum, item) => sum + item.percent, 0) / scoreItems.length)
+    : 0;
+  const strengths = getUniqueDevelopmentPortraitItems(
+    scoreItems.filter((item) => item.percent >= 70).sort((a, b) => b.percent - a.percent),
+    6,
+  );
+  const fallbackStrengths = strengths.length ? strengths : getUniqueDevelopmentPortraitItems([...scoreItems].sort((a, b) => b.percent - a.percent), 4);
+  const growthAreas = getUniqueDevelopmentPortraitItems(
+    scoreItems.filter((item) => item.percent < 60).sort((a, b) => a.percent - b.percent),
+    6,
+  );
+  const fallbackGrowthAreas = growthAreas.length ? growthAreas : getUniqueDevelopmentPortraitItems([...scoreItems].sort((a, b) => a.percent - b.percent), 4);
+  const skillFocus = getUniqueDevelopmentPortraitItems(
+    [...growthAreas, ...fallbackGrowthAreas]
+      .filter((item) => item.advice || item.description)
+      .sort((a, b) => a.percent - b.percent),
+    6,
+  );
+  const lastUpdated = results.map((item) => item.createdAt).filter(Boolean).sort().pop();
+  const totalTests = Object.keys(TEAM_DEVELOPMENT_TESTS).length;
+
+  teamDevelopmentPortrait.innerHTML = `
+    <div class="development-portrait-summary">
+      <p class="eyebrow">Собранный профиль</p>
+      <h4>${escapeHtml(employeeName)}</h4>
+      <p>${escapeHtml(buildTeamDevelopmentPortraitSummary(employeeName, results, fallbackStrengths, fallbackGrowthAreas, averagePercent))}</p>
+      <div class="development-coverage">
+        <span>Покрытие тестами: ${formatQuantity(results.length)} / ${formatQuantity(totalTests)}</span>
+        <span>Средний сигнал: ${formatQuantity(averagePercent)}%</span>
+        <span>Последнее обновление: ${escapeHtml(formatAcknowledgementDate(lastUpdated))}</span>
+      </div>
+    </div>
+
+    <div class="development-portrait-grid">
+      <article class="development-portrait-card is-strength">
+        <p class="eyebrow">Сильные стороны</p>
+        ${renderDevelopmentPortraitList(fallbackStrengths, "Нужно больше сохраненных результатов, чтобы уверенно выделить сильные стороны.")}
+      </article>
+      <article class="development-portrait-card is-growth">
+        <p class="eyebrow">Зоны роста</p>
+        ${renderDevelopmentPortraitList(fallbackGrowthAreas, "Явных низких сигналов нет. Поддерживайте текущий уровень и уточните зоны роста через интервью.")}
+      </article>
+      <article class="development-portrait-card is-focus">
+        <p class="eyebrow">Фокус развития навыков</p>
+        ${renderDevelopmentPortraitList(skillFocus, "Для фокуса развития сохраните больше тестов или обсудите с сотрудником конкретные рабочие ситуации.")}
+      </article>
+    </div>
+
+    ${renderPlutchikEmotionWheel(results)}
+  `;
+}
+
 function renderTeamDevelopmentResult(result) {
   if (!teamDevelopmentResult) return;
 
@@ -14012,8 +14867,10 @@ function saveTeamDevelopmentFinalResult() {
 
   teamDevelopmentResults.unshift(record);
   activeTeamDevelopmentSavedResultId = record.id;
+  activeTeamDevelopmentPortraitEmployee = record.employeeName;
   saveTeamDevelopmentResults();
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentPortrait();
   renderGlobalSearchResults();
   pendingTeamDevelopmentResult = null;
 
@@ -14026,6 +14883,10 @@ function saveTeamDevelopmentFinalResult() {
 
 function renderTeamDevelopmentSavedResults() {
   if (!teamDevelopmentSavedResults) return;
+  if (!isTeamDevelopmentSensitiveUnlocked()) {
+    teamDevelopmentSavedResults.innerHTML = "";
+    return;
+  }
 
   teamDevelopmentSavedResults.innerHTML = teamDevelopmentResults.length > 0
     ? teamDevelopmentResults.slice(0, 30).map((item) => {
@@ -14070,7 +14931,9 @@ function renderTeamDevelopmentSavedResults() {
 
 function renderTeamDevelopment() {
   renderTeamDevelopmentDatalist();
+  renderTeamDevelopmentAccess();
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentPortrait();
 
   if (teamDevelopmentTestContent && !teamDevelopmentTestContent.innerHTML.trim()) {
     renderTeamDevelopmentTest();
@@ -14078,16 +14941,24 @@ function renderTeamDevelopment() {
 }
 
 function deleteTeamDevelopmentResult(id) {
+  if (!isTeamDevelopmentSensitiveUnlocked()) return;
+
   teamDevelopmentResults = teamDevelopmentResults.filter((item) => item.id !== id);
   if (activeTeamDevelopmentSavedResultId === id) {
     activeTeamDevelopmentSavedResultId = "";
   }
   saveTeamDevelopmentResults();
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentPortrait();
   renderGlobalSearchResults();
 }
 
 function exportTeamDevelopmentResultsCsv() {
+  if (!isTeamDevelopmentSensitiveUnlocked()) {
+    window.alert("Сначала откройте доступ логином 14524 или 14962.");
+    return;
+  }
+
   if (teamDevelopmentResults.length === 0) {
     window.alert("Сохраненных финальных ответов пока нет.");
     return;
@@ -14394,6 +15265,11 @@ function getCurrentMessengerMentionNotifications() {
     .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
 }
 
+function canDeleteMessengerMessage(message) {
+  if (!currentUser || !message) return false;
+  return currentUser.role === "admin" || message.authorKey === getCurrentUserNotificationKey();
+}
+
 function markMessengerMessageRead(messageId) {
   const userKey = getCurrentUserNotificationKey();
   if (!userKey || !messageId) return;
@@ -14411,6 +15287,39 @@ function markMessengerMessageRead(messageId) {
   saveMessengerState();
   renderMessenger();
   renderAssignmentBell();
+}
+
+async function deleteMessengerMessage(messageId) {
+  if (!messageId) return;
+
+  await loadSharedMessengerState({ silent: true });
+  const message = messengerState.messages.find((item) => item.id === messageId);
+  if (!message) {
+    renderMessenger();
+    renderAssignmentBell();
+    renderGlobalSearchResults();
+    return;
+  }
+
+  if (!canDeleteMessengerMessage(message)) {
+    window.alert("Удалить сообщение может только автор или администратор.");
+    return;
+  }
+
+  const confirmed = window.confirm("Удалить это сообщение?");
+  if (!confirmed) return;
+
+  const conversationId = message.conversationId;
+  const now = new Date().toISOString();
+  messengerState.messages = messengerState.messages.filter((item) => item.id !== messageId);
+  messengerState.conversations = messengerState.conversations.map((conversation) => (
+    conversation.id === conversationId ? { ...conversation, updatedAt: now } : conversation
+  ));
+
+  saveMessengerState();
+  renderMessenger();
+  renderAssignmentBell();
+  renderGlobalSearchResults();
 }
 
 function updateMessengerSyncStatus(message = "", type = "") {
@@ -14504,11 +15413,24 @@ function renderMessengerMessages() {
     ? messages.map((message) => {
       const isOwn = message.authorKey === getCurrentUserNotificationKey();
       const isMentioned = isMessengerMessageMentioningCurrentUser(message) && !isMessengerMessageReadByCurrentUser(message);
+      const canDelete = canDeleteMessengerMessage(message);
       return `
         <article class="messenger-message ${isOwn ? "is-own" : ""} ${isMentioned ? "is-mentioned" : ""}">
           <div class="messenger-message-head">
             <strong class="messenger-message-author">${escapeHtml(message.authorName || "SystemHub")}</strong>
-            <span class="messenger-message-meta">${escapeHtml(formatAcknowledgementDate(message.createdAt))}</span>
+            <div class="messenger-message-actions">
+              <span class="messenger-message-meta">${escapeHtml(formatAcknowledgementDate(message.createdAt))}</span>
+              ${canDelete ? `
+                <button class="icon-button delete-button" type="button" data-messenger-delete="${escapeHtml(message.id)}" aria-label="Удалить сообщение" title="Удалить сообщение">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 6h18"></path>
+                    <path d="M8 6V4h8v2"></path>
+                    <path d="M19 6l-1 14H6L5 6"></path>
+                    <path d="M10 11v5M14 11v5"></path>
+                  </svg>
+                </button>
+              ` : ""}
+            </div>
           </div>
           ${message.text ? `<div class="messenger-message-text">${escapeHtml(message.text)}</div>` : ""}
           ${renderMessengerAttachments(message.attachments)}
@@ -14890,8 +15812,29 @@ function ensureTeamTaskMembers(names) {
 
 function renderTeamMembers() {
   teamMemberList.innerHTML = teamTaskMembers
-    .map((member) => `<span class="team-member-chip">${escapeHtml(member)}</span>`)
+    .map((member) => {
+      const isActive = normalizeNotificationIdentity(activeTeamMemberTaskFilter) === normalizeNotificationIdentity(member);
+      return `
+        <button class="team-member-chip ${isActive ? "is-active" : ""}" type="button" data-team-member-task-filter="${escapeHtml(member)}" aria-pressed="${isActive ? "true" : "false"}" title="Показать задачи участника">
+          ${escapeHtml(member)}
+        </button>
+      `;
+    })
     .join("");
+}
+
+function setTeamMemberTaskFilter(member) {
+  const normalizedMember = normalizeNotificationIdentity(member);
+  const shouldClear = normalizedMember && normalizeNotificationIdentity(activeTeamMemberTaskFilter) === normalizedMember;
+  activeTeamMemberTaskFilter = shouldClear ? "" : String(member || "").trim();
+
+  TEAM_TASK_DIRECTIONS.forEach((direction) => {
+    teamTaskFilters[direction.key].assignee = activeTeamMemberTaskFilter;
+  });
+
+  expandedTeamTaskDirections = new Set();
+  renderTeamMembers();
+  renderTeamTasks();
 }
 
 function getSelectedTeamTaskAssignees() {
@@ -14996,7 +15939,6 @@ function renderTeamTaskCard(task) {
   const notes = getTeamTaskVisibleNotes(task);
   const checklist = getTeamTaskChecklist(task);
   const attachments = getTeamTaskAttachments(task);
-  const comments = getTeamTaskComments(task);
   const doneChecklistItems = checklist.filter((item) => item.done).length;
   const canAcknowledge = currentUser && isTaskAssignedToCurrentUser(task) && !hasTaskAcknowledgementByCurrentUser(task);
 
@@ -15048,19 +15990,6 @@ function renderTeamTaskCard(task) {
         </div>
       ` : ""}
       ${renderTeamTaskAcknowledgements(task)}
-      ${comments.length > 0 ? `
-        <div class="team-task-activity">
-          <h4>История</h4>
-          <div class="team-task-activity-list">
-            ${comments.slice(0, 3).map((item) => `
-              <div class="team-activity-item">
-                <strong>${escapeHtml(item.userName || "SystemHub")}</strong>
-                <span>${escapeHtml(formatAcknowledgementDate(item.at))} · ${escapeHtml(item.text)}</span>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      ` : ""}
 
       <div class="team-task-actions">
         ${canAcknowledge ? `<button class="primary-button" type="button" data-team-task-action="acknowledge" data-id="${escapeHtml(task.id)}">Ознакомлен</button>` : ""}
@@ -15084,6 +16013,23 @@ function renderTeamTaskCard(task) {
   `;
 }
 
+function getLimitedTeamTaskList(tasks, expanded) {
+  return expanded ? tasks : tasks.slice(0, TEAM_TASK_VISIBLE_LIMIT);
+}
+
+function renderTeamTaskViewAllButton({ expanded, total, listType, listKey }) {
+  if (total <= TEAM_TASK_VISIBLE_LIMIT) return "";
+
+  const hiddenCount = total - TEAM_TASK_VISIBLE_LIMIT;
+  const label = expanded ? "Свернуть до 7" : `View all (${hiddenCount})`;
+
+  return `
+    <button class="ghost-button team-task-view-all" type="button" data-team-task-action="toggle-task-list" data-list-type="${escapeHtml(listType)}" data-list-key="${escapeHtml(listKey)}">
+      ${escapeHtml(label)}
+    </button>
+  `;
+}
+
 function renderTeamTasks() {
   renderTeamTaskOptions();
   const assignees = getTeamTaskAssignees();
@@ -15091,6 +16037,8 @@ function renderTeamTasks() {
   teamTaskBoard.innerHTML = TEAM_TASK_DIRECTIONS.map((direction) => {
     const directionTasks = teamTasks.filter((task) => task.direction === direction.key);
     const visibleTasks = getFilteredTeamTasks(direction.key);
+    const isExpanded = expandedTeamTaskDirections.has(direction.key);
+    const renderedTasks = getLimitedTeamTaskList(visibleTasks, isExpanded);
     const filters = teamTaskFilters[direction.key];
 
     return `
@@ -15136,9 +16084,15 @@ function renderTeamTasks() {
         <div class="team-task-list">
           ${
             visibleTasks.length > 0
-              ? visibleTasks.map(renderTeamTaskCard).join("")
+              ? renderedTasks.map(renderTeamTaskCard).join("")
               : '<div class="team-task-empty">Нет задач по выбранным фильтрам.</div>'
           }
+          ${renderTeamTaskViewAllButton({
+            expanded: isExpanded,
+            total: visibleTasks.length,
+            listType: "direction",
+            listKey: direction.key,
+          })}
         </div>
       </section>
     `;
@@ -15346,6 +16300,8 @@ function renderTeamTaskKanban() {
 
   teamTaskKanbanBoard.innerHTML = TEAM_TASK_STATUSES.map((status) => {
     const tasks = sortTeamTasksByDeadline(teamTasks.filter((task) => task.status === status.key));
+    const isExpanded = expandedTeamTaskKanbanStatuses.has(status.key);
+    const renderedTasks = getLimitedTeamTaskList(tasks, isExpanded);
 
     return `
       <section class="kanban-column" data-kanban-status="${escapeHtml(status.key)}">
@@ -15354,7 +16310,7 @@ function renderTeamTaskKanban() {
           <span class="task-status-chip ${status.className}">${formatQuantity(tasks.length)}</span>
         </div>
         ${tasks.length > 0
-          ? tasks.map((task) => {
+          ? renderedTasks.map((task) => {
             const priority = getTeamTaskPriorityMeta(task.priority);
             return `
               <article class="kanban-card" draggable="true" data-id="${escapeHtml(task.id)}">
@@ -15365,6 +16321,12 @@ function renderTeamTaskKanban() {
             `;
           }).join("")
           : '<div class="team-task-empty">Нет задач</div>'}
+        ${renderTeamTaskViewAllButton({
+          expanded: isExpanded,
+          total: tasks.length,
+          listType: "kanban",
+          listKey: status.key,
+        })}
       </section>
     `;
   }).join("");
@@ -15432,15 +16394,17 @@ function buildGlobalSearchItems() {
     );
   });
   trmsReleaseTasks.forEach((task) => pushItem("TRMS релиз", task.taskName || task.title || task.releaseName, task.releaseName || "", "#trms-releases", task.link || ""));
-  teamDevelopmentResults.forEach((result) => {
-    pushItem(
-      "Развитие команды",
-      result.employeeName,
-      `${result.testTitle} · ${result.primaryResult}`,
-      "#team-development",
-      [result.summary, ...(result.recommendations || [])].join(" "),
-    );
-  });
+  if (isTeamDevelopmentSensitiveUnlocked()) {
+    teamDevelopmentResults.forEach((result) => {
+      pushItem(
+        "Развитие команды",
+        result.employeeName,
+        `${result.testTitle} · ${result.primaryResult}`,
+        "#team-development",
+        [result.summary, ...(result.recommendations || [])].join(" "),
+      );
+    });
+  }
 
   return items;
 }
@@ -15820,7 +16784,24 @@ function toggleTeamTaskChecklistItem(taskId, checklistId) {
 }
 
 function handleTeamTaskAction(button) {
-  const { teamTaskAction, id, direction, status, employeeId, checklistId } = button.dataset;
+  const { teamTaskAction, id, direction, status, employeeId, checklistId, listType, listKey } = button.dataset;
+
+  if (teamTaskAction === "toggle-task-list") {
+    const targetSet = listType === "kanban" ? expandedTeamTaskKanbanStatuses : expandedTeamTaskDirections;
+
+    if (targetSet.has(listKey)) {
+      targetSet.delete(listKey);
+    } else {
+      targetSet.add(listKey);
+    }
+
+    if (listType === "kanban") {
+      renderTeamTaskKanban();
+    } else {
+      renderTeamTasks();
+    }
+    return;
+  }
 
   if (teamTaskAction === "create") {
     openTeamTaskModal(direction);
@@ -17566,6 +18547,15 @@ teamMemberForm.addEventListener("submit", (event) => {
   }
 });
 
+if (teamMemberList) {
+  teamMemberList.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-team-member-task-filter]");
+    if (!button) return;
+
+    setTeamMemberTaskFilter(button.dataset.teamMemberTaskFilter);
+  });
+}
+
 teamTaskTabs.addEventListener("click", (event) => {
   const button = event.target.closest("[data-team-task-view]");
   if (!button) return;
@@ -17584,6 +18574,11 @@ teamTaskBoard.addEventListener("change", (event) => {
 
   const { direction, teamTaskFilter } = select.dataset;
   teamTaskFilters[direction][teamTaskFilter] = select.value;
+  if (teamTaskFilter === "assignee") {
+    activeTeamMemberTaskFilter = "";
+    renderTeamMembers();
+  }
+  expandedTeamTaskDirections.delete(direction);
   renderTeamTasks();
 });
 
@@ -17615,6 +18610,12 @@ if (myTasksDeadlineFilter) {
 
 if (teamTaskKanbanBoard) {
   teamTaskKanbanBoard.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-team-task-action]");
+    if (button) {
+      handleTeamTaskAction(button);
+      return;
+    }
+
     const card = event.target.closest(".kanban-card");
     if (!card) return;
     const task = teamTasks.find((item) => item.id === card.dataset.id);
@@ -17777,9 +18778,19 @@ if (clearMessengerFormButton) {
 }
 
 if (messengerMessageList) {
-  messengerMessageList.addEventListener("click", (event) => {
+  messengerMessageList.addEventListener("click", async (event) => {
     const readButton = event.target.closest("[data-messenger-read]");
     const voteButton = event.target.closest("[data-messenger-poll-vote]");
+    const deleteButton = event.target.closest("[data-messenger-delete]");
+
+    if (deleteButton) {
+      try {
+        await deleteMessengerMessage(deleteButton.dataset.messengerDelete);
+      } catch (error) {
+        window.alert(error?.message || "Не удалось удалить сообщение.");
+      }
+      return;
+    }
 
     if (readButton) {
       markMessengerMessageRead(readButton.dataset.messengerRead);
@@ -17946,8 +18957,37 @@ if (teamDevelopmentResult) {
   });
 }
 
+if (teamDevelopmentAccessForm) {
+  teamDevelopmentAccessForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    unlockTeamDevelopmentSensitiveAccess();
+  });
+}
+
+if (lockTeamDevelopmentAccessButton) {
+  lockTeamDevelopmentAccessButton.addEventListener("click", () => {
+    lockTeamDevelopmentSensitiveAccess({ focus: true });
+  });
+}
+
+if (teamDevelopmentEmployeeInput) {
+  teamDevelopmentEmployeeInput.addEventListener("change", () => {
+    activeTeamDevelopmentPortraitEmployee = getTeamDevelopmentEmployeeName();
+    renderTeamDevelopmentPortrait();
+  });
+}
+
+if (teamDevelopmentPortraitEmployeeSelect) {
+  teamDevelopmentPortraitEmployeeSelect.addEventListener("change", () => {
+    activeTeamDevelopmentPortraitEmployee = teamDevelopmentPortraitEmployeeSelect.value;
+    renderTeamDevelopmentPortrait();
+  });
+}
+
 if (teamDevelopmentSavedResults) {
   teamDevelopmentSavedResults.addEventListener("click", (event) => {
+    if (!isTeamDevelopmentSensitiveUnlocked()) return;
+
     const deleteButton = event.target.closest("[data-development-result-delete]");
     if (deleteButton) {
       deleteTeamDevelopmentResult(deleteButton.dataset.developmentResultDelete);
@@ -17958,8 +18998,11 @@ if (teamDevelopmentSavedResults) {
     if (!viewButton) return;
 
     const resultId = viewButton.dataset.developmentResultView;
+    const result = teamDevelopmentResults.find((item) => item.id === resultId);
+    if (result?.employeeName) activeTeamDevelopmentPortraitEmployee = result.employeeName;
     activeTeamDevelopmentSavedResultId = activeTeamDevelopmentSavedResultId === resultId ? "" : resultId;
     renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentPortrait();
   });
 }
 
@@ -17969,6 +19012,11 @@ if (exportTeamDevelopmentResultsButton) {
 
 if (clearTeamDevelopmentResultsButton) {
   clearTeamDevelopmentResultsButton.addEventListener("click", () => {
+    if (!isTeamDevelopmentSensitiveUnlocked()) {
+      window.alert("Сначала откройте доступ логином 14524 или 14962.");
+      return;
+    }
+
     if (teamDevelopmentResults.length === 0) return;
 
     const confirmed = window.confirm("Очистить все сохраненные финальные ответы сотрудников?");
@@ -17976,8 +19024,10 @@ if (clearTeamDevelopmentResultsButton) {
 
     teamDevelopmentResults = [];
     activeTeamDevelopmentSavedResultId = "";
+    activeTeamDevelopmentPortraitEmployee = getTeamDevelopmentEmployeeName();
     saveTeamDevelopmentResults();
     renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentPortrait();
     renderGlobalSearchResults();
   });
 }
