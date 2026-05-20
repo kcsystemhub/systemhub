@@ -1480,15 +1480,16 @@
                 <button type="button" data-development-test="learningAgility">Learning agility</button>
                 <button type="button" data-development-test="energy">Энергия</button>
                 <button type="button" data-development-test="feedback">Обратная связь</button>
+                <button type="button" data-development-test="gallupQ12">Gallup Q12</button>
               </div>
             </div>
 
             <div class="development-note">
               <strong>Важно:</strong>
-              <span>SystemHub сохраняет только финальный результат сотрудника: профиль, баллы и рекомендации. Конкретные выбранные ответы не сохраняются.</span>
+              <span>SystemHub сохраняет только обезличенный финальный результат: профиль, баллы и рекомендации. Конкретные выбранные ответы, имя сотрудника и автор сохранения не сохраняются в отчетах.</span>
             </div>
 
-            <div class="development-respondent">
+            <div class="development-respondent" hidden>
               <label class="field">
                 <span>Сотрудник</span>
                 <input id="teamDevelopmentEmployeeInput" type="text" list="teamDevelopmentEmployeeDatalist" placeholder="Выберите или введите имя" />
@@ -1501,14 +1502,23 @@
 
             <div class="development-test-content" id="teamDevelopmentTestContent"></div>
             <section class="development-result" id="teamDevelopmentResult" aria-live="polite" hidden></section>
+            <section class="team-chart-card" id="teamDevelopmentMyResultsCard">
+              <div class="team-chart-head">
+                <div>
+                  <p class="eyebrow">Мои результаты</p>
+                  <h3>Мои финальные ответы</h3>
+                </div>
+              </div>
+              <div class="development-saved-list" id="teamDevelopmentMyResults"></div>
+            </section>
           </section>
 
           <section class="development-sensitive-access team-chart-card" id="teamDevelopmentSensitiveAccess">
             <form class="development-access-form" id="teamDevelopmentAccessForm" autocomplete="off">
               <div>
                 <p class="eyebrow">Закрытый доступ</p>
-                <h3>Портреты и сохраненные результаты</h3>
-                <p>Введите логин и пароль 14524 или 14962, чтобы открыть собранные профили и финальные ответы сотрудников.</p>
+                <h3>Обезличенные результаты команды</h3>
+                <p>Введите логин и пароль 14524 или 14962, чтобы открыть командную аналитику и финальные ответы без имен сотрудников.</p>
               </div>
               <label class="field">
                 <span>Логин</span>
@@ -1532,8 +1542,8 @@
             <article class="team-chart-card">
               <div class="team-chart-head">
                 <div>
-                  <p class="eyebrow">Собранный профиль</p>
-                  <h3>Портрет сотрудника</h3>
+                  <p class="eyebrow">Командный профиль</p>
+                  <h3>Обезличенный портрет команды</h3>
                 </div>
                 <div class="development-result-actions">
                   <select id="teamDevelopmentPortraitEmployeeSelect" aria-label="Выберите сотрудника для портрета"></select>
@@ -1545,8 +1555,18 @@
             <article class="team-chart-card">
               <div class="team-chart-head">
                 <div>
+                  <p class="eyebrow">Командная аналитика</p>
+                  <h3>Средние результаты по тестам</h3>
+                </div>
+              </div>
+              <div class="development-portrait" id="teamDevelopmentGallupSummary"></div>
+            </article>
+
+            <article class="team-chart-card">
+              <div class="team-chart-head">
+                <div>
                   <p class="eyebrow">Сохраненные результаты</p>
-                  <h3>Финальные ответы сотрудников</h3>
+                  <h3>Обезличенные финальные ответы</h3>
                 </div>
                 <div class="development-result-actions">
                   <button class="ghost-button" id="exportTeamDevelopmentResults" type="button">CSV</button>

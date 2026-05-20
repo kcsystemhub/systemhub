@@ -44,6 +44,7 @@ const AUTH_USERS_TABLE = "app_users";
 const APP_SETTINGS_TABLE = "app_settings";
 const TELEGRAM_SETTINGS_KEY = "telegramBot";
 const MESSENGER_SETTINGS_KEY = "messenger";
+const TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY = "teamDevelopmentResults";
 const MESSENGER_GENERAL_CONVERSATION_ID = "group:team";
 const AUTH_PASSWORD_DERIVE_ITERATIONS = 150000;
 const PDP_DEFAULT_REPORT_FILE = "Отчет по PDP (6).xlsx";
@@ -52,6 +53,7 @@ const DEFAULT_ADMIN_USERS = [
   { login: "14524", password: "AirAstana2026!", role: "admin", displayName: "Admin 14524" },
 ];
 const TEAM_DEVELOPMENT_SENSITIVE_ACCESS_LOGINS = new Set(["14524", "14962"]);
+const TEAM_DEVELOPMENT_ANONYMOUS_TEST_KEYS = new Set(["all"]);
 
 const INTERFACE_TEXT = {
   themeLight: { ru: "Светлая тема", en: "Light theme" },
@@ -206,6 +208,16 @@ const INTERFACE_TRANSLATION_PAIRS = [
   ["Прогресс заполнения", "Completion progress"],
   ["Сотрудник", "Employee"],
   ["Сохраненные результаты", "Saved results"],
+  ["Обезличенные результаты команды", "Anonymized team results"],
+  ["Командный профиль", "Team profile"],
+  ["Обезличенный портрет команды", "Anonymized team portrait"],
+  ["Командная аналитика", "Team analytics"],
+  ["Средние результаты по тестам", "Average test results"],
+  ["Обезличенные финальные ответы", "Anonymized final answers"],
+  ["Мои результаты", "My results"],
+  ["Мои финальные ответы", "My final answers"],
+  ["Открыть мой полный ответ", "Open my full answer"],
+  ["Мой сохраненный финальный ответ", "My saved final answer"],
   ["Финальные ответы сотрудников", "Employee final answers"],
   ["Закрытый доступ", "Restricted access"],
   ["Портреты и сохраненные результаты", "Portraits and saved results"],
@@ -612,6 +624,52 @@ Object.assign(TEAM_DEVELOPMENT_TESTS, {
       { dimension: "privacy", text: "Мне важно заранее понимать формат и цель обратной связи." },
     ],
   },
+  gallupQ12: {
+    title: "Gallup Q12: пульс вовлеченности",
+    subtitle: "12 вопросов о ясности ожиданий, ресурсах, признании, заботе, голосе, качестве команды и развитии.",
+    disclaimer: "Внутренний опрос по мотивам Gallup Q12. Он помогает увидеть рабочие условия вовлеченности и не является официальным отчетом Gallup.",
+    dimensions: {
+      basics: {
+        label: "Базовая ясность и ресурсы",
+        description: "Понимание ожиданий и наличие инструментов, материалов и условий для работы.",
+        advice: "Уточните ожидания, критерии качества, доступы, материалы и блокеры, которые мешают выполнять задачи.",
+      },
+      strengths: {
+        label: "Сильные стороны и признание",
+        description: "Возможность использовать сильные стороны и получать признание за вклад.",
+        advice: "Сопоставьте задачи с сильными сторонами сотрудников и добавьте регулярное конкретное признание.",
+      },
+      careVoice: {
+        label: "Забота, поддержка и голос",
+        description: "Ощущение заботы, поддержки развития и учета мнения сотрудника.",
+        advice: "Проводите короткие one-to-one, спрашивайте мнение до решений и фиксируйте шаги развития.",
+      },
+      missionQuality: {
+        label: "Миссия и качество команды",
+        description: "Связь работы с миссией и ожидание качественного выполнения обязанностей коллегами.",
+        advice: "Показывайте вклад задач в цели отдела и договаривайтесь о командных стандартах качества.",
+      },
+      belongingGrowth: {
+        label: "Принадлежность и рост",
+        description: "Социальная связь, обсуждение прогресса и возможность учиться на работе.",
+        advice: "Создавайте безопасные командные ритуалы, обсуждайте прогресс и планируйте обучение.",
+      },
+    },
+    questions: [
+      { dimension: "basics", text: "Вы знаете ожидания руководителя от вас?" },
+      { dimension: "basics", text: "Для корректного выполнения обязанностей у вас имеются все нужные ресурсы и материалы?" },
+      { dimension: "strengths", text: "Существует ли возможность ежедневно делать то, что вы умеете лучше всего?" },
+      { dimension: "strengths", text: "За последние 7 дней вас хвалили или признавали вклад в успешно выполненной работе?" },
+      { dimension: "careVoice", text: "Ваш работодатель или начальники проявляют заботу о вас как о личности?" },
+      { dimension: "careVoice", text: "Коллеги или начальство помогает вашему развитию?" },
+      { dimension: "careVoice", text: "Ваше мнение учитывается?" },
+      { dimension: "missionQuality", text: "Вы чувствуете, что ваша деятельность важна с учетом задач и миссии организации?" },
+      { dimension: "missionQuality", text: "Ваши коллеги придерживаются мнения, что правильно хорошо выполнять свои обязанности?" },
+      { dimension: "belongingGrowth", text: "С кем-то на работе вы являетесь лучшими друзьями?" },
+      { dimension: "belongingGrowth", text: "В последние 6 месяцев кто-нибудь на работе обсуждал ваши успехи?" },
+      { dimension: "belongingGrowth", text: "За последние 12 месяцев вы могли учиться и развиваться на работе?" },
+    ],
+  },
 });
 
 const authShell = document.querySelector("#authShell");
@@ -778,6 +836,7 @@ const teamDevelopmentEmployeeInput = document.querySelector("#teamDevelopmentEmp
 const teamDevelopmentEmployeeDatalist = document.querySelector("#teamDevelopmentEmployeeDatalist");
 const teamDevelopmentTestContent = document.querySelector("#teamDevelopmentTestContent");
 const teamDevelopmentResult = document.querySelector("#teamDevelopmentResult");
+const teamDevelopmentMyResults = document.querySelector("#teamDevelopmentMyResults");
 const teamDevelopmentSavedResults = document.querySelector("#teamDevelopmentSavedResults");
 const teamDevelopmentAccessForm = document.querySelector("#teamDevelopmentAccessForm");
 const teamDevelopmentAccessLoginInput = document.querySelector("#teamDevelopmentAccessLoginInput");
@@ -787,6 +846,7 @@ const teamDevelopmentSensitiveContent = document.querySelector("#teamDevelopment
 const lockTeamDevelopmentAccessButton = document.querySelector("#lockTeamDevelopmentAccess");
 const teamDevelopmentPortrait = document.querySelector("#teamDevelopmentPortrait");
 const teamDevelopmentPortraitEmployeeSelect = document.querySelector("#teamDevelopmentPortraitEmployeeSelect");
+const teamDevelopmentGallupSummary = document.querySelector("#teamDevelopmentGallupSummary");
 const exportTeamDevelopmentResultsButton = document.querySelector("#exportTeamDevelopmentResults");
 const clearTeamDevelopmentResultsButton = document.querySelector("#clearTeamDevelopmentResults");
 const messengerThreadList = document.querySelector("#messengerThreadList");
@@ -1015,6 +1075,10 @@ let telegramSharedSettingsRequest = null;
 let messengerSharedSettingsLoaded = false;
 let messengerSharedSettingsRequest = null;
 let messengerSaveTimer = null;
+let teamDevelopmentSharedResultsLoaded = false;
+let teamDevelopmentSharedResultsRequest = null;
+let teamDevelopmentSaveTimer = null;
+let teamDevelopmentSharedReplaceQueued = false;
 let googleAutoSyncTimer = null;
 let googleAutoSyncQueued = false;
 let googleAutoSyncInFlight = false;
@@ -2014,29 +2078,36 @@ function saveElearningTeamProfiles() {
 
 function normalizeTeamDevelopmentResults(values) {
   return (Array.isArray(values) ? values : [])
-    .map((item) => ({
-      id: item?.id || createId(),
-      employeeName: String(item?.employeeName || "").trim(),
-      testKey: String(item?.testKey || "").trim(),
-      testTitle: String(item?.testTitle || "").trim(),
-      primaryResult: String(item?.primaryResult || "").trim(),
-      summary: String(item?.summary || "").trim(),
-      scores: Array.isArray(item?.scores)
-        ? item.scores.map((score) => ({
-          key: String(score?.key || "").trim(),
-          label: String(score?.label || "").trim(),
-          description: String(score?.description || "").trim(),
-          advice: String(score?.advice || "").trim(),
-          score: Number(score?.score) || 0,
-          max: Number(score?.max) || 0,
-          percent: Number(score?.percent) || 0,
-        })).filter((score) => score.key || score.label)
-        : [],
-      selectedFactors: Array.isArray(item?.selectedFactors) ? item.selectedFactors.map(String).filter(Boolean) : [],
-      recommendations: Array.isArray(item?.recommendations) ? item.recommendations.map(String).filter(Boolean) : [],
-      createdBy: String(item?.createdBy || "").trim(),
-      createdAt: item?.createdAt || new Date().toISOString(),
-    }))
+    .map((item) => {
+      const testKey = String(item?.testKey || "").trim();
+      const isAnonymous = Boolean(item?.isAnonymous) || isAnonymousTeamDevelopmentTest(testKey);
+      return {
+        id: item?.id || createId(),
+        employeeName: isAnonymous ? "Анонимный участник" : String(item?.employeeName || "").trim(),
+        testKey,
+        testTitle: String(item?.testTitle || "").trim(),
+        primaryResult: String(item?.primaryResult || "").trim(),
+        summary: String(item?.summary || "").trim(),
+        scores: Array.isArray(item?.scores)
+          ? item.scores.map((score) => ({
+            key: String(score?.key || "").trim(),
+            label: String(score?.label || "").trim(),
+            description: String(score?.description || "").trim(),
+            advice: String(score?.advice || "").trim(),
+            score: Number(score?.score) || 0,
+            max: Number(score?.max) || 0,
+            percent: Number(score?.percent) || 0,
+          })).filter((score) => score.key || score.label)
+          : [],
+        selectedFactors: Array.isArray(item?.selectedFactors) ? item.selectedFactors.map(String).filter(Boolean) : [],
+        recommendations: Array.isArray(item?.recommendations) ? item.recommendations.map(String).filter(Boolean) : [],
+        createdBy: isAnonymous ? "" : String(item?.createdBy || "").trim(),
+        createdAt: item?.createdAt || new Date().toISOString(),
+        ownerKey: String(item?.ownerKey || getTeamDevelopmentOwnerKey(item?.ownerLogin || "")).trim(),
+        isAnonymous,
+        anonymousGroup: isAnonymous ? String(item?.anonymousGroup || testKey).trim() : "",
+      };
+    })
     .filter((item) => item.employeeName && item.testKey && item.primaryResult);
 }
 
@@ -2048,9 +2119,12 @@ function loadTeamDevelopmentResults() {
   }
 }
 
-function saveTeamDevelopmentResults() {
+function saveTeamDevelopmentResults(options = {}) {
   teamDevelopmentResults = normalizeTeamDevelopmentResults(teamDevelopmentResults);
   setStorageValue(TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY, JSON.stringify(teamDevelopmentResults));
+  if (!options.skipShared && (options.replaceShared || getAnonymousTeamDevelopmentResults().length > 0)) {
+    scheduleTeamDevelopmentSharedSave({ replaceAll: Boolean(options.replaceShared) });
+  }
 }
 
 function normalizeMessengerConversation(value) {
@@ -2516,6 +2590,172 @@ function scheduleMessengerSharedSave() {
 async function initializeMessenger() {
   await loadSharedMessengerState({ silent: true });
   renderMessenger();
+}
+
+function getTeamDevelopmentSharedError(error) {
+  const message = error?.message || String(error || "");
+  if (/app_settings|schema cache|does not exist|relation/i.test(message)) {
+    return "Развитие команды работает локально: таблица app_settings не видна Supabase API.";
+  }
+  return message || "Не удалось синхронизировать обезличенные результаты развития команды.";
+}
+
+function getSharedTeamDevelopmentResultsSnapshot(results = getAnonymousTeamDevelopmentResults()) {
+  const sanitizedResults = normalizeTeamDevelopmentResults(results)
+    .filter((item) => isAnonymousTeamDevelopmentResult(item))
+    .map((item) => ({
+      ...item,
+      employeeName: "Анонимный участник",
+      createdBy: "",
+      isAnonymous: true,
+      anonymousGroup: item.testKey,
+    }));
+
+  return {
+    results: sanitizedResults,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function getSharedTeamDevelopmentResultsFromValue(value) {
+  const rawResults = Array.isArray(value) ? value : value?.results;
+  return normalizeTeamDevelopmentResults(rawResults || [])
+    .filter((item) => isAnonymousTeamDevelopmentResult(item));
+}
+
+function mergeTeamDevelopmentResultsById(...collections) {
+  const byId = new Map();
+
+  collections.flat().forEach((item) => {
+    const normalized = normalizeTeamDevelopmentResults([item])[0];
+    if (!normalized?.id) return;
+    byId.set(normalized.id, normalized);
+  });
+
+  return [...byId.values()]
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+}
+
+function applySharedTeamDevelopmentResults(sharedResults, options = {}) {
+  const personalResults = teamDevelopmentResults.filter((item) => !isAnonymousTeamDevelopmentResult(item));
+  const localAnonymousResults = getAnonymousTeamDevelopmentResults();
+  const anonymousResults = options.replaceLocal
+    ? mergeTeamDevelopmentResultsById(sharedResults)
+    : mergeTeamDevelopmentResultsById(sharedResults, localAnonymousResults);
+
+  teamDevelopmentResults = normalizeTeamDevelopmentResults([...anonymousResults, ...personalResults])
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+  setStorageValue(TEAM_DEVELOPMENT_RESULTS_STORAGE_KEY, JSON.stringify(teamDevelopmentResults));
+
+  renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentMyResults();
+  renderTeamDevelopmentPortrait();
+  renderGallupTeamSummary();
+  renderGlobalSearchResults();
+
+  return anonymousResults.length > sharedResults.length;
+}
+
+async function loadSharedTeamDevelopmentResults(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) return false;
+  if (teamDevelopmentSharedResultsRequest) return teamDevelopmentSharedResultsRequest;
+
+  teamDevelopmentSharedResultsRequest = (async () => {
+    try {
+      const client = getSupabaseClient();
+      const { data, error } = await client
+        .from(APP_SETTINGS_TABLE)
+        .select("value")
+        .eq("key", TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      const hasSharedValue = Boolean(data?.value);
+      const sharedResults = getSharedTeamDevelopmentResultsFromValue(data?.value);
+      if (hasSharedValue) {
+        const hasLocalOnlyResults = applySharedTeamDevelopmentResults(sharedResults, { replaceLocal: sharedResults.length === 0 });
+        if (hasLocalOnlyResults && sharedResults.length > 0) scheduleTeamDevelopmentSharedSave();
+      }
+
+      teamDevelopmentSharedResultsLoaded = hasSharedValue;
+      return teamDevelopmentSharedResultsLoaded;
+    } catch (error) {
+      teamDevelopmentSharedResultsLoaded = false;
+      if (!options.silent) {
+        window.alert(getTeamDevelopmentSharedError(error));
+      }
+      return false;
+    } finally {
+      teamDevelopmentSharedResultsRequest = null;
+    }
+  })();
+
+  return teamDevelopmentSharedResultsRequest;
+}
+
+async function saveSharedTeamDevelopmentResults(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) return false;
+
+  try {
+    const client = getSupabaseClient();
+    let resultsToSave = getAnonymousTeamDevelopmentResults();
+
+    if (!options.replaceAll) {
+      const { data, error: loadError } = await client
+        .from(APP_SETTINGS_TABLE)
+        .select("value")
+        .eq("key", TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY)
+        .maybeSingle();
+
+      if (loadError) throw loadError;
+      resultsToSave = mergeTeamDevelopmentResultsById(
+        getSharedTeamDevelopmentResultsFromValue(data?.value),
+        resultsToSave,
+      );
+    }
+
+    const { error } = await client.from(APP_SETTINGS_TABLE).upsert(
+      {
+        key: TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY,
+        value: getSharedTeamDevelopmentResultsSnapshot(resultsToSave),
+        updatedAt: new Date().toISOString(),
+        updatedBy: "",
+      },
+      { onConflict: "key" },
+    );
+
+    if (error) throw error;
+    teamDevelopmentSharedResultsLoaded = true;
+    return true;
+  } catch (error) {
+    teamDevelopmentSharedResultsLoaded = false;
+    if (!options.silent) {
+      window.alert(getTeamDevelopmentSharedError(error));
+    }
+    return false;
+  }
+}
+
+function scheduleTeamDevelopmentSharedSave(options = {}) {
+  if (!hasGoogleSheetsSyncTarget()) return;
+  teamDevelopmentSharedReplaceQueued = Boolean(options.replaceAll) || teamDevelopmentSharedReplaceQueued;
+
+  if (teamDevelopmentSaveTimer) clearTimeout(teamDevelopmentSaveTimer);
+  teamDevelopmentSaveTimer = setTimeout(() => {
+    const replaceAll = teamDevelopmentSharedReplaceQueued;
+    teamDevelopmentSaveTimer = null;
+    teamDevelopmentSharedReplaceQueued = false;
+    saveSharedTeamDevelopmentResults({ silent: true, replaceAll }).catch(() => {});
+  }, 600);
+}
+
+async function initializeTeamDevelopmentResults() {
+  const loadedSharedResults = await loadSharedTeamDevelopmentResults({ silent: true });
+  if (!loadedSharedResults && getAnonymousTeamDevelopmentResults().length > 0) {
+    await saveSharedTeamDevelopmentResults({ silent: true, replaceAll: true });
+  }
+  renderGallupTeamSummary();
 }
 
 function saveLocalSyncData() {
@@ -3753,6 +3993,7 @@ function showAuthenticatedApp(user) {
   renderAdminUsersPanel();
   initializeTelegramSettings().catch(() => {});
   initializeMessenger().catch(() => {});
+  initializeTeamDevelopmentResults().catch(() => {});
 
   if (!appBootstrapped) {
     appBootstrapped = true;
@@ -5688,6 +5929,67 @@ function getTeamDevelopmentTest(key = activeTeamDevelopmentTest) {
   return TEAM_DEVELOPMENT_TESTS[key] || TEAM_DEVELOPMENT_TESTS.herzberg;
 }
 
+function getTeamDevelopmentOwnerKey(value) {
+  const login = normalizeAuthLogin(value || "");
+  if (!login) return "";
+
+  let hash = 2166136261;
+  for (let index = 0; index < login.length; index += 1) {
+    hash ^= login.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `owner:${(hash >>> 0).toString(36)}`;
+}
+
+function getCurrentTeamDevelopmentOwnerKey() {
+  return getTeamDevelopmentOwnerKey(currentUser?.login || "");
+}
+
+function isOwnTeamDevelopmentResult(result) {
+  const ownerKey = String(result?.ownerKey || getTeamDevelopmentOwnerKey(result?.ownerLogin || "")).trim();
+  return Boolean(ownerKey && ownerKey === getCurrentTeamDevelopmentOwnerKey());
+}
+
+function getOwnTeamDevelopmentResults() {
+  return teamDevelopmentResults
+    .filter((item) => isOwnTeamDevelopmentResult(item))
+    .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+}
+
+function isAnonymousTeamDevelopmentTest(testKey) {
+  const key = String(testKey || "").trim();
+  return TEAM_DEVELOPMENT_ANONYMOUS_TEST_KEYS.has("all") && Boolean(TEAM_DEVELOPMENT_TESTS[key]);
+}
+
+function isAnonymousTeamDevelopmentResult(result) {
+  return Boolean(result?.isAnonymous) || isAnonymousTeamDevelopmentTest(result?.testKey);
+}
+
+function getAnonymousTeamDevelopmentResults() {
+  return teamDevelopmentResults
+    .filter((item) => isAnonymousTeamDevelopmentResult(item))
+    .sort((a, b) => String(a.testKey || "").localeCompare(String(b.testKey || "")) || String(a.id || "").localeCompare(String(b.id || "")));
+}
+
+function getAnonymousTeamDevelopmentLabel(result, anonymousResults = getAnonymousTeamDevelopmentResults()) {
+  const sameTestResults = anonymousResults.filter((item) => item.testKey === result?.testKey);
+  const index = sameTestResults.findIndex((item) => item.id === result?.id);
+  return index >= 0 ? `Ответ ${index + 1}` : "Анонимный ответ";
+}
+
+function getTeamDevelopmentResultDisplayName(result) {
+  if (isAnonymousTeamDevelopmentResult(result)) {
+    return getAnonymousTeamDevelopmentLabel(result);
+  }
+  return String(result?.employeeName || "").trim();
+}
+
+function getTeamDevelopmentResultAveragePercent(result) {
+  const hydrated = hydrateTeamDevelopmentResult(result);
+  const scores = hydrated.scores.map((score) => Number(score.percent)).filter(Number.isFinite);
+  return scores.length ? Math.round(scores.reduce((sum, value) => sum + value, 0) / scores.length) : 0;
+}
+
 function renderTeamDevelopmentDatalist() {
   if (!teamDevelopmentEmployeeDatalist) return;
 
@@ -5734,6 +6036,7 @@ function renderTeamDevelopmentTest() {
         <h3>${escapeHtml(test.title)}</h3>
         <p>${escapeHtml(test.subtitle)}</p>
         <p>${escapeHtml(test.disclaimer)}</p>
+        ${isAnonymousTeamDevelopmentTest(activeTeamDevelopmentTest) ? "<p>Ответ сохранится обезличенно: имя сотрудника и автор сохранения не будут показаны в командной аналитике.</p>" : ""}
       </div>
 
       <div class="development-progress" aria-live="polite">
@@ -5862,6 +6165,20 @@ function calculateTeamDevelopmentResult(testKey, answers) {
       summary = "Преобладают мотиваторы роста: сотрудника сильнее включают достижения, признание, ответственность и развитие.";
     } else {
       summary = "Преобладают гигиенические условия: сначала важно обеспечить понятные правила, стабильность, ресурсы и здоровую среду.";
+    }
+  }
+  if (testKey === "gallupQ12") {
+    const averagePercent = scores.length
+      ? Math.round(scores.reduce((sum, item) => sum + item.percent, 0) / scores.length)
+      : 0;
+    if (averagePercent >= 80) {
+      summary = `Высокая вовлеченность: ${averagePercent}%. Команда видит ясность, поддержку, признание и возможности роста.`;
+    } else if (averagePercent >= 65) {
+      summary = `Устойчивая вовлеченность: ${averagePercent}%. Основа хорошая, но отдельные условия требуют усиления.`;
+    } else if (averagePercent >= 50) {
+      summary = `Средняя вовлеченность: ${averagePercent}%. Есть заметные зоны, которые могут снижать энергию и инициативу.`;
+    } else {
+      summary = `Низкий сигнал вовлеченности: ${averagePercent}%. Нужен разговор о базовых ожиданиях, ресурсах, признании и поддержке.`;
     }
   }
 
@@ -6031,7 +6348,9 @@ function lockTeamDevelopmentSensitiveAccess(options = {}) {
 
   renderTeamDevelopmentAccess();
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentMyResults();
   renderTeamDevelopmentPortrait();
+  renderGallupTeamSummary();
   renderGlobalSearchResults();
 
   if (options.focus) {
@@ -6069,7 +6388,9 @@ async function unlockTeamDevelopmentSensitiveAccess() {
     if (teamDevelopmentAccessPasswordInput) teamDevelopmentAccessPasswordInput.value = "";
     renderTeamDevelopmentAccess();
     renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentMyResults();
     renderTeamDevelopmentPortrait();
+    renderGallupTeamSummary();
     renderGlobalSearchResults();
   } catch (error) {
     teamDevelopmentSensitiveUnlocked = false;
@@ -6077,13 +6398,16 @@ async function unlockTeamDevelopmentSensitiveAccess() {
     setTeamDevelopmentAccessStatus(error.message || "Не удалось открыть доступ.", "error");
     renderTeamDevelopmentAccess({ preserveStatus: true });
     renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentMyResults();
     renderTeamDevelopmentPortrait();
+    renderGallupTeamSummary();
   }
 }
 
 function getTeamDevelopmentPortraitEmployeeNames() {
+  const personalResults = teamDevelopmentResults.filter((item) => !isAnonymousTeamDevelopmentResult(item));
   return [...new Set([
-    ...teamDevelopmentResults.map((item) => item.employeeName),
+    ...personalResults.map((item) => item.employeeName),
     teamDevelopmentEmployeeInput?.value,
     ...getTeamDevelopmentEmployeeOptions(),
   ].map((name) => String(name || "").trim()).filter(Boolean))]
@@ -6096,6 +6420,7 @@ function getLatestTeamDevelopmentResultsByTest(employeeName) {
 
   const latestByTest = new Map();
   [...teamDevelopmentResults]
+    .filter((item) => !isAnonymousTeamDevelopmentResult(item))
     .filter((item) => normalizeNotificationIdentity(item.employeeName) === employeeKey)
     .sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")))
     .forEach((item) => {
@@ -6109,9 +6434,13 @@ function getLatestTeamDevelopmentResultsByTest(employeeName) {
 
 function ensureTeamDevelopmentPortraitEmployee() {
   const names = getTeamDevelopmentPortraitEmployeeNames();
-  const savedNames = [...new Set(teamDevelopmentResults.map((item) => item.employeeName).filter(Boolean))];
+  const savedNames = [...new Set(teamDevelopmentResults
+    .filter((item) => !isAnonymousTeamDevelopmentResult(item))
+    .map((item) => item.employeeName)
+    .filter(Boolean))];
   const findName = (value) => names.find((name) => normalizeNotificationIdentity(name) === normalizeNotificationIdentity(value));
   const hasSavedResults = (value) => teamDevelopmentResults
+    .filter((item) => !isAnonymousTeamDevelopmentResult(item))
     .some((item) => normalizeNotificationIdentity(item.employeeName) === normalizeNotificationIdentity(value));
   const activeMatch = findName(activeTeamDevelopmentPortraitEmployee);
 
@@ -6132,6 +6461,7 @@ function ensureTeamDevelopmentPortraitEmployee() {
 
 function renderTeamDevelopmentPortraitEmployeeOptions() {
   if (!teamDevelopmentPortraitEmployeeSelect) return;
+  teamDevelopmentPortraitEmployeeSelect.hidden = true;
   if (!isTeamDevelopmentSensitiveUnlocked()) {
     teamDevelopmentPortraitEmployeeSelect.innerHTML = "";
     return;
@@ -6198,12 +6528,22 @@ function getMissingTeamDevelopmentTests(results) {
 }
 
 function createDevelopmentScoreLookup(results) {
-  const lookup = new Map();
+  const totals = new Map();
   results.forEach((item) => {
     const hydrated = hydrateTeamDevelopmentResult(item);
     hydrated.scores.forEach((score) => {
-      lookup.set(`${item.testKey}:${score.key}`, Number(score.percent) || 0);
+      const key = `${item.testKey}:${score.key}`;
+      const current = totals.get(key) || { sum: 0, count: 0 };
+      totals.set(key, {
+        sum: current.sum + (Number(score.percent) || 0),
+        count: current.count + 1,
+      });
     });
+  });
+
+  const lookup = new Map();
+  totals.forEach((value, key) => {
+    lookup.set(key, value.count > 0 ? Math.round(value.sum / value.count) : 0);
   });
   return lookup;
 }
@@ -6437,6 +6777,83 @@ function renderTeamDevelopmentPortrait() {
   }
 
   renderTeamDevelopmentPortraitEmployeeOptions();
+  {
+    const results = getAnonymousTeamDevelopmentResults();
+
+    if (results.length === 0) {
+      teamDevelopmentPortrait.innerHTML = `
+        <div class="development-portrait-summary">
+          <p class="eyebrow">Командный профиль пока не готов</p>
+          <h4>Нет обезличенных ответов</h4>
+          <p>Когда сотрудники сохранят финальные результаты тестов, SystemHub соберет общий портрет команды без имен: сильные стороны, зоны роста, фокус развития и эмоциональный профиль.</p>
+        </div>
+      `;
+      return;
+    }
+
+    const scoreItems = getTeamDevelopmentPortraitScoreItems(results);
+    const averagePercent = scoreItems.length
+      ? Math.round(scoreItems.reduce((sum, item) => sum + item.percent, 0) / scoreItems.length)
+      : 0;
+    const strengths = getUniqueDevelopmentPortraitItems(
+      scoreItems.filter((item) => item.percent >= 70).sort((a, b) => b.percent - a.percent),
+      6,
+    );
+    const fallbackStrengths = strengths.length ? strengths : getUniqueDevelopmentPortraitItems([...scoreItems].sort((a, b) => b.percent - a.percent), 4);
+    const growthAreas = getUniqueDevelopmentPortraitItems(
+      scoreItems.filter((item) => item.percent < 60).sort((a, b) => a.percent - b.percent),
+      6,
+    );
+    const fallbackGrowthAreas = growthAreas.length ? growthAreas : getUniqueDevelopmentPortraitItems([...scoreItems].sort((a, b) => a.percent - b.percent), 4);
+    const skillFocus = getUniqueDevelopmentPortraitItems(
+      [...growthAreas, ...fallbackGrowthAreas]
+        .filter((item) => item.advice || item.description)
+        .sort((a, b) => a.percent - b.percent),
+      6,
+    );
+    const lastUpdated = results.map((item) => item.createdAt).filter(Boolean).sort().pop();
+    const totalTests = Object.keys(TEAM_DEVELOPMENT_TESTS).length;
+    const completedTests = new Set(results.map((item) => item.testKey).filter(Boolean)).size;
+    const testSummary = getTeamDevelopmentTestAverageGroups(results)
+      .slice(0, 5)
+      .map((item) => `${item.title}: ${item.averagePercent}%`)
+      .join("; ");
+    const strengthText = fallbackStrengths.slice(0, 3).map((item) => item.label).join(", ") || "сильные стороны еще не выделены";
+    const growthText = fallbackGrowthAreas.slice(0, 3).map((item) => item.label).join(", ") || "зоны роста выражены умеренно";
+    const summary = `Командный портрет собран по ${results.length} обезличенным финальным ответам. Средний сигнал по сохраненным шкалам - ${averagePercent}%. Основные опоры: ${strengthText}. Фокус развития: ${growthText}.${testSummary ? ` Средние результаты по тестам: ${testSummary}.` : ""}`;
+
+    teamDevelopmentPortrait.innerHTML = `
+      <div class="development-portrait-summary">
+        <p class="eyebrow">Обезличенный профиль команды</p>
+        <h4>Команда</h4>
+        <p>${escapeHtml(summary)}</p>
+        <div class="development-coverage">
+          <span>Заполнено тестов: ${formatQuantity(completedTests)} / ${formatQuantity(totalTests)}</span>
+          <span>Финальных ответов: ${formatQuantity(results.length)}</span>
+          <span>Средний сигнал: ${formatQuantity(averagePercent)}%</span>
+          <span>Последнее обновление: ${escapeHtml(formatAcknowledgementDate(lastUpdated))}</span>
+        </div>
+      </div>
+
+      <div class="development-portrait-grid">
+        <article class="development-portrait-card is-strength">
+          <p class="eyebrow">Сильные стороны команды</p>
+          ${renderDevelopmentPortraitList(fallbackStrengths, "Нужно больше сохраненных результатов, чтобы уверенно выделить сильные стороны команды.")}
+        </article>
+        <article class="development-portrait-card is-growth">
+          <p class="eyebrow">Зоны роста команды</p>
+          ${renderDevelopmentPortraitList(fallbackGrowthAreas, "Явных низких сигналов нет. Поддерживайте текущий уровень и уточняйте зоны роста через командные обсуждения.")}
+        </article>
+        <article class="development-portrait-card is-focus">
+          <p class="eyebrow">Фокус развития навыков</p>
+          ${renderDevelopmentPortraitList(skillFocus, "Для фокуса развития сохраните больше тестов или обсудите с командой конкретные рабочие ситуации.")}
+        </article>
+      </div>
+
+      ${renderPlutchikEmotionWheel(results)}
+    `;
+    return;
+  }
   const employeeName = ensureTeamDevelopmentPortraitEmployee();
   const results = getLatestTeamDevelopmentResultsByTest(employeeName);
 
@@ -6505,6 +6922,120 @@ function renderTeamDevelopmentPortrait() {
   `;
 }
 
+function getTeamDevelopmentTestAverageGroups(results = getAnonymousTeamDevelopmentResults()) {
+  const groups = new Map();
+
+  results.forEach((item) => {
+    const hydrated = hydrateTeamDevelopmentResult(item);
+    const averagePercent = getTeamDevelopmentResultAveragePercent(hydrated);
+    const testKey = hydrated.testKey || hydrated.testTitle || item.id;
+    if (!testKey || !Number.isFinite(averagePercent)) return;
+
+    const group = groups.get(testKey) || {
+      testKey,
+      title: hydrated.testTitle || "Тест",
+      count: 0,
+      totalPercent: 0,
+      dimensions: new Map(),
+    };
+    group.count += 1;
+    group.totalPercent += averagePercent;
+    hydrated.scores.forEach((score) => {
+      const dimensionKey = score.key || score.label;
+      if (!dimensionKey) return;
+      const dimension = group.dimensions.get(dimensionKey) || {
+        key: dimensionKey,
+        label: score.label || dimensionKey,
+        totalPercent: 0,
+        count: 0,
+        description: score.description || "",
+        advice: score.advice || "",
+      };
+      dimension.totalPercent += Number(score.percent) || 0;
+      dimension.count += 1;
+      if (!dimension.description && score.description) dimension.description = score.description;
+      if (!dimension.advice && score.advice) dimension.advice = score.advice;
+      group.dimensions.set(dimensionKey, dimension);
+    });
+    groups.set(testKey, group);
+  });
+
+  return [...groups.values()]
+    .map((group) => ({
+      testKey: group.testKey,
+      title: group.title,
+      count: group.count,
+      averagePercent: group.count ? Math.round(group.totalPercent / group.count) : 0,
+      dimensions: [...group.dimensions.values()]
+        .map((dimension) => ({
+          key: dimension.key,
+          label: dimension.label,
+          percent: dimension.count ? Math.round(dimension.totalPercent / dimension.count) : 0,
+          description: dimension.description,
+          advice: dimension.advice,
+        }))
+        .sort((a, b) => b.percent - a.percent),
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title, "ru"));
+}
+
+function renderGallupTeamSummary() {
+  if (!teamDevelopmentGallupSummary) return;
+  if (!isTeamDevelopmentSensitiveUnlocked()) {
+    teamDevelopmentGallupSummary.innerHTML = "";
+    return;
+  }
+
+  const groups = getTeamDevelopmentTestAverageGroups();
+  if (groups.length === 0) {
+    teamDevelopmentGallupSummary.innerHTML = '<div class="team-task-empty">Обезличенных результатов команды пока нет.</div>';
+    return;
+  }
+
+  teamDevelopmentGallupSummary.innerHTML = groups.map((group) => {
+    const isOpen = activeTeamDevelopmentSavedResultId === `team-summary:${group.testKey}`;
+    const topDimensions = group.dimensions.slice(0, 4);
+    const lowDimensions = [...group.dimensions].sort((a, b) => a.percent - b.percent).slice(0, 3);
+    return `
+      <article class="development-saved-item ${isOpen ? "is-open" : ""}">
+        <button class="development-saved-main" type="button" data-development-team-summary="${escapeHtml(group.testKey)}" aria-expanded="${isOpen ? "true" : "false"}">
+          <span class="development-saved-title">
+            ${escapeHtml(group.title)}
+            <span class="development-saved-hint">${isOpen ? "Свернуть" : "Открыть аналитику"}</span>
+          </span>
+          <span class="development-saved-summary">Средний результат: ${formatQuantity(group.averagePercent)}% · Ответов: ${formatQuantity(group.count)}</span>
+        </button>
+        ${isOpen ? `
+          <div class="development-saved-detail">
+            <div class="development-score-grid">
+              ${group.dimensions.map((dimension) => `
+                <article class="development-score-card">
+                  <div class="development-score-head">
+                    <strong>${escapeHtml(dimension.label)}</strong>
+                    <span>${formatQuantity(dimension.percent)}%</span>
+                  </div>
+                  <div class="development-score-bar" aria-hidden="true">
+                    <span style="width: ${Math.max(0, Math.min(100, dimension.percent))}%"></span>
+                  </div>
+                  <p>${escapeHtml(dimension.description || dimension.advice || "Средний командный сигнал по этой шкале.")}</p>
+                </article>
+              `).join("")}
+            </div>
+            <div class="development-recommendations">
+              <strong>Командные выводы</strong>
+              <ul>
+                <li>Сильные сигналы: ${escapeHtml(topDimensions.map((item) => `${item.label} (${item.percent}%)`).join(", ") || "пока не выделены")}.</li>
+                <li>Зоны внимания: ${escapeHtml(lowDimensions.map((item) => `${item.label} (${item.percent}%)`).join(", ") || "пока не выделены")}.</li>
+                <li>Используйте эти данные для командных обсуждений без привязки результатов к конкретным людям.</li>
+              </ul>
+            </div>
+          </div>
+        ` : ""}
+      </article>
+    `;
+  }).join("");
+}
+
 function renderTeamDevelopmentResult(result) {
   if (!teamDevelopmentResult) return;
 
@@ -6521,9 +7052,10 @@ function renderTeamDevelopmentResult(result) {
 function saveTeamDevelopmentFinalResult() {
   if (!pendingTeamDevelopmentResult) return;
 
+  const isAnonymous = isAnonymousTeamDevelopmentTest(pendingTeamDevelopmentResult.testKey);
   const record = {
     id: createId(),
-    employeeName: getTeamDevelopmentEmployeeName(),
+    employeeName: isAnonymous ? "Анонимный участник" : getTeamDevelopmentEmployeeName(),
     testKey: pendingTeamDevelopmentResult.testKey,
     testTitle: pendingTeamDevelopmentResult.testTitle,
     primaryResult: pendingTeamDevelopmentResult.primaryResult,
@@ -6539,16 +7071,21 @@ function saveTeamDevelopmentFinalResult() {
     })),
     selectedFactors: pendingTeamDevelopmentResult.selectedFactors,
     recommendations: pendingTeamDevelopmentResult.recommendations,
-    createdBy: getCurrentUserDisplayName(),
+    createdBy: isAnonymous ? "" : getCurrentUserDisplayName(),
     createdAt: new Date().toISOString(),
+    ownerKey: getCurrentTeamDevelopmentOwnerKey(),
+    isAnonymous,
+    anonymousGroup: isAnonymous ? pendingTeamDevelopmentResult.testKey : "",
   };
 
   teamDevelopmentResults.unshift(record);
   activeTeamDevelopmentSavedResultId = record.id;
-  activeTeamDevelopmentPortraitEmployee = record.employeeName;
+  if (!isAnonymous) activeTeamDevelopmentPortraitEmployee = record.employeeName;
   saveTeamDevelopmentResults();
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentMyResults();
   renderTeamDevelopmentPortrait();
+  renderGallupTeamSummary();
   renderGlobalSearchResults();
   pendingTeamDevelopmentResult = null;
 
@@ -6566,8 +7103,9 @@ function renderTeamDevelopmentSavedResults() {
     return;
   }
 
-  teamDevelopmentSavedResults.innerHTML = teamDevelopmentResults.length > 0
-    ? teamDevelopmentResults.slice(0, 30).map((item) => {
+  const visibleResults = getAnonymousTeamDevelopmentResults();
+  teamDevelopmentSavedResults.innerHTML = visibleResults.length > 0
+    ? visibleResults.slice(0, 30).map((item) => {
       const hydrated = hydrateTeamDevelopmentResult(item);
       const isOpen = activeTeamDevelopmentSavedResultId === item.id;
       return `
@@ -6575,7 +7113,7 @@ function renderTeamDevelopmentSavedResults() {
         <div class="team-task-card-head">
           <button class="development-saved-main" type="button" data-development-result-view="${escapeHtml(item.id)}" aria-expanded="${isOpen ? "true" : "false"}">
             <span class="development-saved-title">
-              ${escapeHtml(item.employeeName)}
+              ${escapeHtml(getTeamDevelopmentResultDisplayName(item))}
               <span class="development-saved-hint">${isOpen ? "Свернуть" : "Открыть полный ответ"}</span>
             </span>
             <span class="development-saved-summary">${escapeHtml(hydrated.summary)}</span>
@@ -6592,7 +7130,7 @@ function renderTeamDevelopmentSavedResults() {
         <div class="development-saved-meta">
           <span>${escapeHtml(hydrated.testTitle)}</span>
           <span>${escapeHtml(hydrated.primaryResult)}</span>
-          <span>${escapeHtml(formatAcknowledgementDate(item.createdAt))}</span>
+          ${!isAnonymousTeamDevelopmentResult(item) ? `<span>${escapeHtml(formatAcknowledgementDate(item.createdAt))}</span>` : ""}
         </div>
         ${isOpen ? `
           <div class="development-saved-detail">
@@ -6607,11 +7145,47 @@ function renderTeamDevelopmentSavedResults() {
     : '<div class="team-task-empty">Финальные ответы пока не сохранены.</div>';
 }
 
+function renderTeamDevelopmentMyResults() {
+  if (!teamDevelopmentMyResults) return;
+
+  const myResults = getOwnTeamDevelopmentResults();
+  teamDevelopmentMyResults.innerHTML = myResults.length > 0
+    ? myResults.slice(0, 30).map((item) => {
+      const hydrated = hydrateTeamDevelopmentResult(item);
+      const isOpen = activeTeamDevelopmentSavedResultId === item.id;
+      return `
+        <article class="development-saved-item ${isOpen ? "is-open" : ""}">
+          <button class="development-saved-main" type="button" data-development-my-result-view="${escapeHtml(item.id)}" aria-expanded="${isOpen ? "true" : "false"}">
+            <span class="development-saved-title">
+              ${escapeHtml(hydrated.testTitle)}
+              <span class="development-saved-hint">${isOpen ? "Свернуть" : "Открыть мой полный ответ"}</span>
+            </span>
+            <span class="development-saved-summary">${escapeHtml(hydrated.summary)}</span>
+          </button>
+          <div class="development-saved-meta">
+            <span>${escapeHtml(hydrated.primaryResult)}</span>
+            <span>${escapeHtml(formatAcknowledgementDate(item.createdAt))}</span>
+          </div>
+          ${isOpen ? `
+            <div class="development-saved-detail">
+              <section class="development-result">
+                ${renderTeamDevelopmentResultBody(hydrated, "Мой сохраненный финальный ответ")}
+              </section>
+            </div>
+          ` : ""}
+        </article>
+      `;
+    }).join("")
+    : '<div class="team-task-empty">У вас пока нет сохраненных финальных результатов.</div>';
+}
+
 function renderTeamDevelopment() {
   renderTeamDevelopmentDatalist();
   renderTeamDevelopmentAccess();
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentMyResults();
   renderTeamDevelopmentPortrait();
+  renderGallupTeamSummary();
 
   if (teamDevelopmentTestContent && !teamDevelopmentTestContent.innerHTML.trim()) {
     renderTeamDevelopmentTest();
@@ -6625,9 +7199,11 @@ function deleteTeamDevelopmentResult(id) {
   if (activeTeamDevelopmentSavedResultId === id) {
     activeTeamDevelopmentSavedResultId = "";
   }
-  saveTeamDevelopmentResults();
+  saveTeamDevelopmentResults({ replaceShared: true });
   renderTeamDevelopmentSavedResults();
+  renderTeamDevelopmentMyResults();
   renderTeamDevelopmentPortrait();
+  renderGallupTeamSummary();
   renderGlobalSearchResults();
 }
 
@@ -6637,25 +7213,25 @@ function exportTeamDevelopmentResultsCsv() {
     return;
   }
 
-  if (teamDevelopmentResults.length === 0) {
+  const exportResults = getAnonymousTeamDevelopmentResults();
+  if (exportResults.length === 0) {
     window.alert("Сохраненных финальных ответов пока нет.");
     return;
   }
 
   const rows = [
-    ["employeeName", "testTitle", "primaryResult", "summary", "scores", "strongSignals", "recommendations", "createdBy", "createdAt"],
-    ...teamDevelopmentResults.map((item) => {
+    ["anonymousLabel", "testTitle", "primaryResult", "averagePercent", "summary", "scores", "strongSignals", "recommendations"],
+    ...exportResults.map((item) => {
       const hydrated = hydrateTeamDevelopmentResult(item);
       return [
-        item.employeeName,
+        getTeamDevelopmentResultDisplayName(item),
         hydrated.testTitle,
         hydrated.primaryResult,
+        getTeamDevelopmentResultAveragePercent(hydrated),
         hydrated.summary,
         hydrated.scores.map((score) => `${score.label}: ${score.score}/${score.percent}% - ${score.description} ${score.advice}`.trim()).join("; "),
         hydrated.selectedFactors.join("; "),
         hydrated.recommendations.join(" "),
-        item.createdBy,
-        item.createdAt,
       ];
     }),
   ];
@@ -8076,7 +8652,7 @@ function buildGlobalSearchItems() {
     teamDevelopmentResults.forEach((result) => {
       pushItem(
         "Развитие команды",
-        result.employeeName,
+        getTeamDevelopmentResultDisplayName(result),
         `${result.testTitle} · ${result.primaryResult}`,
         "#team-development",
         [result.summary, ...(result.recommendations || [])].join(" "),
@@ -11135,7 +11711,38 @@ if (teamDevelopmentSavedResults) {
     if (result?.employeeName) activeTeamDevelopmentPortraitEmployee = result.employeeName;
     activeTeamDevelopmentSavedResultId = activeTeamDevelopmentSavedResultId === resultId ? "" : resultId;
     renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentMyResults();
     renderTeamDevelopmentPortrait();
+    renderGallupTeamSummary();
+  });
+}
+
+if (teamDevelopmentMyResults) {
+  teamDevelopmentMyResults.addEventListener("click", (event) => {
+    const viewButton = event.target.closest("[data-development-my-result-view]");
+    if (!viewButton) return;
+
+    const resultId = viewButton.dataset.developmentMyResultView;
+    activeTeamDevelopmentSavedResultId = activeTeamDevelopmentSavedResultId === resultId ? "" : resultId;
+    renderTeamDevelopmentMyResults();
+    renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentPortrait();
+    renderGallupTeamSummary();
+  });
+}
+
+if (teamDevelopmentGallupSummary) {
+  teamDevelopmentGallupSummary.addEventListener("click", (event) => {
+    if (!isTeamDevelopmentSensitiveUnlocked()) return;
+
+    const viewButton = event.target.closest("[data-development-team-summary]");
+    if (!viewButton) return;
+
+    const resultId = `team-summary:${viewButton.dataset.developmentTeamSummary || ""}`;
+    activeTeamDevelopmentSavedResultId = activeTeamDevelopmentSavedResultId === resultId ? "" : resultId;
+    renderGallupTeamSummary();
+    renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentMyResults();
   });
 }
 
@@ -11158,9 +11765,11 @@ if (clearTeamDevelopmentResultsButton) {
     teamDevelopmentResults = [];
     activeTeamDevelopmentSavedResultId = "";
     activeTeamDevelopmentPortraitEmployee = getTeamDevelopmentEmployeeName();
-    saveTeamDevelopmentResults();
+    saveTeamDevelopmentResults({ replaceShared: true });
     renderTeamDevelopmentSavedResults();
+    renderTeamDevelopmentMyResults();
     renderTeamDevelopmentPortrait();
+    renderGallupTeamSummary();
     renderGlobalSearchResults();
   });
 }
