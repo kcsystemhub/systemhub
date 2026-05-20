@@ -6114,21 +6114,78 @@ function isAnonymousTeamDevelopmentResult(result) {
   return Boolean(result?.isAnonymous) || isAnonymousTeamDevelopmentTest(result?.testKey);
 }
 
+function getTeamDevelopmentAnonymousOwnerBucket(result) {
+  const ownerKey = String(result?.ownerKey || getTeamDevelopmentOwnerKey(result?.ownerLogin || "")).trim();
+  if (ownerKey) return ownerKey;
+  return `legacy:${String(result?.id || result?.createdAt || createId()).trim()}`;
+}
+
 function getAnonymousTeamDevelopmentResults() {
-  return teamDevelopmentResults
+  const results = teamDevelopmentResults.filter((item) => isAnonymousTeamDevelopmentResult(item));
+  const anonymousIndex = getTeamDevelopmentAnonymousIndex(results);
+
+  return results.sort((a, b) => {
+    const aIndex = anonymousIndex.get(String(a.id || "")) || {};
+    const bIndex = anonymousIndex.get(String(b.id || "")) || {};
+    return (
+      (Number(aIndex.participantNumber) || 0) - (Number(bIndex.participantNumber) || 0)
+      || (Number(aIndex.answerNumber) || 0) - (Number(bIndex.answerNumber) || 0)
+      || String(a.testKey || "").localeCompare(String(b.testKey || ""))
+      || String(a.id || "").localeCompare(String(b.id || ""))
+    );
+  });
+}
+
+function getTeamDevelopmentAnonymousIndex(anonymousResults = getAnonymousTeamDevelopmentResults()) {
+  const participants = new Map();
+
+  (Array.isArray(anonymousResults) ? anonymousResults : [])
     .filter((item) => isAnonymousTeamDevelopmentResult(item))
-    .sort((a, b) => String(a.testKey || "").localeCompare(String(b.testKey || "")) || String(a.id || "").localeCompare(String(b.id || "")));
+    .forEach((item) => {
+      const ownerBucket = getTeamDevelopmentAnonymousOwnerBucket(item);
+      const entry = participants.get(ownerBucket) || {
+        ownerBucket,
+        firstCreatedAt: item.createdAt || "",
+        results: [],
+      };
+      if (!entry.firstCreatedAt || (item.createdAt && item.createdAt < entry.firstCreatedAt)) {
+        entry.firstCreatedAt = item.createdAt;
+      }
+      entry.results.push(item);
+      participants.set(ownerBucket, entry);
+    });
+
+  const labelByResultId = new Map();
+
+  [...participants.values()]
+    .sort((a, b) => String(a.firstCreatedAt || "").localeCompare(String(b.firstCreatedAt || "")) || a.ownerBucket.localeCompare(b.ownerBucket))
+    .forEach((entry, participantIndex) => {
+      entry.results
+        .sort((a, b) => (
+          String(a.createdAt || "").localeCompare(String(b.createdAt || ""))
+          || String(a.testKey || "").localeCompare(String(b.testKey || ""))
+          || String(a.id || "").localeCompare(String(b.id || ""))
+        ))
+        .forEach((item, answerIndex) => {
+          labelByResultId.set(String(item.id || ""), {
+            participantNumber: participantIndex + 1,
+            answerNumber: answerIndex + 1,
+            label: `Участник ${participantIndex + 1}, ответ ${answerIndex + 1}`,
+          });
+        });
+    });
+
+  return labelByResultId;
 }
 
 function getAnonymousTeamDevelopmentLabel(result, anonymousResults = getAnonymousTeamDevelopmentResults()) {
-  const sameTestResults = anonymousResults.filter((item) => item.testKey === result?.testKey);
-  const index = sameTestResults.findIndex((item) => item.id === result?.id);
-  return index >= 0 ? `Ответ ${index + 1}` : "Анонимный ответ";
+  const anonymousIndex = getTeamDevelopmentAnonymousIndex(anonymousResults);
+  return anonymousIndex.get(String(result?.id || ""))?.label || "Анонимный участник, ответ";
 }
 
-function getTeamDevelopmentResultDisplayName(result) {
+function getTeamDevelopmentResultDisplayName(result, anonymousResults) {
   if (isAnonymousTeamDevelopmentResult(result)) {
-    return getAnonymousTeamDevelopmentLabel(result);
+    return getAnonymousTeamDevelopmentLabel(result, anonymousResults);
   }
   return String(result?.employeeName || "").trim();
 }
@@ -6535,6 +6592,7 @@ async function unlockTeamDevelopmentSensitiveAccess() {
     teamDevelopmentSensitiveUnlocked = true;
     teamDevelopmentSensitiveUnlockedBy = user.displayName || user.login;
     if (teamDevelopmentAccessPasswordInput) teamDevelopmentAccessPasswordInput.value = "";
+    await loadSharedTeamDevelopmentResults({ silent: true });
     renderTeamDevelopmentAccess();
     renderTeamDevelopmentSavedResults();
     renderTeamDevelopmentMyResults();
@@ -7262,7 +7320,7 @@ function renderTeamDevelopmentSavedResults() {
         <div class="team-task-card-head">
           <button class="development-saved-main" type="button" data-development-result-view="${escapeHtml(item.id)}" aria-expanded="${isOpen ? "true" : "false"}">
             <span class="development-saved-title">
-              ${escapeHtml(getTeamDevelopmentResultDisplayName(item))}
+              ${escapeHtml(getTeamDevelopmentResultDisplayName(item, visibleResults))}
               <span class="development-saved-hint">${isOpen ? "Свернуть" : "Открыть полный ответ"}</span>
             </span>
             <span class="development-saved-summary">${escapeHtml(hydrated.summary)}</span>
@@ -7373,7 +7431,7 @@ function exportTeamDevelopmentResultsCsv() {
     ...exportResults.map((item) => {
       const hydrated = hydrateTeamDevelopmentResult(item);
       return [
-        getTeamDevelopmentResultDisplayName(item),
+        getTeamDevelopmentResultDisplayName(item, exportResults),
         hydrated.testTitle,
         hydrated.primaryResult,
         getTeamDevelopmentResultAveragePercent(hydrated),
