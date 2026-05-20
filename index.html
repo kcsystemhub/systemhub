@@ -3262,6 +3262,9 @@
 
 alter table public.app_users enable row level security;
 
+drop policy if exists "systemhub app users read" on public.app_users;
+drop policy if exists "systemhub app users write" on public.app_users;
+
 create policy "systemhub app users read"
 on public.app_users for select
 using (true);
@@ -3280,6 +3283,9 @@ create table if not exists public.app_settings (
 
 alter table public.app_settings enable row level security;
 
+drop policy if exists "systemhub app settings read" on public.app_settings;
+drop policy if exists "systemhub app settings write" on public.app_settings;
+
 create policy "systemhub app settings read"
 on public.app_settings for select
 using (true);
@@ -3289,8 +3295,85 @@ on public.app_settings for all
 using (true)
 with check (true);
 
+create table if not exists public.team_development_results (
+  id text primary key,
+  "employeeName" text not null default '',
+  "testKey" text not null,
+  "testTitle" text not null,
+  "primaryResult" text not null,
+  summary text not null default '',
+  "selectedFactors" jsonb not null default '[]'::jsonb,
+  recommendations jsonb not null default '[]'::jsonb,
+  "ownerKey" text not null default '',
+  "isAnonymous" boolean not null default true,
+  "anonymousGroup" text not null default '',
+  "averagePercent" numeric not null default 0,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+
+create table if not exists public.team_development_scores (
+  id text primary key,
+  "resultId" text not null references public.team_development_results(id) on delete cascade,
+  "dimensionKey" text not null default '',
+  label text not null default '',
+  description text not null default '',
+  advice text not null default '',
+  score numeric not null default 0,
+  max numeric not null default 0,
+  percent numeric not null default 0,
+  "sortOrder" integer not null default 0
+);
+
+create index if not exists team_development_results_test_idx
+on public.team_development_results ("testKey", "createdAt");
+
+create index if not exists team_development_scores_result_idx
+on public.team_development_scores ("resultId", "sortOrder");
+
+create or replace view public.team_development_overall_scores as
+select
+  r."testKey",
+  r."testTitle",
+  s."dimensionKey",
+  s.label,
+  count(*)::int as "responseCount",
+  round(avg(s.percent))::int as "averagePercent",
+  round(avg(s.score), 2) as "averageScore",
+  max(r."createdAt") as "lastResultAt"
+from public.team_development_results r
+join public.team_development_scores s on s."resultId" = r.id
+group by r."testKey", r."testTitle", s."dimensionKey", s.label;
+
+alter table public.team_development_results enable row level security;
+alter table public.team_development_scores enable row level security;
+
+drop policy if exists "systemhub team development results read" on public.team_development_results;
+drop policy if exists "systemhub team development results write" on public.team_development_results;
+drop policy if exists "systemhub team development scores read" on public.team_development_scores;
+drop policy if exists "systemhub team development scores write" on public.team_development_scores;
+
+create policy "systemhub team development results read"
+on public.team_development_results for select
+using (true);
+
+create policy "systemhub team development results write"
+on public.team_development_results for all
+using (true)
+with check (true);
+
+create policy "systemhub team development scores read"
+on public.team_development_scores for select
+using (true);
+
+create policy "systemhub team development scores write"
+on public.team_development_scores for all
+using (true)
+with check (true);
+
 grant usage on schema public to anon, authenticated;
-grant select, insert, update, delete on public.app_settings to anon, authenticated;
+grant select, insert, update, delete on public.app_users, public.app_settings, public.team_development_results, public.team_development_scores to anon, authenticated;
+grant select on public.team_development_overall_scores to anon, authenticated;
 notify pgrst, 'reload schema';</code></pre>
 
             <p class="settings-note">

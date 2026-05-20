@@ -42,6 +42,8 @@ const PASSWORD_DERIVE_ITERATIONS = 150000;
 const AUTH_SESSION_STORAGE_KEY = "systemhub.authSession";
 const AUTH_USERS_TABLE = "app_users";
 const APP_SETTINGS_TABLE = "app_settings";
+const TEAM_DEVELOPMENT_RESULTS_TABLE = "team_development_results";
+const TEAM_DEVELOPMENT_SCORES_TABLE = "team_development_scores";
 const TELEGRAM_SETTINGS_KEY = "telegramBot";
 const MESSENGER_SETTINGS_KEY = "messenger";
 const TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY = "teamDevelopmentResults";
@@ -2594,33 +2596,194 @@ async function initializeMessenger() {
 
 function getTeamDevelopmentSharedError(error) {
   const message = error?.message || String(error || "");
-  if (/app_settings|schema cache|does not exist|relation/i.test(message)) {
-    return "Развитие команды работает локально: таблица app_settings не видна Supabase API.";
+  if (/team_development_results|team_development_scores|schema cache|does not exist|relation/i.test(message)) {
+    return "Развитие команды работает локально: создайте таблицы team_development_results и team_development_scores в Supabase. SQL добавлен в раздел Настройки.";
   }
   return message || "Не удалось синхронизировать обезличенные результаты развития команды.";
 }
 
-function getSharedTeamDevelopmentResultsSnapshot(results = getAnonymousTeamDevelopmentResults()) {
-  const sanitizedResults = normalizeTeamDevelopmentResults(results)
-    .filter((item) => isAnonymousTeamDevelopmentResult(item))
-    .map((item) => ({
-      ...item,
-      employeeName: "Анонимный участник",
-      createdBy: "",
-      isAnonymous: true,
-      anonymousGroup: item.testKey,
-    }));
+function toTeamDevelopmentResultRow(result) {
+  const hydrated = hydrateTeamDevelopmentResult(result);
+  const resultId = result.id || createId();
+  const isAnonymous = isAnonymousTeamDevelopmentResult(result);
 
   return {
-    results: sanitizedResults,
+    id: resultId,
+    employeeName: isAnonymous ? "" : String(result.employeeName || "").trim(),
+    testKey: result.testKey || hydrated.testKey || "",
+    testTitle: result.testTitle || hydrated.testTitle || "",
+    primaryResult: result.primaryResult || hydrated.primaryResult || "",
+    summary: result.summary || hydrated.summary || "",
+    selectedFactors: Array.isArray(result.selectedFactors) ? result.selectedFactors : hydrated.selectedFactors,
+    recommendations: Array.isArray(result.recommendations) ? result.recommendations : hydrated.recommendations,
+    ownerKey: String(result.ownerKey || getTeamDevelopmentOwnerKey(result.ownerLogin || "")).trim(),
+    isAnonymous,
+    anonymousGroup: isAnonymous ? String(result.anonymousGroup || result.testKey || hydrated.testKey || "").trim() : "",
+    averagePercent: getTeamDevelopmentResultAveragePercent(result),
+    createdAt: result.createdAt || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
+}
+
+function toTeamDevelopmentScoreRows(result) {
+  const resultId = result.id || createId();
+  const hydrated = hydrateTeamDevelopmentResult(result);
+
+  return hydrated.scores.map((score, index) => {
+    const dimensionKey = String(score.key || `score-${index}`).trim();
+    return {
+      id: `${resultId}:${dimensionKey}`,
+      resultId,
+      dimensionKey,
+      label: String(score.label || "").trim(),
+      description: String(score.description || "").trim(),
+      advice: String(score.advice || "").trim(),
+      score: Number(score.score) || 0,
+      max: Number(score.max) || 0,
+      percent: Number(score.percent) || 0,
+      sortOrder: index,
+    };
+  });
+}
+
+function fromTeamDevelopmentDatabaseRows(resultRows = [], scoreRows = []) {
+  const scoresByResultId = new Map();
+
+  scoreRows.forEach((row) => {
+    const resultId = String(row.resultId || "").trim();
+    if (!resultId) return;
+
+    const scores = scoresByResultId.get(resultId) || [];
+    scores.push({
+      key: String(row.dimensionKey || "").trim(),
+      label: String(row.label || "").trim(),
+      description: String(row.description || "").trim(),
+      advice: String(row.advice || "").trim(),
+      score: Number(row.score) || 0,
+      max: Number(row.max) || 0,
+      percent: Number(row.percent) || 0,
+      sortOrder: Number(row.sortOrder) || 0,
+    });
+    scoresByResultId.set(resultId, scores);
+  });
+
+  return normalizeTeamDevelopmentResults(resultRows.map((row) => ({
+    id: row.id,
+    employeeName: row.employeeName || "",
+    testKey: row.testKey || "",
+    testTitle: row.testTitle || "",
+    primaryResult: row.primaryResult || "",
+    summary: row.summary || "",
+    scores: (scoresByResultId.get(row.id) || [])
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map(({ sortOrder, ...score }) => score),
+    selectedFactors: Array.isArray(row.selectedFactors) ? row.selectedFactors : [],
+    recommendations: Array.isArray(row.recommendations) ? row.recommendations : [],
+    createdBy: "",
+    createdAt: row.createdAt || "",
+    ownerKey: row.ownerKey || "",
+    isAnonymous: row.isAnonymous !== false,
+    anonymousGroup: row.anonymousGroup || row.testKey || "",
+  }))).filter((item) => isAnonymousTeamDevelopmentResult(item));
 }
 
 function getSharedTeamDevelopmentResultsFromValue(value) {
   const rawResults = Array.isArray(value) ? value : value?.results;
   return normalizeTeamDevelopmentResults(rawResults || [])
     .filter((item) => isAnonymousTeamDevelopmentResult(item));
+}
+
+async function loadLegacySharedTeamDevelopmentResults() {
+  try {
+    const client = getSupabaseClient();
+    const { data, error } = await client
+      .from(APP_SETTINGS_TABLE)
+      .select("value")
+      .eq("key", TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY)
+      .maybeSingle();
+
+    if (error) throw error;
+    return getSharedTeamDevelopmentResultsFromValue(data?.value);
+  } catch {
+    return [];
+  }
+}
+
+async function loadSharedTeamDevelopmentResultsFromDatabase() {
+  const client = getSupabaseClient();
+  const { data: resultRows, error: resultError } = await client
+    .from(TEAM_DEVELOPMENT_RESULTS_TABLE)
+    .select("*")
+    .order("createdAt", { ascending: false });
+
+  if (resultError) throw resultError;
+
+  const resultIds = (resultRows || []).map((row) => row.id).filter(Boolean);
+  let scoreRows = [];
+
+  if (resultIds.length > 0) {
+    const { data, error } = await client
+      .from(TEAM_DEVELOPMENT_SCORES_TABLE)
+      .select("*")
+      .in("resultId", resultIds)
+      .order("sortOrder", { ascending: true });
+
+    if (error) throw error;
+    scoreRows = data || [];
+  } else {
+    const { error } = await client
+      .from(TEAM_DEVELOPMENT_SCORES_TABLE)
+      .select("id")
+      .limit(1);
+
+    if (error) throw error;
+  }
+
+  return fromTeamDevelopmentDatabaseRows(resultRows || [], scoreRows);
+}
+
+async function saveSharedTeamDevelopmentResultsToDatabase(results, options = {}) {
+  const client = getSupabaseClient();
+  const sanitizedResults = normalizeTeamDevelopmentResults(results)
+    .filter((item) => isAnonymousTeamDevelopmentResult(item));
+
+  if (options.replaceAll) {
+    const { error } = await client
+      .from(TEAM_DEVELOPMENT_RESULTS_TABLE)
+      .delete()
+      .neq("id", "__systemhub_never_match__");
+
+    if (error) throw error;
+  }
+
+  if (sanitizedResults.length === 0) return;
+
+  const resultRows = sanitizedResults.map(toTeamDevelopmentResultRow);
+  const resultIds = resultRows.map((row) => row.id);
+  const scoreRows = sanitizedResults.flatMap((result) => toTeamDevelopmentScoreRows(result));
+
+  const { error: resultError } = await client
+    .from(TEAM_DEVELOPMENT_RESULTS_TABLE)
+    .upsert(resultRows, { onConflict: "id" });
+
+  if (resultError) throw resultError;
+
+  if (resultIds.length > 0) {
+    const { error: deleteScoresError } = await client
+      .from(TEAM_DEVELOPMENT_SCORES_TABLE)
+      .delete()
+      .in("resultId", resultIds);
+
+    if (deleteScoresError) throw deleteScoresError;
+  }
+
+  if (scoreRows.length > 0) {
+    const { error: scoreError } = await client
+      .from(TEAM_DEVELOPMENT_SCORES_TABLE)
+      .upsert(scoreRows, { onConflict: "id" });
+
+    if (scoreError) throw scoreError;
+  }
 }
 
 function mergeTeamDevelopmentResultsById(...collections) {
@@ -2662,17 +2825,18 @@ async function loadSharedTeamDevelopmentResults(options = {}) {
 
   teamDevelopmentSharedResultsRequest = (async () => {
     try {
-      const client = getSupabaseClient();
-      const { data, error } = await client
-        .from(APP_SETTINGS_TABLE)
-        .select("value")
-        .eq("key", TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY)
-        .maybeSingle();
+      let sharedResults = await loadSharedTeamDevelopmentResultsFromDatabase();
+      let hasSharedValue = sharedResults.length > 0;
 
-      if (error) throw error;
+      if (!hasSharedValue) {
+        const legacyResults = await loadLegacySharedTeamDevelopmentResults();
+        if (legacyResults.length > 0) {
+          sharedResults = legacyResults;
+          hasSharedValue = true;
+          await saveSharedTeamDevelopmentResultsToDatabase(legacyResults, { replaceAll: true });
+        }
+      }
 
-      const hasSharedValue = Boolean(data?.value);
-      const sharedResults = getSharedTeamDevelopmentResultsFromValue(data?.value);
       if (hasSharedValue) {
         const hasLocalOnlyResults = applySharedTeamDevelopmentResults(sharedResults, { replaceLocal: sharedResults.length === 0 });
         if (hasLocalOnlyResults && sharedResults.length > 0) scheduleTeamDevelopmentSharedSave();
@@ -2698,34 +2862,19 @@ async function saveSharedTeamDevelopmentResults(options = {}) {
   if (!hasGoogleSheetsSyncTarget()) return false;
 
   try {
-    const client = getSupabaseClient();
     let resultsToSave = getAnonymousTeamDevelopmentResults();
 
     if (!options.replaceAll) {
-      const { data, error: loadError } = await client
-        .from(APP_SETTINGS_TABLE)
-        .select("value")
-        .eq("key", TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY)
-        .maybeSingle();
-
-      if (loadError) throw loadError;
+      const sharedResults = await loadSharedTeamDevelopmentResultsFromDatabase();
+      const legacyResults = sharedResults.length > 0 ? [] : await loadLegacySharedTeamDevelopmentResults();
       resultsToSave = mergeTeamDevelopmentResultsById(
-        getSharedTeamDevelopmentResultsFromValue(data?.value),
+        sharedResults,
+        legacyResults,
         resultsToSave,
       );
     }
 
-    const { error } = await client.from(APP_SETTINGS_TABLE).upsert(
-      {
-        key: TEAM_DEVELOPMENT_RESULTS_SETTINGS_KEY,
-        value: getSharedTeamDevelopmentResultsSnapshot(resultsToSave),
-        updatedAt: new Date().toISOString(),
-        updatedBy: "",
-      },
-      { onConflict: "key" },
-    );
-
-    if (error) throw error;
+    await saveSharedTeamDevelopmentResultsToDatabase(resultsToSave, { replaceAll: Boolean(options.replaceAll) });
     teamDevelopmentSharedResultsLoaded = true;
     return true;
   } catch (error) {
