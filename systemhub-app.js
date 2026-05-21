@@ -2826,23 +2826,21 @@ async function loadSharedTeamDevelopmentResults(options = {}) {
   teamDevelopmentSharedResultsRequest = (async () => {
     try {
       let sharedResults = await loadSharedTeamDevelopmentResultsFromDatabase();
-      let hasSharedValue = sharedResults.length > 0;
+      let shouldReplaceLocal = true;
 
-      if (!hasSharedValue) {
+      if (sharedResults.length === 0) {
         const legacyResults = await loadLegacySharedTeamDevelopmentResults();
         if (legacyResults.length > 0) {
           sharedResults = legacyResults;
-          hasSharedValue = true;
+          shouldReplaceLocal = false;
           await saveSharedTeamDevelopmentResultsToDatabase(legacyResults, { replaceAll: true });
         }
       }
 
-      if (hasSharedValue) {
-        const hasLocalOnlyResults = applySharedTeamDevelopmentResults(sharedResults, { replaceLocal: sharedResults.length === 0 });
-        if (hasLocalOnlyResults && sharedResults.length > 0) scheduleTeamDevelopmentSharedSave();
-      }
+      const hasLocalOnlyResults = applySharedTeamDevelopmentResults(sharedResults, { replaceLocal: shouldReplaceLocal });
+      if (hasLocalOnlyResults && sharedResults.length > 0) scheduleTeamDevelopmentSharedSave();
 
-      teamDevelopmentSharedResultsLoaded = hasSharedValue;
+      teamDevelopmentSharedResultsLoaded = true;
       return teamDevelopmentSharedResultsLoaded;
     } catch (error) {
       teamDevelopmentSharedResultsLoaded = false;
@@ -2900,10 +2898,7 @@ function scheduleTeamDevelopmentSharedSave(options = {}) {
 }
 
 async function initializeTeamDevelopmentResults() {
-  const loadedSharedResults = await loadSharedTeamDevelopmentResults({ silent: true });
-  if (!loadedSharedResults && getAnonymousTeamDevelopmentResults().length > 0) {
-    await saveSharedTeamDevelopmentResults({ silent: true, replaceAll: true });
-  }
+  await loadSharedTeamDevelopmentResults({ silent: true });
   renderGallupTeamSummary();
 }
 
