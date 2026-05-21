@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="#f7fbff"/>
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="none" stroke="#002f5f" stroke-width="4"/>
+  <path d="M13 45 32 12l19 33H13Z" fill="#002f5f"/>
+  <path d="M23 40 32 24l9 16H23Z" fill="#f7fbff"/>
+  <text x="32" y="53" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="800" fill="#002f5f">EL&amp;S</text>
+</svg>
