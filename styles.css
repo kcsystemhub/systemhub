@@ -4779,6 +4779,58 @@ tbody tr:hover {
   color: #d8b4fe;
 }
 
+#promoPurchasesPage .promo-purchase-table-wrap {
+  max-height: min(72vh, 720px);
+  overflow: auto;
+}
+
+#promoPurchasesPage .promo-purchase-table {
+  min-width: 1120px;
+}
+
+#promoPurchasesPage .promo-purchase-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+#promoPurchasesPage .promo-purchase-position-head {
+  min-width: 96px;
+  max-width: 150px;
+  text-align: center;
+  white-space: normal;
+}
+
+.promo-purchase-item-cell {
+  min-width: 96px;
+  text-align: center;
+}
+
+.promo-purchase-quantity {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid rgba(94, 225, 164, 0.32);
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 950;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(3, 20, 14, 0.18);
+}
+
+.promo-purchase-empty {
+  color: rgba(169, 183, 206, 0.36);
+  font-weight: 800;
+}
+
+.promo-purchase-item-label {
+  display: none;
+}
+
 .actions-col {
   width: 110px;
 }
@@ -5043,6 +5095,17 @@ html[data-theme="light"] .team-member-chip.is-active {
 html[data-theme="light"] .summary-row td {
   background: rgba(214, 160, 47, 0.14);
   color: #8a5a0a;
+}
+
+html[data-theme="light"] .promo-purchase-quantity {
+  border-color: rgba(4, 120, 87, 0.22);
+  background: rgba(4, 120, 87, 0.11);
+  color: #047857;
+  box-shadow: 0 8px 16px rgba(16, 43, 80, 0.08);
+}
+
+html[data-theme="light"] .promo-purchase-empty {
+  color: rgba(92, 108, 130, 0.42);
 }
 
 html[data-theme="light"] th {
@@ -5427,6 +5490,27 @@ html[data-theme="light"] .report-pie {
 
   .purchase-items-grid {
     grid-template-columns: 1fr;
+  }
+
+  #promoPurchasesPage .promo-purchase-table {
+    min-width: 980px;
+  }
+
+  .promo-purchase-item-cell {
+    min-width: 110px;
+  }
+
+  .promo-purchase-item-label {
+    display: block;
+    max-width: 104px;
+    margin: 6px auto 0;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .calendar-period-control {

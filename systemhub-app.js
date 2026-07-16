@@ -3132,6 +3132,22 @@ function formatMatrixQuantity(value) {
   return quantity > 0 ? formatQuantity(quantity) : "";
 }
 
+function renderPromoPurchaseQuantityCell(position, value) {
+  const quantity = formatMatrixQuantity(value);
+  const positionName = escapeHtml(position.name);
+
+  if (!quantity) {
+    return `<td class="promo-purchase-item-cell" data-column="${positionName}"><span class="promo-purchase-empty">—</span></td>`;
+  }
+
+  return `
+    <td class="promo-purchase-item-cell is-purchased" data-column="${positionName}">
+      <span class="promo-purchase-quantity" title="${positionName}: ${quantity}" aria-label="${positionName}: ${quantity}">${quantity}</span>
+      <span class="promo-purchase-item-label" aria-hidden="true">${positionName}</span>
+    </td>
+  `;
+}
+
 function normalizeKey(value) {
   return String(value || "").trim().toLowerCase();
 }
@@ -5671,7 +5687,7 @@ function renderPromoPurchaseItemFields(items = {}) {
 
 function renderPromoPurchaseTable() {
   const dynamicHeaders = promoPurchasePositions
-    .map((position) => `<th>${escapeHtml(position.name)}</th>`)
+    .map((position) => `<th class="promo-purchase-position-head" title="${escapeHtml(position.name)}">${escapeHtml(position.name)}</th>`)
     .join("");
 
   promoPurchaseTableHead.innerHTML = `
@@ -5692,7 +5708,7 @@ function renderPromoPurchaseTable() {
     const row = document.createElement("tr");
     const items = purchase.items || {};
     const dynamicCells = promoPurchasePositions
-      .map((position) => `<td>${formatMatrixQuantity(items[position.id])}</td>`)
+      .map((position) => renderPromoPurchaseQuantityCell(position, items[position.id]))
       .join("");
 
     row.innerHTML = `
