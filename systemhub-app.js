@@ -752,6 +752,7 @@ const promoPurchaseCenterInput = document.querySelector("#promoPurchaseCenter");
 const promoPurchaseItemsFields = document.querySelector("#promoPurchaseItemsFields");
 const promoPurchaseSubmitText = document.querySelector("#promoPurchaseSubmitText");
 const resetPromoPurchaseFormButton = document.querySelector("#resetPromoPurchaseForm");
+const exportPromoPurchasesExcelButton = document.querySelector("#exportPromoPurchasesExcel");
 const promoPurchaseTableHead = document.querySelector("#promoPurchaseTableHead");
 const promoPurchaseTable = document.querySelector("#promoPurchaseTable");
 const promoPurchaseEmptyState = document.querySelector("#promoPurchaseEmptyState");
@@ -5746,6 +5747,60 @@ function renderPromoPurchaseTable() {
 
     promoPurchaseTable.appendChild(row);
   });
+}
+
+function exportPromoPurchasesExcel() {
+  if (!globalThis.XLSX) {
+    window.alert("Для скачивания Excel нужна библиотека XLSX. Проверьте подключение к интернету и обновите страницу.");
+    return;
+  }
+
+  if (promoPurchases.length === 0) {
+    window.alert("Покупок промо пока нет.");
+    return;
+  }
+
+  const headers = [
+    "№",
+    "ФИО",
+    "Адрес заказчика",
+    "Город",
+    "Центр",
+    "Статус",
+    ...promoPurchasePositions.map((position) => position.name),
+    "Итого",
+  ];
+
+  const rows = promoPurchases.map((purchase, index) => {
+    const items = purchase.items || {};
+    const quantities = promoPurchasePositions.map((position) => {
+      const quantity = toNumber(items[position.id]);
+      return quantity > 0 ? quantity : "";
+    });
+
+    return [
+      index + 1,
+      purchase.fullName || purchase.name || "",
+      purchase.address || "",
+      purchase.city || "",
+      purchase.center || "",
+      getPromoPurchaseStatusMeta(purchase.status).label,
+      ...quantities,
+      sumPurchaseItems(purchase),
+    ];
+  });
+
+  const worksheet = globalThis.XLSX.utils.aoa_to_sheet([headers, ...rows]);
+  worksheet["!cols"] = headers.map((header, index) => {
+    if (index === 1) return { wch: 28 };
+    if (index === 2) return { wch: 32 };
+    if (index >= 6 && index < headers.length - 1) return { wch: 16 };
+    return { wch: Math.max(10, Math.min(22, String(header).length + 4)) };
+  });
+
+  const workbook = globalThis.XLSX.utils.book_new();
+  globalThis.XLSX.utils.book_append_sheet(workbook, worksheet, "Промо покупки");
+  globalThis.XLSX.writeFile(workbook, `promo-purchases-${new Date().toISOString().slice(0, 10)}.xlsx`);
 }
 
 function getPurchaseAnalytics() {
@@ -11966,6 +12021,10 @@ if (teamDevelopmentGallupSummary) {
 
 if (exportTeamDevelopmentResultsButton) {
   exportTeamDevelopmentResultsButton.addEventListener("click", exportTeamDevelopmentResultsCsv);
+}
+
+if (exportPromoPurchasesExcelButton) {
+  exportPromoPurchasesExcelButton.addEventListener("click", exportPromoPurchasesExcel);
 }
 
 if (clearTeamDevelopmentResultsButton) {
